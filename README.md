@@ -20,3 +20,5 @@ Se placer dans le dossier où vous voulez mettre le projet<br>
 git clone https://github.com/ThibaultClodion/Duelliste.git<br><br>
 
 -> Normalement c'est bon vous pouvez maintenant pull et push les fichiers du projet.
+
+C'est bon pour Yassin
