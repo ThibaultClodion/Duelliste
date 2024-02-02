@@ -2,21 +2,21 @@
 
 ## Avant de modifier des fichiers :
 
-Ouvrir Git Bash
-Se placer dans le dossier du projet
-git pull origin main
+*Ouvrir Git Bash* <br>
+*Se placer dans le dossier du projet* <br>
+git pull origin main <br>
 
 ## Après avoir modifier des fichiers :
 
-Ouvrir Git Bash
-Se placer dans le dossier du projet
-git add -A
-git commit -m "*Dire ce que vous avez effectué*"
-git push origin main
+*Ouvrir Git Bash* <br>
+*Se placer dans le dossier du projet* <br>
+git add -A <br>
+git commit -m "*Dire ce que vous avez effectué*" <br>
+git push origin main <br>
 
 ## Pour pouvoir collaborer sur le projet :
 
-Se placer dans le dossier où vous voulez mettre le projet
-git clone https://github.com/ThibaultClodion/Duelliste.git
+Se placer dans le dossier où vous voulez mettre le projet<br>
+git clone https://github.com/ThibaultClodion/Duelliste.git<br><br>
 
 -> Normalement c'est bon vous pouvez maintenant pull et push les fichiers du projet.
