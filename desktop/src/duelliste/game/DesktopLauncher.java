@@ -6,10 +6,22 @@ import duelliste.game.DuellisteGame;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
-	public static void main (String[] arg) {
+	public static void main (String[] arg)
+	{
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setForegroundFPS(60);
+
+		//Window Settings
 		config.setTitle("Duelliste");
+
+		int nbTilesWidth = 15;
+		int nbTilesHeight = 10;
+		int tileWidth = 64;
+		int tileHeight = 64;
+		config.setWindowedMode(tileWidth*nbTilesWidth, tileHeight*nbTilesHeight);
+
+		config.useVsync(true);
+		config.setForegroundFPS(60);
+
 		new Lwjgl3Application(new DuellisteGame(), config);
 	}
 }
