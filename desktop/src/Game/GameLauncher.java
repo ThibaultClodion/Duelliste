@@ -1,5 +1,6 @@
 package Game;
 
+import Map.Map;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
@@ -7,19 +8,14 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 public class GameLauncher {
 	public static void main (String[] arg)
 	{
+		//Create the config
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
 		//Window Settings
 		config.setTitle("Duelliste");
-
-		int nbTilesWidth = 15;
-		int nbTilesHeight = 10;
-		int tileWidth = 64;
-		int tileHeight = 64;
-		config.setWindowedMode(tileWidth*nbTilesWidth, tileHeight*nbTilesHeight);
-
 		config.useVsync(true);
 		config.setForegroundFPS(60);
+		config.setWindowedMode(1280, 720);
 
 		new Lwjgl3Application(new GameManager(), config);
 	}

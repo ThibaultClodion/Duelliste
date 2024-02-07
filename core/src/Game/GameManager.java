@@ -2,25 +2,24 @@ package Game;
 
 import Map.Map;
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class GameManager extends ApplicationAdapter
 {
-	SpriteBatch batch;
+	private SpriteBatch batch;
 
-	//Access Map
-	Map map;
+	public Map map;
 
 	@Override
 	public void create ()
 	{
 		//Initialize the batch
 		batch = new SpriteBatch();
-
 		//Initialize the map
-		map = new Map();
+		map = new Map(149781549);
 	}
 
 	@Override
