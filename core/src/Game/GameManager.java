@@ -7,10 +7,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import java.util.Random;
+
 public class GameManager extends ApplicationAdapter
 {
+	//Batch
 	private SpriteBatch batch;
 
+	//Map Datas
 	public Map map;
 
 	@Override
@@ -18,8 +22,11 @@ public class GameManager extends ApplicationAdapter
 	{
 		//Initialize the batch
 		batch = new SpriteBatch();
+
 		//Initialize the map
-		map = new Map(149781549);
+		Random random = new Random();
+		int seed = random.nextInt();
+		map = new Map(seed);
 	}
 
 	@Override

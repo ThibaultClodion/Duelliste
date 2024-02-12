@@ -1,11 +1,11 @@
 package Map;
 
 import com.badlogic.gdx.graphics.Texture;
-
 import java.util.Random;
 
 public class Map
 {
+    //Grid
     private final char[][] grid;
 
     //Map data's
@@ -19,6 +19,7 @@ public class Map
     private final Texture rockImage = new Texture("rock.png");
     private final Texture holeImage = new Texture("hole.png");
 
+    //region <Map Creation>
     public Map(int seed)
     {
         //Initialize a basic map
@@ -170,7 +171,9 @@ public class Map
         return new char[][][] {singleRock, twoRockVertical, twoRockHorizontal, LformRockV1, LformRockV2, LformRockV3, LformRockV4,
         TformRock,TformHole, singleHole, twoHoleVertical, twoHoleHorizontal, LformHoleV1, LformHoleV2, LformHoleV3, LformHoleV4};
     }
+    //endregion
 
+    //region <Map Visualisation>
     public Texture GetTexture(int line, int column)
     {
         if(grid[line][column] == 'G')
@@ -185,13 +188,16 @@ public class Map
         {
             return holeImage;
         }
+
         //Normally there should not be other things then G, R, H for now
         else
         {
             return groundImage;
         }
     }
+    //endregion
 
+    //region <Map Destruction>
     public void Dispose()
     {
         //Dispose all the Textures
@@ -199,4 +205,5 @@ public class Map
         rockImage.dispose();
         holeImage.dispose();
     }
+    //endregion
 }

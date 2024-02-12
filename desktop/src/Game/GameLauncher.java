@@ -17,6 +17,7 @@ public class GameLauncher {
 		config.setForegroundFPS(60);
 		config.setWindowedMode(1280, 720);
 
+		//Initialize the Game
 		new Lwjgl3Application(new GameManager(), config);
 	}
 }
