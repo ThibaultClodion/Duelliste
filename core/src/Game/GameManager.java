@@ -17,7 +17,7 @@ public class GameManager extends ApplicationAdapter
 
 	//Map Datas
 	public Map map;
-	private Selection selection;
+	//private Selection selection;
 
 	@Override
 	public void create ()
@@ -30,10 +30,10 @@ public class GameManager extends ApplicationAdapter
 		int seed = random.nextInt();
 		map = new Map(seed);
 
-		selection = new Selection();
+		/*selection = new Selection();
 
 		selection.menuSound.setLooping(true);
-		selection.menuSound.play();
+		selection.menuSound.play();*/
 	}
 
 	@Override

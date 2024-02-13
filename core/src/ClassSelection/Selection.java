@@ -1,18 +1,20 @@
 package ClassSelection;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import Game.Gamer;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-public class Selection {
+public class Selection implements Screen {
+    public Gamer game;
+    OrthographicCamera camera;
+    public int classNumber;
     public Texture backgroundImage;
     public Texture spellSquareImage;
     public Texture rectangleImage; // for PV, PA, PM, and spells
@@ -43,7 +45,15 @@ public class Selection {
     public Rectangle validation;
     public String spellText;
 
-    public Selection() {
+    public Selection(final Gamer game) {
+
+        this.classNumber = 0;
+
+        this.game = game;
+
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 800, 480);
+
         // load the images
         backgroundImage = new Texture(Gdx.files.internal("background.jpeg"));
         spellSquareImage = new Texture(Gdx.files.internal("spellSquare.JPG"));
@@ -168,6 +178,94 @@ public class Selection {
         validation.y = 50; // random
         validation.width = 100;
         validation.height = 100;
+
+    }
+
+    public void render(float delta) {
+        ScreenUtils.clear(0, 0, 0.2f, 1);
+
+        camera.update();
+        game.batch.setProjectionMatrix(camera.combined);
+
+        game.batch.begin();
+
+        /*
+		game.batch.draw(backgroundImage, 0, 0);
+		game.batch.draw(rectangleImage, rectangle.x, rectangle.y);
+		game.batch.draw(classSquare1Image, classSquare1.x, classSquare1.y);
+		game.batch.draw(classSquare1Image, classSquare2.x, classSquare2.y);
+		game.batch.draw(classSquare1Image, classSquare3.x, classSquare3.y);
+		game.batch.draw(classSquare1Image, classSquare4.x, classSquare4.y);
+		game.batch.draw(classSquare1Image, classSquare5.x, classSquare5.y);
+		game.batch.draw(validationImage, validation.x, validation.y);
+		*/
+
+        if (this.classNumber == 1) {
+            //Class1() class = new Class1()
+            //int nbSort = class.nbSort
+            //for(int i = 0; i < nbSort; i++) {
+                //game.batch.draw(classSpellImage, 180/2 + 5 + 100 * i + 10 * i, 160 + 30)
+            //}
+        }
+
+        game.batch.end();
+
+        if(Gdx.input.isTouched()) {
+            Vector3 touchPos = new Vector3();
+            touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(touchPos);
+
+            if((touchPos.x <= classSquare1.x - classSquare1.width && touchPos.x >= classSquare1.x) && (touchPos.y <= classSquare1.y + classSquare1.height && touchPos.y >= classSquare1.y)) {
+                // En gros faire classText = "Pa : X            PM : X              PV : X" + System.currentTimeMillis(), séparer en 3 éventuellement
+                this.classNumber = 1;
+            }
+            if((touchPos.x <= classSquare2.x + classSquare2.width && touchPos.x >= classSquare2.x) && (touchPos.y <= classSquare2.y + classSquare2.height && touchPos.y >= classSquare2.y)) {
+                this.classNumber = 2;
+
+            }
+            if((touchPos.x <= classSquare3.x + classSquare3.width && touchPos.x >= classSquare3.x) && (touchPos.y <= classSquare3.y + classSquare3.height && touchPos.y >= classSquare3.y)) {
+                this.classNumber = 3;
+
+            }
+            if((touchPos.x <= classSquare4.x + classSquare4.width && touchPos.x >= classSquare4.x) && (touchPos.y <= classSquare4.y + classSquare4.height && touchPos.y >= classSquare4.y)) {
+                this.classNumber = 4;
+
+            }
+            if((touchPos.x <= classSquare5.x + classSquare5.width && touchPos.x >= classSquare5.x) && (touchPos.y <= classSquare5.y + classSquare5.height && touchPos.y >= classSquare5.y)) {
+                this.classNumber = 5;
+
+            }
+
+            // Il faut rajouter un si on clic sur validation alors on définit player1.class et on remet classNumber à 0, on incrémente countPlayer
+            // puis quand countPlayer vaut 2 : on switch sur la map de combat
+        }
+
+    }
+
+    public void resize(int width, int height) {
+    }
+
+    @Override
+    public void show() {
+        // start the playback of the background music
+        // when the screen is shown
+
+    }
+
+    @Override
+    public void hide() {
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
+    }
+
+    @Override
+    public void dispose() {
 
     }
 }

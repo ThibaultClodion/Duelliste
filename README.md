@@ -1,4 +1,4 @@
-# Duelliste
+# Game.Gamer
 
 ## Avant de modifier des fichiers :
 
@@ -17,7 +17,7 @@ git push origin main <br>
 ## Pour pouvoir collaborer sur le projet :
 
 Se placer dans le dossier où vous voulez mettre le projet<br>
-git clone https://github.com/ThibaultClodion/Duelliste.git<br><br>
+git clone https://github.com/ThibaultClodion/Game.Gamer.git<br><br>
 
 -> Normalement c'est bon vous pouvez maintenant pull et push les fichiers du projet.
 
