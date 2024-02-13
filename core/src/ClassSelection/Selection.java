@@ -64,7 +64,7 @@ public class Selection {
         spellTextFont = new BitmapFont();
 
         rectangle = new Rectangle();
-        rectangle.x = 1280 / 2 - 1000 / 2; // the rectangle will be 1000 pixel long.
+        rectangle.x = 1280 / 2 - 1100 / 2; // the rectangle will be 1000 pixel long.
         rectangle.y = 0;
         rectangle.width = 1000;
         rectangle.height = 720 * 2 / 3;
@@ -78,25 +78,25 @@ public class Selection {
         classSquare1.height = 200;
 
         classSquare2 = new Rectangle();
-        classSquare2.x = 20 + 100 + 200 + 40 - 200 / 2;
+        classSquare2.x = 20 + 100 + 200 + 60 - 200 / 2;
         classSquare2.y = 480 + 20;
         classSquare2.width = 200;
         classSquare2.height = 200;
 
         classSquare3 = new Rectangle();
-        classSquare3.x = 20 + 100 + 200*2 + 40*2 - 200 / 2;
+        classSquare3.x = 20 + 100 + 200*2 + 60*2 - 200 / 2;
         classSquare3.y = 480 + 20;
         classSquare3.width = 200;
         classSquare3.height = 200;
 
         classSquare4 = new Rectangle();
-        classSquare4.x = 20 + 100 + 200*3 + 40*3 - 200 / 2;
+        classSquare4.x = 20 + 100 + 200*3 + 60*3 - 200 / 2;
         classSquare4.y = 480 + 20;
         classSquare4.width = 200;
         classSquare4.height = 200;
 
         classSquare5 = new Rectangle();
-        classSquare5.x = 20 + 100 + 200*4 + 40*4 - 200 / 2; // début + les autres carrés + les espacements
+        classSquare5.x = 20 + 100 + 200*4 + 60*4 - 200 / 2; // début + les autres carrés + les espacements
         classSquare5.y = 480 + 20;
         classSquare5.width = 200;
         classSquare5.height = 200;
@@ -104,67 +104,67 @@ public class Selection {
         // Les carrés seront espacés de 10 pixels et compris dans un rectangle de 160 de hauteur et 1100 de long
 
         spellSquare1 = new Rectangle(); // carré de 100x100
-        spellSquare1.x = 180 + 5;
+        spellSquare1.x = 180 / 2 + 5;
         spellSquare1.y = 160 + 30;
         spellSquare1.width = 100;
         spellSquare1.height = 100;
 
         spellSquare2 = new Rectangle(); // carré de 100x100
-        spellSquare2.x = 180 + 5 + 100 + 10; // same thing as classSquare
+        spellSquare2.x = 180 / 2 + 5 + 100 + 10; // same thing as classSquare
         spellSquare2.y = 160 + 30;
         spellSquare2.width = 100;
         spellSquare2.height = 100;
 
         spellSquare3 = new Rectangle(); // carré de 100x100
-        spellSquare3.x = 180 + 5 + 100*2 + 10*2;
+        spellSquare3.x = 180 / 2 + 5 + 100*2 + 10*2;
         spellSquare3.y = 160 + 30;
         spellSquare3.width = 100;
         spellSquare3.height = 100;
 
         spellSquare4 = new Rectangle(); // carré de 100x100
-        spellSquare4.x = 180 + 5 + 100*3 + 10*3;
+        spellSquare4.x = 180 / 2 + 5 + 100*3 + 10*3;
         spellSquare4.y = 160 + 30;
         spellSquare4.width = 100;
         spellSquare4.height = 100;
 
         spellSquare5 = new Rectangle(); // carré de 100x100
-        spellSquare5.x = 180 + 5 + 100*4 + 10*4;
+        spellSquare5.x = 180 / 2 + 5 + 100*4 + 10*4;
         spellSquare5.y = 160 + 30;
         spellSquare5.width = 100;
         spellSquare5.height = 100;
 
         spellSquare6 = new Rectangle(); // carré de 100x100
-        spellSquare6.x = 180 + 5 + 100*5 + 10*5;
+        spellSquare6.x = 180 / 2 + 5 + 100*5 + 10*5;
         spellSquare6.y = 160 + 30;
         spellSquare6.width = 100;
         spellSquare6.height = 100;
 
         spellSquare7 = new Rectangle(); // carré de 100x100
-        spellSquare7.x = 180 + 5 + 100*6 + 10*6;
+        spellSquare7.x = 180 / 2 + 5 + 100*6 + 10*6;
         spellSquare7.y = 160 + 30;
         spellSquare7.width = 100;
         spellSquare7.height = 100;
 
         spellSquare8 = new Rectangle(); // carré de 100x100
-        spellSquare8.x = 180 + 5 + 100*7 + 10*7;
+        spellSquare8.x = 180 / 2 + 5 + 100*7 + 10*7;
         spellSquare8.y = 160 + 30;
         spellSquare8.width = 100;
         spellSquare8.height = 100;
 
         spellSquare9 = new Rectangle(); // carré de 100x100
-        spellSquare9.x = 180 + 5 + 100*8 + 10*8;
+        spellSquare9.x = 180 / 2 + 5 + 100*8 + 10*8;
         spellSquare9.y = 160 + 30;
         spellSquare9.width = 100;
         spellSquare9.height = 100;
 
         spellSquare10 = new Rectangle(); // carré de 100x100
-        spellSquare10.x = 180 + 5 + 100*9 + 10*9;
+        spellSquare10.x = 180 / 2 + 5 + 100*9 + 10*9;
         spellSquare10.y = 160 + 30;
         spellSquare10.width = 100;
         spellSquare10.height = 100;
 
         validation = new Rectangle();
-        validation.x = 1100 + 180 / 2 + 40;
+        validation.x = 1100 + 180 / 2 + 180 / 2 - 100;
         validation.y = 50; // random
         validation.width = 100;
         validation.height = 100;
