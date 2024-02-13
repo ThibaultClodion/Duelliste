@@ -44,7 +44,10 @@ public class GameManager extends ApplicationAdapter
 
 		//Render the grid
 		batch.begin();
-		/*batch.draw(selection.backgroundImage, 0, 0);
+
+		//Selection Scene Display
+		/*
+		batch.draw(selection.backgroundImage, 0, 0);
 		batch.draw(selection.rectangleImage, selection.rectangle.x, selection.rectangle.y);
 		batch.draw(selection.spellSquareImage, selection.spellSquare1.x, selection.spellSquare1.y);
 		batch.draw(selection.spellSquareImage, selection.spellSquare2.x, selection.spellSquare2.y);
@@ -61,7 +64,10 @@ public class GameManager extends ApplicationAdapter
 		batch.draw(selection.classSquare1Image, selection.classSquare3.x, selection.classSquare3.y);
 		batch.draw(selection.classSquare1Image, selection.classSquare4.x, selection.classSquare4.y);
 		batch.draw(selection.classSquare1Image, selection.classSquare5.x, selection.classSquare5.y);
-		batch.draw(selection.validationImage, selection.validation.x, selection.validation.y);*/
+		batch.draw(selection.validationImage, selection.validation.x, selection.validation.y);
+		*/
+
+
 		for(int line = 0; line < map.width; line++)
 		{
 			for(int column = 0; column < map.height; column++)
@@ -69,6 +75,7 @@ public class GameManager extends ApplicationAdapter
 				batch.draw(map.GetTexture(line, column), line*map.tileWidth, column*map.tileHeight);
 			}
 		}
+
 		batch.end();
 	}
 
@@ -78,11 +85,13 @@ public class GameManager extends ApplicationAdapter
 		//Destroy the things created before quit application
 		batch.dispose();
 		map.Dispose();
+
 		/*selection.spellSquareImage.dispose();
 		selection.classSquare1Image.dispose();
 		selection.rectangleImage.dispose();
 		selection.validationImage.dispose();
 		selection.backgroundImage.dispose();
-		selection.menuSound.dispose();*/
+		selection.menuSound.dispose();
+		*/
 	}
 }

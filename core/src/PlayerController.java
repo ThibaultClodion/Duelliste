@@ -1,4 +1,5 @@
 import Spells.Spell;
+import Class.Character;
 
 public class PlayerController
 {
@@ -12,12 +13,12 @@ public class PlayerController
         this.character = character;
     }
 
-    /*public void newRound()
+    public void newRound()
     {
         //Reset the PM and PA
         pm = character.getPm();
         pa = character.getPa();
-    }*/
+    }
 
     //region <Spells>
     private boolean CanUseSpell(Spell spell)
