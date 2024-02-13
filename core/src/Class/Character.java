@@ -3,7 +3,7 @@ package Class;
 import Spells.Spell;
 import com.badlogic.gdx.graphics.Texture;
 
-public class Character
+public abstract class Character
 {
     private float pv;
     private int pm;
@@ -25,13 +25,7 @@ public class Character
         return spells[index];
     }
 
-    public int getPm()
-    {
-        return pm;
-    }
+    public abstract int getPm();
 
-    public int getPa()
-    {
-        return pa;
-    }
+    public abstract int getPa();
 }
