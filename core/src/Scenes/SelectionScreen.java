@@ -16,12 +16,14 @@ public class SelectionScreen implements Screen
 {
     //Game Manager
     private GameManager gameManager;
+    private Character characterSelected;
 
     //Batch
     private SpriteBatch batch;
 
     OrthographicCamera camera;
     public int classNumber;
+    public int playerNumber;
     public Texture backgroundImage;
     public Texture spellSquareImage;
     public Texture rectangleImage; // for PV, PA, PM, and spells
@@ -52,6 +54,7 @@ public class SelectionScreen implements Screen
         batch = new SpriteBatch();
 
         this.classNumber = 0;
+        this.playerNumber = 1;
 
         //Initialize the camera
         camera = new OrthographicCamera();
@@ -143,8 +146,8 @@ public class SelectionScreen implements Screen
 
         if (this.classNumber == 1)
         {
-            //Class1() class = new Class1()
-            //int nbSort = class.nbSort
+            //this.characterSelected = new Aleator();
+            //int nbSort = this.characterSelected.nbSort;
             //for(int i = 0; i < nbSort; i++) {
             //game.batch.draw(classSpellImage, 180/2 + 5 + 100 * i + 10 * i, 160 + 30)
             //}
@@ -165,6 +168,17 @@ public class SelectionScreen implements Screen
                     this.classNumber = i;
                 }
             }
+
+            /*if (touchPos.x >= validation.x && touchPos.x <= validation.x + validation.width && touchPos.y >= validation.y && touchPos.y <= validation.y + validation.height)
+            {
+                this.classNumber = 0;
+                if (playerNumber == 1)
+                {
+                    this.gameManager.player1.character = this.characterSelected;
+                    this.playerNumber = 2;
+                }
+                else 
+            }*/
 
             // Il faut rajouter un si on clic sur validation alors on définit player1.class et on remet classNumber à 0, on incrémente countPlayer
             // puis quand countPlayer vaut 2 : on switch sur la map de combat
