@@ -1,16 +1,33 @@
+package Game;
+
 import Spells.Spell;
 import Class.Character;
 
 public class PlayerController
 {
+    //Character use by the Player
     private Character character;
+
+    //Combat Data's
     private int[] currentPosition;
+    private float hp;
     private int pm;
     private int pa;
 
     public PlayerController(Character character)
     {
+        changeCharacter(character);
+    }
+
+    public void changeCharacter(Character character)
+    {
+        //Get the character associated to the player
         this.character = character;
+
+        //Initialize his datas
+        this.hp = character.getHp();
+        this.pm = character.getPm();
+        this.pa = character.getPa();
     }
 
     public void newRound()
@@ -62,7 +79,7 @@ public class PlayerController
         if(CanMove(position))
         {
             currentPosition = position;
-            pm = NbMove(position);
+            pm -= NbMove(position);
         }
     }
     //endregion

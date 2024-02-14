@@ -2,18 +2,28 @@ package Game;
 
 import Scenes.GameScreen;
 import Scenes.SelectionScreen;
+import Class.Aleator;
 import com.badlogic.gdx.Game;
 
 public class GameManager extends Game
 {
+    //Screens
     private GameScreen gameScreen;
     private SelectionScreen selectionScreen;
+
+    //Players
+    private PlayerController player1;
+    private PlayerController player2;
 
     @Override
     public void create()
     {
         //At the beginning we start with this screen (for test purposes)
         setGameScreen();
+
+        //Initialize the two Players with however class
+        player1 = new PlayerController(new Aleator());
+        player2 = new PlayerController(new Aleator());
     }
 
     //region <Screen Management>
