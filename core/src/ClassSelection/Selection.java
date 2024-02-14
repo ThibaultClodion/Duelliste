@@ -1,18 +1,19 @@
 package ClassSelection;
 
-import Game.Gamer;
+import Game.GameManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class Selection implements Screen {
-    public Gamer game;
+    public GameManager game;
     OrthographicCamera camera;
     public int classNumber;
     public Texture backgroundImage;
@@ -45,7 +46,8 @@ public class Selection implements Screen {
     public Rectangle validation;
     public String spellText;
 
-    public Selection(final Gamer game) {
+    public Selection(final GameManager game)
+    {
 
         this.classNumber = 0;
 
@@ -185,9 +187,13 @@ public class Selection implements Screen {
         ScreenUtils.clear(0, 0, 0.2f, 1);
 
         camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
 
-        game.batch.begin();
+        //Initialize the batch
+        SpriteBatch batch = new SpriteBatch();
+
+        batch.setProjectionMatrix(camera.combined);
+
+        batch.begin();
 
         /*
 		game.batch.draw(backgroundImage, 0, 0);
@@ -208,7 +214,7 @@ public class Selection implements Screen {
             //}
         }
 
-        game.batch.end();
+        batch.end();
 
         if(Gdx.input.isTouched()) {
             Vector3 touchPos = new Vector3();
