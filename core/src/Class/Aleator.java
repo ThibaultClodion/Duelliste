@@ -1,5 +1,6 @@
 package Class;
 
+import Spells.Fireball;
 import Spells.Spell;
 import com.badlogic.gdx.graphics.Texture;
 

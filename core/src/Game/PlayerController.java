@@ -6,7 +6,7 @@ import Class.Character;
 public class PlayerController
 {
     //Character use by the Player
-    private Character character;
+    public Character character;
 
     //Combat Data's
     private int[] currentPosition;

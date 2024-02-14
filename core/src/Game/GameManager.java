@@ -12,8 +12,8 @@ public class GameManager extends Game
     private SelectionScreen selectionScreen;
 
     //Players
-    private PlayerController player1;
-    private PlayerController player2;
+    public PlayerController player1;
+    public PlayerController player2;
 
     @Override
     public void create()
