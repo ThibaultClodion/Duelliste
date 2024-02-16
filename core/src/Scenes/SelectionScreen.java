@@ -12,11 +12,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class SelectionScreen implements Screen
 {
+    Vector2 pos;
     //Game Manager
     private GameManager gameManager;
     private Character characterSelected;
@@ -53,9 +55,14 @@ public class SelectionScreen implements Screen
     public SelectionScreen(GameManager GM)
     {
         this.gameManager = GM;
-        this.characters = new Character[2];
+        this.characters = new Character[5];
         this.characters[1] = new Aleator();
         this.characters[2] = new Lamenpeine();
+        this.characters[0] = new Lamenpeine();
+        this.characters[3] = new Aleator();
+        this.characters[4] = new Lamenpeine();
+
+        pos = new Vector2();
 
 
         //Initialize the batch
@@ -152,14 +159,14 @@ public class SelectionScreen implements Screen
             batch.draw(classImages[i], classRectangles[i].x, classRectangles[i].y);
         }
 
-        if (this.classNumber == 1)
+        /*if (this.classNumber == 1)
         {
             //this.characterSelected = new Aleator();
             //int nbSort = this.characterSelected.nbSort;
             //for(int i = 0; i < nbSort; i++) {
             //game.batch.draw(classSpellImage, 180/2 + 5 + 100 * i + 10 * i, 160 + 30)
             //}
-        }
+        }*/
 
 
         if(Gdx.input.isTouched())
@@ -174,8 +181,8 @@ public class SelectionScreen implements Screen
                         && (touchPos.y <= classRectangles[i].y + classRectangles[i].height && touchPos.y >= classRectangles[i].y)) {
                     // En gros faire classText = "Pa : X            PM : X              PV : X" + System.currentTimeMillis(), séparer en 3 éventuellement
                     this.classNumber = i;
-                    Character chosen = this.characters[i];
-                    for (int j = 0; j < chosen.getNbSpell(); j++) {
+                    //Character chosen = this.characters[i];
+                    for (int j = 0; j < this.characters[i].getNbSpell(); j++) {
                         batch.draw(spellSquareImage, spellsRectangles[j].x, spellsRectangles[j].y);
                     }
                 }
@@ -222,6 +229,12 @@ public class SelectionScreen implements Screen
     {
 
     }
+
+    /*public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        pos.set(screenX, screenY);
+        clicEffectue = true;
+        return true;
+    }*/
 
     @Override
     public void dispose()

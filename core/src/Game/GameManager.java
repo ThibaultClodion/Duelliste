@@ -19,7 +19,7 @@ public class GameManager extends Game
     public void create()
     {
         //At the beginning we start with this screen (for test purposes)
-        setSelectionScreen();
+        setGameScreen();
 
         //Initialize the two Players with however class
         player1 = new PlayerController(new Aleator());
