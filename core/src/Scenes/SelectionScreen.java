@@ -1,5 +1,8 @@
 package Scenes;
 
+import Class.Aleator;
+import Class.Character;
+import Class.Lamenpeine;
 import Game.GameManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -17,6 +20,7 @@ public class SelectionScreen implements Screen
     //Game Manager
     private GameManager gameManager;
     private Character characterSelected;
+    private Character[] characters;
 
     //Batch
     private SpriteBatch batch;
@@ -49,6 +53,10 @@ public class SelectionScreen implements Screen
     public SelectionScreen(GameManager GM)
     {
         this.gameManager = GM;
+        this.characters = new Character[2];
+        this.characters[1] = new Aleator();
+        this.characters[2] = new Lamenpeine();
+
 
         //Initialize the batch
         batch = new SpriteBatch();
@@ -133,10 +141,10 @@ public class SelectionScreen implements Screen
         batch.draw(validationImage, validation.x, validation.y);
 
         //Draw the spells rectangle
-        for(int i = 0; i < spellsRectangles.length; i++)
+        /*for(int i = 0; i < spellsRectangles.length; i++)
         {
             batch.draw(spellSquareImage, spellsRectangles[i].x, spellsRectangles[i].y);
-        }
+        }*/
 
         //Draw the class rectangle
         for(int i = 0; i < classRectangles.length; i++)
@@ -162,10 +170,14 @@ public class SelectionScreen implements Screen
 
             for (int i = 0; i < classRectangles.length; i++)
             {
-                if ((touchPos.x <= classRectangles[i].x - classRectangles[i].width && touchPos.x >= classRectangles[i].x)
+                if ((touchPos.x <= classRectangles[i].x + classRectangles[i].width && touchPos.x >= classRectangles[i].x)
                         && (touchPos.y <= classRectangles[i].y + classRectangles[i].height && touchPos.y >= classRectangles[i].y)) {
                     // En gros faire classText = "Pa : X            PM : X              PV : X" + System.currentTimeMillis(), séparer en 3 éventuellement
                     this.classNumber = i;
+                    Character chosen = this.characters[i];
+                    for (int j = 0; j < chosen.getNbSpell(); j++) {
+                        batch.draw(spellSquareImage, spellsRectangles[j].x, spellsRectangles[j].y);
+                    }
                 }
             }
 
