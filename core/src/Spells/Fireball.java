@@ -8,6 +8,7 @@ public class Fireball extends Attack
         super(3);
         this.dmg(30);
         this.portee(100);
+        this.range(150);
     }
 
     @Override
