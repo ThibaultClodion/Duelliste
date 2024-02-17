@@ -178,13 +178,21 @@ public class SelectionScreen implements Screen
             camera.unproject(pos);
         }*/
 
-        if(true)
+        if (clicEffectue)
         {
+            for (int j = 0; j < this.characters[classNumber].getNbSpell(); j++) {
+                batch.draw(spellSquareImage, spellsRectangles[j].x, spellsRectangles[j].y);
+            }
+        }
+
+
+        //if(true)
+        //{
             /*Vector3 touchPos = new Vector3();
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);*/
 
-            for (int i = 0; i < classRectangles.length; i++)
+            /*for (int i = 0; i < classRectangles.length; i++)
             {
                 if ((pos.x <= classRectangles[i].x + classRectangles[i].width && pos.x >= classRectangles[i].x)
                         && (pos.y <= classRectangles[i].y + classRectangles[i].height && pos.y >= classRectangles[i].y)) {
@@ -195,7 +203,7 @@ public class SelectionScreen implements Screen
                         batch.draw(spellSquareImage, spellsRectangles[j].x, spellsRectangles[j].y);
                     }
                 }
-            }
+            }*/
 
             /*if (touchPos.x >= validation.x && touchPos.x <= validation.x + validation.width && touchPos.y >= validation.y && touchPos.y <= validation.y + validation.height)
             {
@@ -210,7 +218,7 @@ public class SelectionScreen implements Screen
 
             // Il faut rajouter un si on clic sur validation alors on définit player1.class et on remet classNumber à 0, on incrémente countPlayer
             // puis quand countPlayer vaut 2 : on switch sur la map de combat
-        }
+        //}
 
         batch.end();
     }
@@ -241,6 +249,17 @@ public class SelectionScreen implements Screen
 
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         pos.set(screenX, screenY, 0);
+        clicEffectue = true;
+
+        for (int i = 0; i < classRectangles.length; i++)
+        {
+            if ((pos.x <= classRectangles[i].x + classRectangles[i].width && pos.x >= classRectangles[i].x)
+                    && (pos.y <= classRectangles[i].y + classRectangles[i].height && pos.y >= classRectangles[i].y)) {
+                // En gros faire classText = "Pa : X            PM : X              PV : X" + System.currentTimeMillis(), séparer en 3 éventuellement
+                this.classNumber = i;
+                //Character chosen = this.characters[i];
+            }
+        }
 
         nbClicEffectue++;
         return true;

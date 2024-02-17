@@ -12,7 +12,7 @@ public class Attack extends Spell
     public void portee(int portee) {this.portee=portee;}
     public int getPortee() {return portee;}
     public void range(int range){this.range=range;}
-    public int getRange(){return range}
+    public int getRange(){return range;}
 
     public Attack(int pa){super(pa);}
     public void Launch(){System.out.println("Lance une attaque");}
