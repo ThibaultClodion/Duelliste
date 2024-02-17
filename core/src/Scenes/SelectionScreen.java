@@ -18,7 +18,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class SelectionScreen implements Screen
 {
-    Vector2 pos;
+    Vector3 pos;
+    private boolean clicEffectue;
+    private int nbClicEffectue;
     //Game Manager
     private GameManager gameManager;
     private Character characterSelected;
@@ -62,7 +64,9 @@ public class SelectionScreen implements Screen
         this.characters[3] = new Aleator();
         this.characters[4] = new Lamenpeine();
 
-        pos = new Vector2();
+        pos = new Vector3();
+        clicEffectue = false;
+        nbClicEffectue = 0;
 
 
         //Initialize the batch
@@ -168,17 +172,22 @@ public class SelectionScreen implements Screen
             //}
         }*/
 
-
-        if(Gdx.input.isTouched())
+        /*if(Gdx.input.isTouched())
         {
-            Vector3 touchPos = new Vector3();
+            pos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(pos);
+        }*/
+
+        if(true)
+        {
+            /*Vector3 touchPos = new Vector3();
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            camera.unproject(touchPos);
+            camera.unproject(touchPos);*/
 
             for (int i = 0; i < classRectangles.length; i++)
             {
-                if ((touchPos.x <= classRectangles[i].x + classRectangles[i].width && touchPos.x >= classRectangles[i].x)
-                        && (touchPos.y <= classRectangles[i].y + classRectangles[i].height && touchPos.y >= classRectangles[i].y)) {
+                if ((pos.x <= classRectangles[i].x + classRectangles[i].width && pos.x >= classRectangles[i].x)
+                        && (pos.y <= classRectangles[i].y + classRectangles[i].height && pos.y >= classRectangles[i].y)) {
                     // En gros faire classText = "Pa : X            PM : X              PV : X" + System.currentTimeMillis(), séparer en 3 éventuellement
                     this.classNumber = i;
                     //Character chosen = this.characters[i];
@@ -230,11 +239,20 @@ public class SelectionScreen implements Screen
 
     }
 
-    /*public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        pos.set(screenX, screenY);
-        clicEffectue = true;
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        pos.set(screenX, screenY, 0);
+
+        nbClicEffectue++;
         return true;
-    }*/
+    }
+
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
 
     @Override
     public void dispose()
