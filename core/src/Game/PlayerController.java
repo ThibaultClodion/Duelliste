@@ -58,7 +58,7 @@ public class PlayerController
     }
     private boolean IsInRange(int[] posennemi, Attack attack)
     {
-        if ( Math.abs(currentPosition[0] - posennemi[0])>= attack.portee && Math.abs(currentPosition[1] - posennemi[1])>= attack.portee)
+        if ( Math.abs(currentPosition[0] - posennemi[0])<= attack.portee && Math.abs(currentPosition[1] - posennemi[1])<= attack.portee)
         {
             return true;
         }
