@@ -3,8 +3,7 @@ package Spells;
 public class Attack extends Spell
 {
     private int dmg;
-    private int portee;
-
+    public int portee;
     private int range;
 
     public void dmg(int dmg) {this.dmg=dmg;}

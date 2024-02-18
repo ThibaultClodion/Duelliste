@@ -1,5 +1,6 @@
 package Game;
 
+import Spells.Attack;
 import Spells.Spell;
 import Class.Character;
 
@@ -54,6 +55,14 @@ public class PlayerController
             pa -= spell.getPa();
 
         }
+    }
+    private boolean IsInRange(int[] posennemi, Attack attack)
+    {
+        if ( Math.abs(currentPosition[0] - posennemi[0])>= attack.portee && Math.abs(currentPosition[1] - posennemi[1])>= attack.portee)
+        {
+            return true;
+        }
+        else{return false;}
     }
     //endregion
 
