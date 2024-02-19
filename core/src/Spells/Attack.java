@@ -3,17 +3,17 @@ package Spells;
 public class Attack extends Spell
 {
     private int dmg;
-    public int portee;
-    private int range;
+    private int zone;
 
-    public void dmg(int dmg) {this.dmg=dmg;}
+    public Attack(int pa, int dmg, int zone, int range)
+    {
+        super(pa, range);
+        this.dmg=dmg;
+        this.zone=zone;
+    }
     public int getDmg() {return dmg;}
-    public void portee(int portee) {this.portee=portee;}
-    public int getPortee() {return portee;}
-    public void range(int range){this.range=range;}
-    public int getRange(){return range;}
+    public int getPortee() {return zone;}
 
-    public Attack(int pa){super(pa);}
     public void Launch(){System.out.println("Lance une attaque");}
 
 }

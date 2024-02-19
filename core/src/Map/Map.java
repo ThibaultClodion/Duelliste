@@ -1,12 +1,14 @@
 package Map;
 
 import com.badlogic.gdx.graphics.Texture;
-import java.util.Random;
+
+import java.util.*;
 
 public class Map
 {
     //Grid
-    private final char[][] grid;
+    private char[][] grid;
+    private final char[][][] prefabs;
 
     //Map data's
     public int width = 15;
@@ -22,6 +24,30 @@ public class Map
     //region <Map Creation>
     public Map(int seed)
     {
+        //Initialize the prefabs array
+        prefabs = createPrefabs();
+
+        //Create a random Map
+        CreateAMap(seed);
+    }
+
+    private void CreateAMap(int seed)
+    {
+        //Initialize a basic map with only grounds
+        CreateABasicMap();
+
+        //Insert Randomize elements on it
+        AddElementsOnMap(seed);
+
+        //If the map is not valid (a player could be blocked) then recreate one
+        if(!IsTheMapValid())
+        {
+            CreateAMap(seed + 1 % Integer.MAX_VALUE);
+        }
+    }
+
+    private void CreateABasicMap()
+    {
         //Initialize a basic map
         grid = new char[width][height];
 
@@ -32,17 +58,16 @@ public class Map
                 grid[i][j] = 'G';
             }
         }
+    }
 
-        //Initialize the prefabs array
-        char[][][] prefabs = createPrefabs();
-
+    private void AddElementsOnMap(int seed)
+    {
         //Define the nbElementMax and the seed used
         Random random = new Random(seed);
         int nbElementsMax = random.nextInt(40);
 
         //While there is still elements to put on the map
-        while(nbElementsMax > 0)
-        {
+        while(nbElementsMax > 0) {
             //Get a random prefab
             char[][] prefab = prefabs[random.nextInt(prefabs.length)];
 
@@ -50,20 +75,16 @@ public class Map
             nbElementsMax -= HowManyElement(prefab);
 
             //Find the random position to put the new prefab
-            int xPosition = random.nextInt(0, this.width+1);
-            int yPosition = random.nextInt(0, this.height+1);
+            int xPosition = random.nextInt(0, this.width + 1);
+            int yPosition = random.nextInt(0, this.height + 1);
 
             //Instantiate the prefab on the map
-            for(int i = 0; i < prefab.length; i++)
-            {
-                for(int j = 0; j < prefab[i].length; j++)
-                {
+            for (int i = 0; i < prefab.length; i++) {
+                for (int j = 0; j < prefab[i].length; j++) {
                     //Check if the position selected is valid
-                    if(isValidPosition(xPosition + i, yPosition + j))
-                    {
+                    if (IsValidPosition(xPosition + i, yPosition + j)) {
                         //Allow to only define the useful things in the prefabs
-                        if(prefab[i][j] == 'R' || prefab[i][j] == 'H')
-                        {
+                        if (prefab[i][j] == 'R' || prefab[i][j] == 'H') {
                             grid[xPosition + i][yPosition + j] = prefab[i][j];
                         }
                     }
@@ -72,7 +93,134 @@ public class Map
         }
     }
 
-    private boolean isValidPosition(int line, int column)
+    private boolean IsTheMapValid()
+    {
+        //Make a depth-first search to get the ground cases accessible
+        Set<List<Integer>> visited = new HashSet<>();
+        Stack<int[]> toVisit = new Stack<>();
+
+        int[] start = GetAGroundPosition();
+        toVisit.add(start);
+
+        while(!toVisit.empty())
+        {
+            int[] s = toVisit.pop();
+
+            //Transform s to a list for Set Contains test
+            List<Integer> sToList = new ArrayList<>();
+            sToList.add(s[0]);
+            sToList.add(s[1]);
+
+            if(!visited.contains(sToList))
+            {
+
+                visited.add(sToList);
+
+                Set<int[]> neighbors = GetNeighborPosition(s);
+
+                for(int[] t : neighbors)
+                {
+                    //Transform t to a list for Set Contains test
+                    List<Integer> tToList = new ArrayList<>();
+                    tToList.add(t[0]);
+                    tToList.add(t[1]);
+
+                    if(!visited.contains(tToList))
+                    {
+                        toVisit.add(t);
+                    }
+                }
+            }
+        }
+
+        //Now the set visited contains all the accessible ground cell
+        //We now count if the length of this set is equals to the number of ground cells to check if a player could be blocked
+
+        return visited.size() == HowMuchGroundCell();
+    }
+
+    private int HowMuchGroundCell()
+    {
+        int cpt = 0;
+
+        for (char[] chars : grid)
+        {
+            for (char aChar : chars)
+            {
+                if (aChar == 'G')
+                {
+                    cpt++;
+                }
+            }
+        }
+
+        return cpt;
+    }
+
+    private Set<int[]> GetNeighborPosition(int[] position)
+    {
+        Set<int[]> neighbors = new HashSet<>();
+
+        int x = position[0];
+        int y = position[1];
+
+        if(IsAGroundPosition(new int[] {x+1, y}))
+        {
+            neighbors.add(new int[] {x+1, y});
+        }
+
+        if(IsAGroundPosition(new int[] {x - 1, y}))
+        {
+            neighbors.add(new int[] {x-1, y});
+        }
+
+        if(IsAGroundPosition(new int[] {x, y+1}))
+        {
+            neighbors.add(new int[] {x, y+1});
+        }
+
+        if(IsAGroundPosition(new int[] {x, y-1}))
+        {
+            neighbors.add(new int[] {x, y-1});
+        }
+
+        return neighbors;
+    }
+
+    private boolean IsAGroundPosition(int[] position)
+    {
+        int x = position[0];
+        int y = position[1];
+
+        //Check if it's a valid position
+        if(x < 0 || x >= grid.length || y < 0 || y >= grid[0].length)
+        {
+            return false;
+        }
+        else
+        {
+            return grid[x][y] == 'G';
+        }
+    }
+
+    private int[] GetAGroundPosition()
+    {
+        for(int i = 0; i < grid.length;i++)
+        {
+            for(int j = 0; j < grid[i].length; j++)
+            {
+                if(grid[i][j] == 'G')
+                {
+                    return new int[] {i, j};
+                }
+            }
+        }
+
+        //It is impossible to not have ground on the map
+        return new int[] {0, 0};
+    }
+
+    private boolean IsValidPosition(int line, int column)
     {
         //Check if the position is valid
         return (0 <= line) &&  (line < width) && (0 <= column) && (column < height);

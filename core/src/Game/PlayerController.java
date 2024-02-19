@@ -1,6 +1,5 @@
 package Game;
 
-import Spells.Attack;
 import Spells.Spell;
 import Class.Character;
 
@@ -25,7 +24,7 @@ public class PlayerController
         //Get the character associated to the player
         this.character = character;
 
-        //Initialize his datas
+        //Initialize his data's
         this.hp = character.getHp();
         this.pm = character.getPm();
         this.pa = character.getPa();
@@ -39,14 +38,14 @@ public class PlayerController
     }
 
     //region <Spells>
-    private boolean CanUseSpell(Spell spell)
+    private boolean CanUseSpell(int[] position, Spell spell)
     {
-        return (pa - spell.getPa() >= 0);
+        return Distance(position) <= spell.getRange() && pa - spell.getPa() >= 0;
     }
 
-    private void UseSpell(Spell spell)
+    private void UseSpell(int[] position, Spell spell)
     {
-        if(CanUseSpell(spell))
+        if(CanUseSpell(position, spell))
         {
             //Use the spell
             spell.Launch();
@@ -56,24 +55,17 @@ public class PlayerController
 
         }
     }
-    private boolean IsInRange(int[] posennemi, Attack attack)
-    {
-        if ( Math.abs(currentPosition[0] - posennemi[0])<= attack.portee && Math.abs(currentPosition[1] - posennemi[1])<= attack.portee)
-        {
-            return true;
-        }
-        else{return false;}
-    }
+
     //endregion
 
     //region <Movement>
     public boolean CanMove(int[] position)
     {
         //Determine if a player can access a position
-        return (pm - NbMove(position)) >= 0;
+        return (pm - Distance(position)) >= 0;
     }
 
-    public int NbMove(int[] position)
+    public int Distance(int[] position)
     {
         //Get the number of move to do on x-axis and y-axis
         int xMove = Math.abs(position[0] - currentPosition[0]);
@@ -88,7 +80,7 @@ public class PlayerController
         if(CanMove(position))
         {
             currentPosition = position;
-            pm -= NbMove(position);
+            pm -= Distance(position);
         }
     }
     //endregion

@@ -12,14 +12,13 @@ public class Character
     private Texture image;
     private Spell[] spells;
 
-    public Character(float hp, int pm, int pa, Texture image, Spell[] spells, int nbSpell)
+    public Character(float hp, int pm, int pa, Texture image, Spell[] spells)
     {
         this.hp = hp;
         this.pm = pm;
         this.pa = pa;
         this.image = image;
         this.spells = spells;
-        this.nbSpell = nbSpell; // Par la suite mettre spells.length
     }
 
     public float getHp()
@@ -48,6 +47,6 @@ public class Character
     }
 
     public int getNbSpell() {
-        return this.nbSpell;
+        return spells.length;
     }
 }
