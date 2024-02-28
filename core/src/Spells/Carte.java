@@ -8,10 +8,10 @@ package Spells;
 
 public class Carte extends Attack {
     public Carte() {
-        super(3, (int) Math.floor(Math.random() * 200), 4);
+        super(3, (int) Math.floor(Math.random() * 200), 1,4);
     }
     @Override
-    public void Launch() {
+    public void Launch(int[] pos) {
         System.out.println("Lance la Carte");
     }
 }

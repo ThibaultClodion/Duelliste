@@ -8,10 +8,10 @@ package Spells;
 
 public class Des extends Attack {
     public Des() {
-        super(4, (int) (Math.random() * 6 + 1) * 50, 3);
+        super(4, (int) (Math.random() * 6 + 1) * 50, 1,3);
     }
     @Override
-    public void Launch() {
+    public void Launch(int[] pos) {
         System.out.println("Lance les Dés");
     }
 }

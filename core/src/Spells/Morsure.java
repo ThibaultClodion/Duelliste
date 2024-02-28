@@ -7,7 +7,7 @@ public class Morsure extends Attack{
     }
 
     @Override
-    public void Launch()
+    public void Launch(int[] pos)
     {
         System.out.println("Morsure");
     }

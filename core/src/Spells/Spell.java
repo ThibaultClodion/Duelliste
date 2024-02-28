@@ -1,5 +1,7 @@
 package Spells;
 
+import Game.PlayerController;
+
 public abstract class Spell
 {
     private int pa;
@@ -18,5 +20,5 @@ public abstract class Spell
 
     public int getRange(){return range;}
 
-    public abstract void Launch();
+    public abstract void Launch(int[] pos);
 }

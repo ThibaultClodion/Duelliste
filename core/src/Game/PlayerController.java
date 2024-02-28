@@ -48,7 +48,7 @@ public class PlayerController
         if(CanUseSpell(position, spell))
         {
             //Use the spell
-            spell.Launch();
+            spell.Launch(position);
 
             //Decrease PA
             pa -= spell.getPa();

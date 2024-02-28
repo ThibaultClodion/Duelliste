@@ -14,6 +14,6 @@ public class Attack extends Spell
     public int getDmg() {return dmg;}
     public int getPortee() {return zone;}
 
-    public void Launch(){System.out.println("Lance une attaque");}
+    public void Launch(int[] pos){System.out.println("Lance une attaque");}
 
 }
