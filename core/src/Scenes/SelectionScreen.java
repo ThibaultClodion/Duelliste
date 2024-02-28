@@ -275,11 +275,14 @@ public class SelectionScreen implements Screen, InputProcessor
         pos.set(screenX, screenY, 0);
         clicEffectue = true;
 
+        System.out.println(pos.x);
+        System.out.println(pos.y);
+
         if(button == Input.Buttons.RIGHT) {
 
             for (int i = 0; i < classRectangles.length; i++) {
                 if ((pos.x <= classRectangles[i].x + classRectangles[i].width && pos.x >= classRectangles[i].x)
-                        && (pos.y <= classRectangles[i].y + classRectangles[i].height && pos.y >= classRectangles[i].y)) {
+                        && (pos.y >= 20 + classRectangles[i].height && pos.y <= 20)) {
                     System.out.println(pos.x);
                     System.out.println(pos.y);
                     // En gros faire classText = "Pa : X            PM : X              PV : X" + System.currentTimeMillis(), séparer en 3 éventuellement
