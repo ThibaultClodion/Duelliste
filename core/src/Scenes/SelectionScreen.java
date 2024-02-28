@@ -5,6 +5,8 @@ import Class.Character;
 import Class.Lamenpeine;
 import Game.GameManager;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -16,7 +18,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-public class SelectionScreen implements Screen
+public class SelectionScreen implements Screen, InputProcessor
 {
     Vector3 pos;
     private boolean clicEffectue;
@@ -67,12 +69,13 @@ public class SelectionScreen implements Screen
         pos = new Vector3();
         clicEffectue = false;
         nbClicEffectue = 0;
+        Gdx.input.setInputProcessor(this);
 
 
         //Initialize the batch
         batch = new SpriteBatch();
 
-        this.classNumber = 0;
+        this.classNumber = 5;
         this.playerNumber = 1;
 
         //Initialize the camera
@@ -178,12 +181,18 @@ public class SelectionScreen implements Screen
             camera.unproject(pos);
         }*/
 
-        if (clicEffectue)
-        {
+        if(classNumber <= 4 && classNumber >= 0) {
             for (int j = 0; j < this.characters[classNumber].getNbSpell(); j++) {
                 batch.draw(spellSquareImage, spellsRectangles[j].x, spellsRectangles[j].y);
             }
         }
+
+        /*if (clicEffectue)
+        {
+            for (int j = 0; j < this.characters[classNumber].getNbSpell(); j++) {
+                batch.draw(spellSquareImage, spellsRectangles[j].x, spellsRectangles[j].y);
+            }
+        }*/
 
 
         //if(true)
@@ -247,17 +256,36 @@ public class SelectionScreen implements Screen
 
     }
 
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         pos.set(screenX, screenY, 0);
         clicEffectue = true;
 
-        for (int i = 0; i < classRectangles.length; i++)
-        {
-            if ((pos.x <= classRectangles[i].x + classRectangles[i].width && pos.x >= classRectangles[i].x)
-                    && (pos.y <= classRectangles[i].y + classRectangles[i].height && pos.y >= classRectangles[i].y)) {
-                // En gros faire classText = "Pa : X            PM : X              PV : X" + System.currentTimeMillis(), séparer en 3 éventuellement
-                this.classNumber = i;
-                //Character chosen = this.characters[i];
+        if(button == Input.Buttons.RIGHT) {
+
+            for (int i = 0; i < classRectangles.length; i++) {
+                if ((pos.x <= classRectangles[i].x + classRectangles[i].width && pos.x >= classRectangles[i].x)
+                        && (pos.y <= classRectangles[i].y + classRectangles[i].height && pos.y >= classRectangles[i].y)) {
+                    System.out.println(pos.x);
+                    System.out.println(pos.y);
+                    // En gros faire classText = "Pa : X            PM : X              PV : X" + System.currentTimeMillis(), séparer en 3 éventuellement
+                    this.classNumber = i;
+                    //Character chosen = this.characters[i];
+                }
             }
         }
 
@@ -269,7 +297,22 @@ public class SelectionScreen implements Screen
         return false;
     }
 
+    @Override
+    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float amountX, float amountY) {
         return false;
     }
 

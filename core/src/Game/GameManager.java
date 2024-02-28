@@ -30,7 +30,7 @@ public class GameManager extends Game
         actualPlayer = player1;
 
         //At the beginning we start with this screen (for test purposes)
-        setGameScreen();
+        setSelectionScreen();
     }
 
     //region <Player Management>
