@@ -14,11 +14,13 @@ public class PlayerController
     private int pm;
     private int pa;
 
-    public PlayerController(Character character)
+    public PlayerController(Character character, int[] beginPosition)
     {
         changeCharacter(character);
+        currentPosition = beginPosition;
     }
 
+    //region <Datas Management>
     public void changeCharacter(Character character)
     {
         //Get the character associated to the player
@@ -30,12 +32,19 @@ public class PlayerController
         this.pa = character.getPa();
     }
 
-    public void newRound()
+    public void NewRound()
     {
         //Reset the PM and PA
         pm = character.getPm();
         pa = character.getPa();
     }
+
+    public void Hit(int damage)
+    {
+        this.hp -= damage;
+        System.out.println("Je me suis fait attaqué");
+    }
+    //endregion
 
     //region <Spells>
     private boolean CanUseSpell(int[] position, Spell spell)
@@ -43,12 +52,12 @@ public class PlayerController
         return Distance(position) <= spell.getRange() && pa - spell.getPa() >= 0;
     }
 
-    private void UseSpell(int[] position, Spell spell)
+    public void UseSpell(int[] position, Spell spell, PlayerController otherPlayer)
     {
         if(CanUseSpell(position, spell))
         {
             //Use the spell
-            spell.Launch(position);
+            spell.Launch(position, otherPlayer);
 
             //Decrease PA
             pa -= spell.getPa();
@@ -82,6 +91,11 @@ public class PlayerController
             currentPosition = position;
             pm -= Distance(position);
         }
+    }
+
+    public int[] GetCurrentPosition()
+    {
+        return currentPosition;
     }
     //endregion
 }

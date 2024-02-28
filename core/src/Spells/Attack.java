@@ -1,19 +1,26 @@
 package Spells;
 
+import Game.PlayerController;
+
+import java.util.Arrays;
+
 public class Attack extends Spell
 {
-    private int dmg;
-    private int zone;
+    private int damage;
 
-    public Attack(int pa, int dmg, int zone, int range)
+    public Attack(int pa, int dmg, int range)
     {
         super(pa, range);
-        this.dmg=dmg;
-        this.zone=zone;
+        this.damage =dmg;
     }
-    public int getDmg() {return dmg;}
-    public int getPortee() {return zone;}
+    public int getDamage() {return damage;}
 
-    public void Launch(int[] pos){System.out.println("Lance une attaque");}
+    public void Launch(int[] pos, PlayerController otherPlayer)
+    {
+        if(Arrays.equals(pos, otherPlayer.GetCurrentPosition()))
+        {
+            otherPlayer.Hit(damage);
+        }
+    }
 
 }
