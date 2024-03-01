@@ -16,17 +16,23 @@ import java.util.Random;
 public class GameScreen implements Screen, InputProcessor
 {
     //Game Manager access
-    private GameManager gameManager;
+    private final GameManager gameManager;
 
     //Batch
-    private SpriteBatch batch;
+    private final SpriteBatch batch;
 
     //Map Data's
     public Map map;
+    private final int xMapOffset;
+    private final int yMapOffset;
+
+    //Textures
+    private Texture backgroundTexture1;
+    private Texture backgroundTexture2;
 
     //Players Data's
-    private PlayerController player1;
-    private PlayerController player2;
+    private final PlayerController player1;
+    private final PlayerController player2;
 
     public GameScreen(GameManager GM, PlayerController player1, PlayerController player2)
     {
@@ -41,6 +47,14 @@ public class GameScreen implements Screen, InputProcessor
         Random random = new Random();
         int seed = random.nextInt();
         map = new Map(seed);
+
+        //Initialize the offset
+        xMapOffset = (1600 - map.width*map.tileWidth)/2;
+        yMapOffset = (int) Math.floor((900 - map.tileHeight*map.height)/1.5);
+
+        //Initialize the Textures
+        backgroundTexture1 = new Texture("backgroundInformation.png");
+        backgroundTexture2 = new Texture("backgroundInformation2.png");
 
         //Initialize the input
         Gdx.input.setInputProcessor(this);
@@ -60,19 +74,22 @@ public class GameScreen implements Screen, InputProcessor
         {
             for(int column = 0; column < map.height; column++)
             {
-                batch.draw(map.GetTexture(line, column), line*map.tileWidth, column*map.tileHeight);
+                batch.draw(map.GetTexture(line, column), line*map.tileWidth + xMapOffset, column*map.tileHeight + yMapOffset);
             }
         }
 
         //Draw the players
-        if(player1 != null)
+        if(player1 != null && player2 != null)
         {
-            /*position[0] = screenX/map.tileWidth;
-            position[1] = (screenY-(720 - map.height* map.tileHeight))/map.tileHeight;*/
-            batch.draw(player1.character.getImage(), player1.GetCurrentPosition()[0] * map.tileWidth, (map.height-1)*map.tileHeight - player1.GetCurrentPosition()[1]);
-            batch.draw(player2.character.getImage(), player2.GetCurrentPosition()[0] * map.tileWidth, (map.height-1)*map.tileHeight - player2.GetCurrentPosition()[1] * map.tileHeight);
+            batch.draw(player1.character.getImage(), player1.GetCurrentPosition()[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - player1.GetCurrentPosition()[1] * map.tileHeight + yMapOffset);
+            batch.draw(player2.character.getImage(), player2.GetCurrentPosition()[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - player2.GetCurrentPosition()[1] * map.tileHeight + yMapOffset);
         }
 
+        //Draw the background of information
+        batch.draw(backgroundTexture1, 0, yMapOffset + map.tileHeight * map.height);
+        batch.draw(backgroundTexture2, 0, 0);
+
+        //end batch
         batch.end();
     }
 
@@ -135,14 +152,15 @@ public class GameScreen implements Screen, InputProcessor
     }
 
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+    public boolean touchDown(int screenX, int screenY, int pointer, int button)
+    {
+        //Left mouse button action (for now just on the map)
         if (button == Input.Buttons.LEFT)
         {
             //Get touch position on the map
             int[] position = new int[2];
-            position[0] = screenX/map.tileWidth;
-            position[1] = (screenY-(720 - map.height* map.tileHeight))/map.tileHeight;
-
+            position[0] = (screenX-xMapOffset)/map.tileWidth;
+            position[1] = (screenY-(900 - map.height* map.tileHeight - yMapOffset))/map.tileHeight;
 
             //Use the spell
             gameManager.LaunchSpell(position);

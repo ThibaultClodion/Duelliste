@@ -30,14 +30,15 @@ public class GameManager extends Game
         actualPlayer = player1;
 
         //At the beginning we start with this screen (for test purposes)
-        setSelectionScreen();
+        setGameScreen();
     }
 
     //region <Player Management>
 
     public void LaunchSpell(int[] position)
     {
-        actualPlayer.UseSpell(position, new Des(), GetOtherPlayer());
+        //Only the actual player can use his spells
+        actualPlayer.UseSpell(position, player1.character.GetSpell(0), GetOtherPlayer());
     }
 
     public PlayerController GetOtherPlayer()

@@ -14,7 +14,7 @@ public class GameLauncher {
 		config.setTitle("Duelliste");
 		config.useVsync(true);
 		config.setForegroundFPS(60);
-		config.setWindowedMode(1280, 720);
+		config.setWindowedMode(1600, 900);
 
 		//Initialize the Game
 		new Lwjgl3Application(new GameManager(), config);

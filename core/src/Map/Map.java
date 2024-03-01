@@ -17,7 +17,8 @@ public class Map
     public int tileHeight = 64;
 
     //Texture and Sprites
-    private final Texture groundImage = new Texture("ground.png");
+    private final Texture ground1Image = new Texture("ground1.png");
+    private final Texture ground2Image = new Texture("ground2.png");
     private final Texture rockImage = new Texture("rock.png");
     private final Texture holeImage = new Texture("hole.png");
 
@@ -324,9 +325,13 @@ public class Map
     //region <Map Visualisation>
     public Texture GetTexture(int line, int column)
     {
-        if(grid[line][column] == 'G')
+        if(grid[line][column] == 'G' && (line + column) % 2 == 0)
         {
-            return groundImage;
+            return ground1Image;
+        }
+        else if(grid[line][column] == 'G' && (line + column) % 2 == 1)
+        {
+            return ground2Image;
         }
         else if(grid[line][column] == 'R')
         {
@@ -340,7 +345,7 @@ public class Map
         //Normally there should not be other things then G, R, H for now
         else
         {
-            return groundImage;
+            return ground1Image;
         }
     }
     //endregion
@@ -349,7 +354,7 @@ public class Map
     public void Dispose()
     {
         //Dispose all the Textures
-        groundImage.dispose();
+        ground1Image.dispose();
         rockImage.dispose();
         holeImage.dispose();
     }
