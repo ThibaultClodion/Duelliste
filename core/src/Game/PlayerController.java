@@ -9,7 +9,7 @@ public class PlayerController
     public Character character;
 
     //Combat Data's
-    private int[] currentPosition;
+    public int[] currentPosition;
     private float hp;
     private int pm;
     private int pa;
