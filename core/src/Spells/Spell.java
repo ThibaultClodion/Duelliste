@@ -20,5 +20,5 @@ public abstract class Spell
 
     public int getRange(){return range;}
 
-    public abstract void Launch(int[] pos, PlayerController otherPlayer);
+    public abstract void Launch(int[] pos, PlayerController otherPlayer,PlayerController myPlayer);
 }

@@ -47,7 +47,7 @@ public class PlayerController
     //endregion
 
     //region <Spells>
-    private boolean CanUseSpell(int[] position, Spell spell)
+    public boolean CanUseSpell(int[] position, Spell spell)
     {
         return Distance(position) <= spell.getRange() && pa - spell.getPa() >= 0;
     }
@@ -57,7 +57,7 @@ public class PlayerController
         if(CanUseSpell(position, spell))
         {
             //Use the spell
-            spell.Launch(position, otherPlayer);
+            spell.Launch(position, otherPlayer,this);
 
             //Decrease PA
             pa -= spell.getPa();

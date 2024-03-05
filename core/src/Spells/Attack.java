@@ -15,7 +15,7 @@ public class Attack extends Spell
     }
     public int getDamage() {return damage;}
 
-    public void Launch(int[] pos, PlayerController otherPlayer)
+    public void Launch(int[] pos, PlayerController otherPlayer,PlayerController myPlayer)
     {
         if(Arrays.equals(pos, otherPlayer.GetCurrentPosition()))
         {
