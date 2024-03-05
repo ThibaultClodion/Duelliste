@@ -83,7 +83,7 @@ public class SelectionScreen implements Screen, InputProcessor
         camera.setToOrtho(false, 800, 480);
 
         //Load the Images
-        backgroundImage = new Texture(Gdx.files.internal("background.jpeg"));
+        backgroundImage = new Texture(Gdx.files.internal("backgroundV2.jpeg"));
         spellSquareImage = new Texture(Gdx.files.internal("spellSquare.JPG"));
         LoadClassImages();
 
@@ -94,8 +94,8 @@ public class SelectionScreen implements Screen, InputProcessor
         //Rectangle and Validation
         rectangleImage = new Texture(Gdx.files.internal("rectangle.JPG"));
         validationImage = new Texture(Gdx.files.internal("validation.JPG")); // 100x100
-        rectangle = new Rectangle(1280 /2 - 1100/2, 0, 1000, 720* 2 / 3);
-        validation = new Rectangle(1100 + 180 / 2 + 180 / 2 - 100, 50, 100, 100);
+        rectangle = new Rectangle(1600 /2 - 1200/2, 0, 1200, 600);
+        validation = new Rectangle(1450, 100, 100, 100);
 
         // load the background sound in the menu
         menuSound = Gdx.audio.newMusic(Gdx.files.internal("pkm.mp3"));
@@ -112,7 +112,7 @@ public class SelectionScreen implements Screen, InputProcessor
         // classSquare seront de 200x200 dans un rectangle de 1280x240 espacés de 40 pixels
         for(int i = 0; i < classRectangles.length; i++)
         {
-            Rectangle newClassRectangle = new Rectangle(20 + 260 * i,500,200,200);
+            Rectangle newClassRectangle = new Rectangle(100 + 200 * i + 100 * i,650,200,200);
             classRectangles[i] = newClassRectangle;
         }
     }
@@ -130,7 +130,7 @@ public class SelectionScreen implements Screen, InputProcessor
         // Les carrés seront espacés de 10 pixels et compris dans un rectangle de 160 de hauteur et 1100 de long
         for(int i = 0; i < spellsRectangles.length; i++)
         {
-            Rectangle newSpellRectangle = new Rectangle(180 / 2 + 5 + 110 * i,160+30,100,100);
+            Rectangle newSpellRectangle = new Rectangle(200 + 20 + 100 * i + 18 * i,400+50,100,100);
             spellsRectangles[i] = newSpellRectangle;
         }
     }
