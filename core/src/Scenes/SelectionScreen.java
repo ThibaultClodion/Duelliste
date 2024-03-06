@@ -80,7 +80,7 @@ public class SelectionScreen implements Screen, InputProcessor
 
         //Initialize the camera
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+        camera.setToOrtho(false, 1600, 900);
 
         //Load the Images
         backgroundImage = new Texture(Gdx.files.internal("backgroundV2.jpeg"));
@@ -278,11 +278,11 @@ public class SelectionScreen implements Screen, InputProcessor
         System.out.println(pos.x);
         System.out.println(pos.y);
 
-        if(button == Input.Buttons.RIGHT) {
+        if(button == Input.Buttons.LEFT) {
 
             for (int i = 0; i < classRectangles.length; i++) {
                 if ((pos.x <= classRectangles[i].x + classRectangles[i].width && pos.x >= classRectangles[i].x)
-                        && (pos.y >= 20 + classRectangles[i].height && pos.y <= 20)) {
+                        && (pos.y >= 1600 - classRectangles[i].y + classRectangles[i].height && pos.y <= 1600 - classRectangles[i].y)) {
                     System.out.println(pos.x);
                     System.out.println(pos.y);
                     // En gros faire classText = "Pa : X            PM : X              PV : X" + System.currentTimeMillis(), séparer en 3 éventuellement
