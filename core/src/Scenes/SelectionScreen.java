@@ -276,21 +276,29 @@ public class SelectionScreen implements Screen, InputProcessor
         clicEffectue = true;
 
         System.out.println(pos.x);
-        System.out.println(pos.y);
+        //System.out.println(pos.y);
+        //System.out.println(1600 - pos.x);
+        System.out.println(900 - pos.y);
+        System.out.println(pos.x <= classRectangles[0].x + classRectangles[0].width);
+        System.out.println(900 - pos.y <= classRectangles[0].y + classRectangles[0].height);
+        System.out.println(pos.x >= classRectangles[0].x);
+        System.out.println(900 - pos.y >= classRectangles[0].y);
 
         if(button == Input.Buttons.LEFT) {
 
             for (int i = 0; i < classRectangles.length; i++) {
-                if ((pos.x <= classRectangles[i].x + classRectangles[i].width && pos.x >= classRectangles[i].x)
-                        && (pos.y >= 1600 - classRectangles[i].y + classRectangles[i].height && pos.y <= 1600 - classRectangles[i].y)) {
+                if (pos.x <= classRectangles[i].x + classRectangles[i].width && pos.x >= classRectangles[i].x
+                        && 900 - pos.y <= classRectangles[i].y + classRectangles[i].height && pos.y >= classRectangles[i].y) {
                     System.out.println(pos.x);
                     System.out.println(pos.y);
                     // En gros faire classText = "Pa : X            PM : X              PV : X" + System.currentTimeMillis(), séparer en 3 éventuellement
                     this.classNumber = i;
+                    System.out.println(classNumber);
                     //Character chosen = this.characters[i];
                 }
             }
         }
+        System.out.println(classNumber);
 
         nbClicEffectue++;
         return true;
