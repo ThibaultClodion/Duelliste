@@ -33,6 +33,7 @@ public class SelectionScreen implements Screen, InputProcessor
 
     OrthographicCamera camera;
     public int classNumber;
+    public int spellNumber;
     public int playerNumber;
     public Texture backgroundImage;
     public Texture spellSquareImage;
@@ -55,6 +56,7 @@ public class SelectionScreen implements Screen, InputProcessor
     public BitmapFont spellTextFont;
     public Rectangle validation;
     public String spellText;
+    public Rectangle textCoord;
 
     public SelectionScreen(GameManager GM)
     {
@@ -77,6 +79,7 @@ public class SelectionScreen implements Screen, InputProcessor
 
         this.classNumber = 5;
         this.playerNumber = 1;
+        this.spellNumber = 10;
 
         //Initialize the camera
         camera = new OrthographicCamera();
@@ -92,10 +95,11 @@ public class SelectionScreen implements Screen, InputProcessor
         CreateClassRectangles();
 
         //Rectangle and Validation
-        rectangleImage = new Texture(Gdx.files.internal("rectangle.JPG"));
+        rectangleImage = new Texture(Gdx.files.internal("rectangleV2.jpeg"));
         validationImage = new Texture(Gdx.files.internal("validation.JPG")); // 100x100
         rectangle = new Rectangle(1600 /2 - 1200/2, 0, 1200, 600);
         validation = new Rectangle(1450, 100, 100, 100);
+        textCoord = new Rectangle(1600 / 2 - 1200 / 2, 0, 1200, 200 );
 
         // load the background sound in the menu
         menuSound = Gdx.audio.newMusic(Gdx.files.internal("pkm.mp3"));
@@ -187,6 +191,14 @@ public class SelectionScreen implements Screen, InputProcessor
             }
         }
 
+        spellTextFont.draw(batch, spellText, textCoord.x, textCoord.y);
+
+        /*for (int k = 0; k < 10; k++) {
+            if (spellNumber == k) {
+            }
+        }*/
+
+
         /*if (clicEffectue)
         {
             for (int j = 0; j < this.characters[classNumber].getNbSpell(); j++) {
@@ -275,6 +287,7 @@ public class SelectionScreen implements Screen, InputProcessor
         pos.set(screenX, screenY, 0);
         clicEffectue = true;
 
+        //Several check
         System.out.println(pos.x);
         //System.out.println(pos.y);
         //System.out.println(1600 - pos.x);
@@ -285,10 +298,13 @@ public class SelectionScreen implements Screen, InputProcessor
         System.out.println(900 - pos.y >= classRectangles[0].y);
 
         if(button == Input.Buttons.LEFT) {
+            System.out.println("c'est good");
 
             for (int i = 0; i < classRectangles.length; i++) {
+                System.out.println("c'est aussi good");
+                // Cheking if a classRectangle has been chosen
                 if (pos.x <= classRectangles[i].x + classRectangles[i].width && pos.x >= classRectangles[i].x
-                        && 900 - pos.y <= classRectangles[i].y + classRectangles[i].height && pos.y >= classRectangles[i].y) {
+                        && 900 - pos.y <= classRectangles[i].y + classRectangles[i].height && 900 - pos.y >= classRectangles[i].y) {
                     System.out.println(pos.x);
                     System.out.println(pos.y);
                     // En gros faire classText = "Pa : X            PM : X              PV : X" + System.currentTimeMillis(), séparer en 3 éventuellement
@@ -297,6 +313,16 @@ public class SelectionScreen implements Screen, InputProcessor
                     //Character chosen = this.characters[i];
                 }
             }
+            if(classNumber <= 4 && classNumber >= 0) {
+                for (int j = 0; j < characters[classNumber].getNbSpell(); j++) {
+                    if(pos.x <= spellsRectangles[j].x + spellsRectangles[j].width && pos.x >= spellsRectangles[j].x
+                            && 900 - pos.y <= spellsRectangles[j].y + spellsRectangles[j].height && 900 - pos.y >= spellsRectangles[j].y) {
+                        spellNumber = j;
+                        spellText = "PA = " + characters[classNumber].GetSpell(j).getPa() + "| ";
+                    }
+                }
+            }
+
         }
         System.out.println(classNumber);
 
@@ -331,6 +357,7 @@ public class SelectionScreen implements Screen, InputProcessor
     public void dispose()
     {
         spellSquareImage.dispose();
+        spellTextFont.dispose();
 
         //Dispose all class images
         for(int i = 0; i < classImages.length; i++)
