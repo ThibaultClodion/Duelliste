@@ -134,7 +134,7 @@ public class SelectionScreen implements Screen, InputProcessor
         // Les carrés seront espacés de 10 pixels et compris dans un rectangle de 160 de hauteur et 1100 de long
         for(int i = 0; i < spellsRectangles.length; i++)
         {
-            Rectangle newSpellRectangle = new Rectangle(200 + 20 + 100 * i + 18 * i,400+50,100,100);
+            Rectangle newSpellRectangle = new Rectangle(200 + 20 + 100 * i + 18 * i,200+50,100,100);
             spellsRectangles[i] = newSpellRectangle;
         }
     }
@@ -185,13 +185,13 @@ public class SelectionScreen implements Screen, InputProcessor
             camera.unproject(pos);
         }*/
 
+        spellTextFont.draw(batch, spellText, textCoord.x, textCoord.y);
+
         if(classNumber <= 4 && classNumber >= 0) {
             for (int j = 0; j < this.characters[classNumber].getNbSpell(); j++) {
                 batch.draw(spellSquareImage, spellsRectangles[j].x, spellsRectangles[j].y);
             }
         }
-
-        spellTextFont.draw(batch, spellText, textCoord.x, textCoord.y);
 
         /*for (int k = 0; k < 10; k++) {
             if (spellNumber == k) {
