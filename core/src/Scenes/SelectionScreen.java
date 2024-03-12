@@ -99,7 +99,7 @@ public class SelectionScreen implements Screen, InputProcessor
         validationImage = new Texture(Gdx.files.internal("validation.JPG")); // 100x100
         rectangle = new Rectangle(1600 /2 - 1200/2, 0, 1200, 600);
         validation = new Rectangle(1450, 100, 100, 100);
-        textCoord = new Rectangle(1600 / 2 - 1200 / 2, 0, 1200, 200 );
+        textCoord = new Rectangle(1600 / 2 - 1200 / 2 + 50, 50, 1200, 200 );
 
         // load the background sound in the menu
         menuSound = Gdx.audio.newMusic(Gdx.files.internal("pkm.mp3"));
@@ -184,6 +184,7 @@ public class SelectionScreen implements Screen, InputProcessor
             pos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(pos);
         }*/
+        spellTextFont.getData().setScale(2f);
 
         spellTextFont.draw(batch, spellText, textCoord.x, textCoord.y);
 
@@ -293,9 +294,10 @@ public class SelectionScreen implements Screen, InputProcessor
         //System.out.println(1600 - pos.x);
         System.out.println(900 - pos.y);
         System.out.println(pos.x <= classRectangles[0].x + classRectangles[0].width);
-        System.out.println(900 - pos.y <= classRectangles[0].y + classRectangles[0].height);
         System.out.println(pos.x >= classRectangles[0].x);
+        System.out.println(900 - pos.y <= classRectangles[0].y + classRectangles[0].height);
         System.out.println(900 - pos.y >= classRectangles[0].y);
+        System.out.println(classNumber <= 4 && classNumber >= 0);
 
         if(button == Input.Buttons.LEFT) {
             System.out.println("c'est good");
@@ -318,6 +320,7 @@ public class SelectionScreen implements Screen, InputProcessor
                     if(pos.x <= spellsRectangles[j].x + spellsRectangles[j].width && pos.x >= spellsRectangles[j].x
                             && 900 - pos.y <= spellsRectangles[j].y + spellsRectangles[j].height && 900 - pos.y >= spellsRectangles[j].y) {
                         spellNumber = j;
+                        System.out.println("okkk");
                         spellText = "PA = " + characters[classNumber].GetSpell(j).getPa() + "| ";
                     }
                 }
