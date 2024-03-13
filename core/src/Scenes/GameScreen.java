@@ -7,8 +7,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.util.Random;
@@ -33,6 +36,11 @@ public class GameScreen implements Screen, InputProcessor
     //Players Data's
     private final PlayerController player1;
     private final PlayerController player2;
+    //Timer Gestion Ressources
+    private ShapeRenderer timer;
+    private float clock=0;
+    private float delta_time=1/60f;
+
 
     public GameScreen(GameManager GM, PlayerController player1, PlayerController player2)
     {
@@ -55,6 +63,7 @@ public class GameScreen implements Screen, InputProcessor
         //Initialize the Textures
         backgroundTexture1 = new Texture("backgroundInformation.png");
         backgroundTexture2 = new Texture("backgroundInformation2.png");
+        timer = new ShapeRenderer();
 
         //Initialize the input
         Gdx.input.setInputProcessor(this);
@@ -85,12 +94,21 @@ public class GameScreen implements Screen, InputProcessor
             batch.draw(player2.character.getImage(), player2.GetCurrentPosition()[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - player2.GetCurrentPosition()[1] * map.tileHeight + yMapOffset);
         }
 
+        //Timer
+        clock += delta_time;
+        if ( clock > 10 ) { clock=0;}
+        timer.begin(ShapeRenderer.ShapeType.Filled);
+        timer.setColor(Color.DARK_GRAY);
+        Rectangle rectangle = new Rectangle(750, 830, 100-10*clock, 50);
+        timer.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+
         //Draw the background of information
         batch.draw(backgroundTexture1, 0, yMapOffset + map.tileHeight * map.height);
         batch.draw(backgroundTexture2, 0, 0);
 
         //end batch
         batch.end();
+        timer.end();
     }
 
     //region <Useless ScreenManagement
