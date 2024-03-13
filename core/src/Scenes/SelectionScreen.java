@@ -4,6 +4,7 @@ import Class.Aleator;
 import Class.Character;
 import Class.Lamenpeine;
 import Game.GameManager;
+import Game.PlayerController;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -99,7 +100,7 @@ public class SelectionScreen implements Screen, InputProcessor
         validationImage = new Texture(Gdx.files.internal("validation.JPG")); // 100x100
         rectangle = new Rectangle(1600 /2 - 1200/2, 0, 1200, 600);
         validation = new Rectangle(1450, 100, 100, 100);
-        textCoord = new Rectangle(1600 / 2 - 1200 / 2 + 50, 50, 1200, 200 );
+        textCoord = new Rectangle(1600 / 2 - 1200 / 2 + 50, 200, 1200, 200 );
 
         // load the background sound in the menu
         menuSound = Gdx.audio.newMusic(Gdx.files.internal("pkm.mp3"));
@@ -243,6 +244,12 @@ public class SelectionScreen implements Screen, InputProcessor
         //}
 
         batch.end();
+
+        /*if(classNumber <= 4 && classNumber >= 0) {
+            if (spellNumber <= characters[classNumber].getNbSpell() && spellNumber >= 0) {
+                spellText = "PA = " + characters[classNumber].GetSpell(spellNumber).getPa() + "| ";
+            }
+        }*/
     }
 
     @Override
@@ -289,15 +296,15 @@ public class SelectionScreen implements Screen, InputProcessor
         clicEffectue = true;
 
         //Several check
-        System.out.println(pos.x);
+        /*System.out.println(pos.x);
         //System.out.println(pos.y);
         //System.out.println(1600 - pos.x);
         System.out.println(900 - pos.y);
-        System.out.println(pos.x <= classRectangles[0].x + classRectangles[0].width);
-        System.out.println(pos.x >= classRectangles[0].x);
-        System.out.println(900 - pos.y <= classRectangles[0].y + classRectangles[0].height);
-        System.out.println(900 - pos.y >= classRectangles[0].y);
-        System.out.println(classNumber <= 4 && classNumber >= 0);
+        System.out.println(900 - pos.y >= spellsRectangles[0].y);
+        System.out.println(900 - pos.y <= spellsRectangles[0].y + spellsRectangles[0].height);
+        System.out.println(pos.x <= spellsRectangles[0].x + spellsRectangles[0].width);
+        System.out.println(pos.x >= spellsRectangles[0].x);
+        System.out.println(classNumber <= 4 && classNumber >= 0);*/
 
         if(button == Input.Buttons.LEFT) {
             System.out.println("c'est good");
@@ -307,21 +314,32 @@ public class SelectionScreen implements Screen, InputProcessor
                 // Cheking if a classRectangle has been chosen
                 if (pos.x <= classRectangles[i].x + classRectangles[i].width && pos.x >= classRectangles[i].x
                         && 900 - pos.y <= classRectangles[i].y + classRectangles[i].height && 900 - pos.y >= classRectangles[i].y) {
-                    System.out.println(pos.x);
-                    System.out.println(pos.y);
+                    //System.out.println(pos.x);
+                    //System.out.println(pos.y);
                     // En gros faire classText = "Pa : X            PM : X              PV : X" + System.currentTimeMillis(), séparer en 3 éventuellement
                     this.classNumber = i;
-                    System.out.println(classNumber);
+                    //System.out.println(classNumber);
                     //Character chosen = this.characters[i];
                 }
             }
             if(classNumber <= 4 && classNumber >= 0) {
                 for (int j = 0; j < characters[classNumber].getNbSpell(); j++) {
                     if(pos.x <= spellsRectangles[j].x + spellsRectangles[j].width && pos.x >= spellsRectangles[j].x
-                            && 900 - pos.y <= spellsRectangles[j].y + spellsRectangles[j].height && 900 - pos.y >= spellsRectangles[j].y) {
+                            && 900 - pos.y <= /*spellsRectangles[j].y - spellsRectangles[j].height*/ 460 && 900 - pos.y >= /*spellsRectangles[j].y*/ 360) {
                         spellNumber = j;
-                        System.out.println("okkk");
-                        spellText = "PA = " + characters[classNumber].GetSpell(j).getPa() + "| ";
+                        //System.out.println("okkk");
+                        spellText = "PA = " + characters[classNumber].GetSpell(spellNumber).getPa() + " |";
+                        Gdx.graphics.requestRendering();
+                    }
+                }
+                // Now looking if validation button is clicked
+                if(pos.x <= validation.x + validation.width && pos.x >= validation.x && 900 - pos.y <= validation.y + validation.height && 900 - pos.y >= validation.y) {
+                    if (gameManager.player1 == null) {
+                        gameManager.player1 = new PlayerController(characters[classNumber], new int[] {0, 0});
+                    }
+                    else {
+                        gameManager.player2 = new PlayerController(characters[classNumber], new int[] {0, 0});
+                        gameManager.setGameScreen();
                     }
                 }
             }

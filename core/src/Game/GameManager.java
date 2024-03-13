@@ -57,7 +57,7 @@ public class GameManager extends Game
 
     //region <Screen Management>
 
-    private void setGameScreen()
+    public void setGameScreen()
     {
         gameScreen = new GameScreen(this , player1, player2);
         setScreen(gameScreen);
