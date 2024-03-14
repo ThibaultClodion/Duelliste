@@ -33,19 +33,21 @@ public class GameScreen implements Screen, InputProcessor
     private final int yMapOffset;
 
     //Textures
-    private Texture backgroundTexture1;
-    private Texture backgroundTexture2;
-    private Texture rangeTexture;
-    private Texture next_Turn_Inactive_Button;
-    private Texture next_Turn_Active_Button;
+    private final Texture backgroundTexture1;
+    private final Texture backgroundTexture2;
+    private final Texture rangeTexture;
+    private final Texture next_Turn_Inactive_Button;
+    private final Texture next_Turn_Active_Button;
+    private final ShapeRenderer timer;
+    private final ShapeRenderer hp_Bar_Character_1;
+    private final ShapeRenderer hp_Bar_Character_2;
 
     //Players Data's
     private final PlayerController player1;
     private final PlayerController player2;
     //Timer Gestion Ressources
-    private ShapeRenderer timer;
     private float clock=0;
-    private float delta_time=1/60f;
+    private final float delta_time=1/60f;
 
 
     public GameScreen(GameManager GM, PlayerController player1, PlayerController player2)
@@ -73,6 +75,8 @@ public class GameScreen implements Screen, InputProcessor
         backgroundTexture2 = new Texture("backgroundInformation2.png");
         rangeTexture = new Texture("range.png");
         timer = new ShapeRenderer();
+        hp_Bar_Character_1 = new ShapeRenderer();
+        hp_Bar_Character_2 = new ShapeRenderer();
         next_Turn_Inactive_Button = new Texture("next_turn_inactive.png");
         next_Turn_Active_Button = new Texture("next_turn_active.png");
 
@@ -140,7 +144,7 @@ public class GameScreen implements Screen, InputProcessor
         batch.draw(backgroundTexture2, 0, 0);
 
         //Next Turn Button
-        if ( 850 < Gdx.input.getX() && Gdx.input.getX() < 900 && 20 < Gdx.input.getY() && Gdx.input.getY() < 70) {
+        if ( 860 < Gdx.input.getX() && Gdx.input.getX() < 910 && 20 < Gdx.input.getY() && Gdx.input.getY() < 70) {
             batch.draw(next_Turn_Active_Button, 860,830,50,50 );
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                 clock=0;
@@ -149,9 +153,21 @@ public class GameScreen implements Screen, InputProcessor
         }
         else {batch.draw(next_Turn_Inactive_Button, 860,830,50,50 );}
 
+        //Player Info Display
+        hp_Bar_Character_1.begin(ShapeRenderer.ShapeType.Filled);
+        hp_Bar_Character_2.begin(ShapeRenderer.ShapeType.Filled);
+        hp_Bar_Character_1.setColor(Color.RED);
+        hp_Bar_Character_2.setColor(Color.RED);
+        Rectangle hp_1 = new Rectangle(100, 830, 200*player1.getHp()/player1.character.getHp(), 50); //La largeur de la barre est multipliée par le ratio PVactuerl/PVmax
+        Rectangle hp_2 = new Rectangle(1300, 830, 200*player2.getHp()/player2.character.getHp(), 50);
+        hp_Bar_Character_1.rect(hp_1.x, hp_1.y, hp_1.width, hp_1.height);
+        hp_Bar_Character_2.rect(hp_2.x, hp_2.y, hp_2.width, hp_2.height);
+
         //end batch
         batch.end();
         timer.end();
+        hp_Bar_Character_1.end();
+        hp_Bar_Character_2.end();
     }
 
     @Override
