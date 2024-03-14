@@ -78,7 +78,7 @@ public class SelectionScreen implements Screen, InputProcessor
         //Initialize the batch
         batch = new SpriteBatch();
 
-        this.classNumber = 0;
+        this.classNumber = 5;
         this.playerNumber = 1;
         this.spellNumber = 10;
 
@@ -331,8 +331,9 @@ public class SelectionScreen implements Screen, InputProcessor
                 }
                 // Now looking if validation button is clicked
                 if(pos.x <= validation.x + validation.width && pos.x >= validation.x && 900 - pos.y <= validation.y + validation.height && 900 - pos.y >= validation.y) {
-                    if (gameManager.player1 == null) {
+                    if (this.playerNumber == 1) {
                         gameManager.setPlayer1(new PlayerController(characters[classNumber], new int[] {8, 5}));
+                        playerNumber = playerNumber + 1;
                     }
                     else {
                         gameManager.setPlayer2(new PlayerController(characters[classNumber], new int[] {7, 4}));
