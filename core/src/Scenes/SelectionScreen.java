@@ -335,7 +335,7 @@ public class SelectionScreen implements Screen, InputProcessor
                         gameManager.setPlayer1(new PlayerController(characters[classNumber], new int[] {8, 5}));
                     }
                     else {
-                        gameManager.setPlayer2(new PlayerController(characters[classNumber], new int[] {1, 0}));
+                        gameManager.setPlayer2(new PlayerController(characters[classNumber], new int[] {7, 4}));
                         gameManager.setGameScreen();
                     }
                 }
