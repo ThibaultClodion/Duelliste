@@ -32,6 +32,8 @@ public class GameScreen implements Screen, InputProcessor
     //Textures
     private Texture backgroundTexture1;
     private Texture backgroundTexture2;
+    private Texture next_Turn_Inactive_Button;
+    private Texture next_Turn_Active_Button;
 
     //Players Data's
     private final PlayerController player1;
@@ -63,6 +65,8 @@ public class GameScreen implements Screen, InputProcessor
         //Initialize the Textures
         backgroundTexture1 = new Texture("backgroundInformation.png");
         backgroundTexture2 = new Texture("backgroundInformation2.png");
+        next_Turn_Inactive_Button = new Texture("next_turn_inactive.png");
+        next_Turn_Active_Button = new Texture("next_turn_active.png");
         timer = new ShapeRenderer();
 
         //Initialize the input
@@ -94,6 +98,10 @@ public class GameScreen implements Screen, InputProcessor
             batch.draw(player2.character.getImage(), player2.GetCurrentPosition()[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - player2.GetCurrentPosition()[1] * map.tileHeight + yMapOffset);
         }
 
+        //Draw the background of information
+        batch.draw(backgroundTexture1, 0, yMapOffset + map.tileHeight * map.height);
+        batch.draw(backgroundTexture2, 0, 0);
+
         //Timer
         clock += delta_time;
         if ( clock > 10 ) { clock=0;}
@@ -102,9 +110,14 @@ public class GameScreen implements Screen, InputProcessor
         Rectangle rectangle = new Rectangle(750, 830, 100-10*clock, 50);
         timer.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 
-        //Draw the background of information
-        batch.draw(backgroundTexture1, 0, yMapOffset + map.tileHeight * map.height);
-        batch.draw(backgroundTexture2, 0, 0);
+        //Next Turn Gestion
+        if ( 850 < Gdx.input.getX() && Gdx.input.getX() < 900 && 20 < Gdx.input.getY() && Gdx.input.getY() < 70) {
+            batch.draw(next_Turn_Active_Button, 860,830,50,50 );
+            if (Gdx.input.isTouched()) {
+                clock=0;
+            }
+        }
+        else {batch.draw(next_Turn_Inactive_Button, 860,830,50,50 );}
 
         //end batch
         batch.end();
