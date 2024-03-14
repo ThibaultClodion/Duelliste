@@ -22,14 +22,7 @@ public class GameManager extends Game
     @Override
     public void create()
     {
-        //Initialize the two Players with however class
-        player1 = new PlayerController(new Aleator(), new int[]{0,0});
-        player2 = new PlayerController(new Lamenpeine(), new int[]{1,0});
-
-        //Tell which player begin
-        actualPlayer = player1;
-
-        //At the beginning we start with this screen (for test purposes)
+        //Start with the selection screen
         setSelectionScreen();
     }
 
@@ -39,6 +32,18 @@ public class GameManager extends Game
     {
         //Only the actual player can use his spells
         actualPlayer.UseSpell(position, player1.character.GetSpell(0), GetOtherPlayer());
+    }
+
+    public void setPlayer1(PlayerController playerController)
+    {
+            this.player1 = playerController;
+    }
+    public void setPlayer2(PlayerController playerController)
+    {
+            this.player2 = playerController;
+
+        //If the second player is selected then we can define who is playing first
+        actualPlayer = player1;
     }
 
     public PlayerController GetOtherPlayer()

@@ -78,7 +78,7 @@ public class SelectionScreen implements Screen, InputProcessor
         //Initialize the batch
         batch = new SpriteBatch();
 
-        this.classNumber = 5;
+        this.classNumber = 0;
         this.playerNumber = 1;
         this.spellNumber = 10;
 
@@ -307,10 +307,7 @@ public class SelectionScreen implements Screen, InputProcessor
         System.out.println(classNumber <= 4 && classNumber >= 0);*/
 
         if(button == Input.Buttons.LEFT) {
-            System.out.println("c'est good");
-
             for (int i = 0; i < classRectangles.length; i++) {
-                System.out.println("c'est aussi good");
                 // Cheking if a classRectangle has been chosen
                 if (pos.x <= classRectangles[i].x + classRectangles[i].width && pos.x >= classRectangles[i].x
                         && 900 - pos.y <= classRectangles[i].y + classRectangles[i].height && 900 - pos.y >= classRectangles[i].y) {
@@ -335,18 +332,16 @@ public class SelectionScreen implements Screen, InputProcessor
                 // Now looking if validation button is clicked
                 if(pos.x <= validation.x + validation.width && pos.x >= validation.x && 900 - pos.y <= validation.y + validation.height && 900 - pos.y >= validation.y) {
                     if (gameManager.player1 == null) {
-                        gameManager.player1 = new PlayerController(characters[classNumber], new int[] {0, 0});
+                        gameManager.setPlayer1(new PlayerController(characters[classNumber], new int[] {0, 0}));
                     }
                     else {
-                        gameManager.player2 = new PlayerController(characters[classNumber], new int[] {0, 0});
+                        gameManager.setPlayer2(new PlayerController(characters[classNumber], new int[] {1, 0}));
                         gameManager.setGameScreen();
                     }
                 }
             }
 
         }
-        System.out.println(classNumber);
-
         nbClicEffectue++;
         return true;
     }
