@@ -332,7 +332,7 @@ public class SelectionScreen implements Screen, InputProcessor
                 // Now looking if validation button is clicked
                 if(pos.x <= validation.x + validation.width && pos.x >= validation.x && 900 - pos.y <= validation.y + validation.height && 900 - pos.y >= validation.y) {
                     if (gameManager.player1 == null) {
-                        gameManager.setPlayer1(new PlayerController(characters[classNumber], new int[] {0, 0}));
+                        gameManager.setPlayer1(new PlayerController(characters[classNumber], new int[] {8, 5}));
                     }
                     else {
                         gameManager.setPlayer2(new PlayerController(characters[classNumber], new int[] {1, 0}));

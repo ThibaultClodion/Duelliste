@@ -342,11 +342,28 @@ public class Map
             return holeImage;
         }
 
-        //Normally there should not be other things then G, R, H for now
+        //Normally there should not be other things then G, R, H
         else
         {
             return ground1Image;
         }
+    }
+
+    public void DisplayMap()
+    {
+        for(int i = 0; i < width; i++)
+        {
+            for(int j = 0; j < height; j++)
+            {
+                System.out.print(grid[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public boolean IsGroundPosition(int line, int column)
+    {
+        return grid[line][column] == 'G';
     }
     //endregion
 

@@ -42,7 +42,7 @@ public class PlayerController
     public void Hit(int damage)
     {
         this.hp -= damage;
-        System.out.println("Je me suis fait attaqué");
+        System.out.println("Il me reste " + hp + " HP");
     }
     //endregion
 

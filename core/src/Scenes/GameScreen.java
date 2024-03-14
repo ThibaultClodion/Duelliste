@@ -3,6 +3,7 @@ package Scenes;
 import Game.GameManager;
 import Game.PlayerController;
 import Map.Map;
+import Spells.Spell;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -14,6 +15,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class GameScreen implements Screen, InputProcessor
@@ -32,6 +35,7 @@ public class GameScreen implements Screen, InputProcessor
     //Textures
     private Texture backgroundTexture1;
     private Texture backgroundTexture2;
+    private Texture rangeTexture;
 
     //Players Data's
     private final PlayerController player1;
@@ -56,6 +60,8 @@ public class GameScreen implements Screen, InputProcessor
         int seed = random.nextInt();
         map = new Map(seed);
 
+        map.DisplayMap();
+
         //Initialize the offset
         xMapOffset = (1600 - map.width*map.tileWidth)/2;
         yMapOffset = (int) Math.floor((900 - map.tileHeight*map.height)/1.5);
@@ -63,6 +69,7 @@ public class GameScreen implements Screen, InputProcessor
         //Initialize the Textures
         backgroundTexture1 = new Texture("backgroundInformation.png");
         backgroundTexture2 = new Texture("backgroundInformation2.png");
+        rangeTexture = new Texture("range.png");
         timer = new ShapeRenderer();
 
         //Initialize the input
@@ -83,7 +90,22 @@ public class GameScreen implements Screen, InputProcessor
         {
             for(int column = 0; column < map.height; column++)
             {
-                batch.draw(map.GetTexture(line, column), line*map.tileWidth + xMapOffset, column*map.tileHeight + yMapOffset);
+                batch.draw(map.GetTexture(line, column),
+                        line*map.tileWidth + xMapOffset,
+                        column*map.tileHeight + yMapOffset);
+            }
+        }
+
+        //Draw the range of actual spell
+        if(gameManager.GetActualPlayer() != null)
+        {
+            //For now, we use only the first spell of the character
+            List<int[]> rangePositions = getSpellRangePosition(gameManager.GetActualPlayer().character.GetSpell(0));
+
+            for (int[] position: rangePositions)
+            {
+                //If the position is not a hole or a wall
+                batch.draw(rangeTexture, position[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - position[1] * map.tileHeight + yMapOffset);
             }
         }
 
@@ -94,9 +116,16 @@ public class GameScreen implements Screen, InputProcessor
             batch.draw(player2.character.getImage(), player2.GetCurrentPosition()[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - player2.GetCurrentPosition()[1] * map.tileHeight + yMapOffset);
         }
 
-        //Timer
+
+        //If the timer is over then the round is over too
+        if ( clock > 10 )
+        {
+            clock=0;
+            gameManager.EndRound();
+        }
+
+        //Timer Renderer
         clock += delta_time;
-        if ( clock > 10 ) { clock=0;}
         timer.begin(ShapeRenderer.ShapeType.Filled);
         timer.setColor(Color.DARK_GRAY);
         Rectangle rectangle = new Rectangle(750, 830, 100-10*clock, 50);
@@ -109,6 +138,42 @@ public class GameScreen implements Screen, InputProcessor
         //end batch
         batch.end();
         timer.end();
+    }
+
+    @Override
+    public void dispose()
+    {
+        //Destroy the things created before quit application
+        batch.dispose();
+        map.Dispose();
+    }
+
+    public List<int[]> getSpellRangePosition(Spell spell)
+    {
+        int[] actualPosition = gameManager.GetActualPlayer().currentPosition;
+        List<int[]> positions = new ArrayList<>();
+
+        for(int i = -spell.getRange(); i <= spell.getRange(); i++)
+        {
+            for(int j = -spell.getRange(); j <= spell.getRange(); j++)
+            {
+                //If the position is in range of the spell
+                if(Math.abs(i) + Math.abs(j) <= spell.getRange())
+                {
+                    //Verify if the position is on the map
+                    if(actualPosition[0] + i >= 0 && actualPosition[0] + i < map.width
+                    && actualPosition[1] + j >= 0 && actualPosition[1] + j < map.height)
+                    {
+                        //Verify is the position is a ground
+                        if(map.IsGroundPosition(actualPosition[0] + i, actualPosition[1] + j))
+                        {
+                            positions.add(new int[]{actualPosition[0] + i, actualPosition[1] + j});
+                        }
+                    }
+                }
+            }
+        }
+        return positions;
     }
 
     //region <Useless ScreenManagement
@@ -143,15 +208,6 @@ public class GameScreen implements Screen, InputProcessor
 
     }
     //endregion
-
-    @Override
-    public void dispose()
-    {
-        //Destroy the things created before quit application
-        batch.dispose();
-        map.Dispose();
-    }
-
 
     // region <InputManagement>
     @Override

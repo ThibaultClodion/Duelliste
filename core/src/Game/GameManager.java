@@ -26,6 +26,19 @@ public class GameManager extends Game
         setSelectionScreen();
     }
 
+    //region <Fight Management>
+    public void EndRound()
+    {
+        //The stats are reset
+        player1.NewRound();
+        player2.NewRound();
+
+        //The actual player switch
+        actualPlayer = GetOtherPlayer();
+    }
+
+    //endregion
+
     //region <Player Management>
 
     public void LaunchSpell(int[] position)
@@ -40,10 +53,15 @@ public class GameManager extends Game
     }
     public void setPlayer2(PlayerController playerController)
     {
-            this.player2 = playerController;
+        this.player2 = playerController;
 
         //If the second player is selected then we can define who is playing first
         actualPlayer = player1;
+    }
+
+    public PlayerController GetActualPlayer()
+    {
+        return actualPlayer;
     }
 
     public PlayerController GetOtherPlayer()
