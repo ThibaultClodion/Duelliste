@@ -36,6 +36,8 @@ public class GameScreen implements Screen, InputProcessor
     private Texture backgroundTexture1;
     private Texture backgroundTexture2;
     private Texture rangeTexture;
+    private Texture next_Turn_Inactive_Button;
+    private Texture next_Turn_Active_Button;
 
     //Players Data's
     private final PlayerController player1;
@@ -71,6 +73,8 @@ public class GameScreen implements Screen, InputProcessor
         backgroundTexture2 = new Texture("backgroundInformation2.png");
         rangeTexture = new Texture("range.png");
         timer = new ShapeRenderer();
+        next_Turn_Inactive_Button = new Texture("next_turn_inactive.png");
+        next_Turn_Active_Button = new Texture("next_turn_active.png");
 
         //Initialize the input
         Gdx.input.setInputProcessor(this);
@@ -134,6 +138,15 @@ public class GameScreen implements Screen, InputProcessor
         //Draw the background of information
         batch.draw(backgroundTexture1, 0, yMapOffset + map.tileHeight * map.height);
         batch.draw(backgroundTexture2, 0, 0);
+
+        //Next Turn Button
+        if ( 850 < Gdx.input.getX() && Gdx.input.getX() < 900 && 20 < Gdx.input.getY() && Gdx.input.getY() < 70) {
+            batch.draw(next_Turn_Active_Button, 860,830,50,50 );
+            if (Gdx.input.isTouched()) {
+                clock=0;
+            }
+        }
+        else {batch.draw(next_Turn_Inactive_Button, 860,830,50,50 );}
 
         //end batch
         batch.end();
