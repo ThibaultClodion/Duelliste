@@ -8,7 +8,7 @@ public class Aleator extends Character
 {
     public Aleator()
     {
-        super(1500f, 3, 6, new Texture("goblin64x64.png"), new Spell[] {new Des(), new Des(),
+        super(1500f, 3, 6, new Texture("aleator.png"), new Spell[] {new Des(), new Des(),
         new Des(), new Des(),new Des(),new Des(),new Des(),new Des(),new Des(),new Des()});
 
     }

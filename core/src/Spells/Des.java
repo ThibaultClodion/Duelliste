@@ -9,6 +9,6 @@ package Spells;
 public class Des extends Attack
 {
     public Des() {
-        super(4, (int) (Math.random() * 6 + 1) * 50, 1);
+        super(4, (int) (Math.random() * 6 + 1) * 50, 2);
     }
 }
