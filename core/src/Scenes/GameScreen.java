@@ -142,8 +142,9 @@ public class GameScreen implements Screen, InputProcessor
         //Next Turn Button
         if ( 850 < Gdx.input.getX() && Gdx.input.getX() < 900 && 20 < Gdx.input.getY() && Gdx.input.getY() < 70) {
             batch.draw(next_Turn_Active_Button, 860,830,50,50 );
-            if (Gdx.input.isTouched()) {
+            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                 clock=0;
+                gameManager.EndRound();
             }
         }
         else {batch.draw(next_Turn_Inactive_Button, 860,830,50,50 );}
