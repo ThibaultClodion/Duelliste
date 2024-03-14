@@ -97,5 +97,9 @@ public class PlayerController
     {
         return currentPosition;
     }
+
+    public float getHp() { return hp; }
+    public float getPa() { return pa; }
+    public float getPm() { return pm; }
     //endregion
 }

@@ -10,11 +10,11 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -39,8 +39,10 @@ public class GameScreen implements Screen, InputProcessor
     private final Texture next_Turn_Inactive_Button;
     private final Texture next_Turn_Active_Button;
     private final ShapeRenderer timer;
-    private final ShapeRenderer hp_Bar_Character_1;
-    private final ShapeRenderer hp_Bar_Character_2;
+    private final ShapeRenderer hpBarPlayer1;
+    private final ShapeRenderer hpBarPlayer2;
+    private BitmapFont playerPa;
+    private BitmapFont playerPm;
 
     //Players Data's
     private final PlayerController player1;
@@ -74,9 +76,11 @@ public class GameScreen implements Screen, InputProcessor
         backgroundTexture1 = new Texture("backgroundInformation.png");
         backgroundTexture2 = new Texture("backgroundInformation2.png");
         rangeTexture = new Texture("range.png");
+        playerPa = new BitmapFont();
+        playerPm = new BitmapFont();
         timer = new ShapeRenderer();
-        hp_Bar_Character_1 = new ShapeRenderer();
-        hp_Bar_Character_2 = new ShapeRenderer();
+        hpBarPlayer1 = new ShapeRenderer();
+        hpBarPlayer2 = new ShapeRenderer();
         next_Turn_Inactive_Button = new Texture("next_turn_inactive.png");
         next_Turn_Active_Button = new Texture("next_turn_active.png");
 
@@ -154,20 +158,29 @@ public class GameScreen implements Screen, InputProcessor
         else {batch.draw(next_Turn_Inactive_Button, 860,830,50,50 );}
 
         //Player Info Display
-        hp_Bar_Character_1.begin(ShapeRenderer.ShapeType.Filled);
-        hp_Bar_Character_2.begin(ShapeRenderer.ShapeType.Filled);
-        hp_Bar_Character_1.setColor(Color.RED);
-        hp_Bar_Character_2.setColor(Color.RED);
+        //HP
+        hpBarPlayer1.begin(ShapeRenderer.ShapeType.Filled);
+        hpBarPlayer2.begin(ShapeRenderer.ShapeType.Filled);
+        hpBarPlayer1.setColor(Color.RED);
+        hpBarPlayer2.setColor(Color.RED);
         Rectangle hp_1 = new Rectangle(100, 830, 200*player1.getHp()/player1.character.getHp(), 50); //La largeur de la barre est multipliée par le ratio PVactuerl/PVmax
         Rectangle hp_2 = new Rectangle(1300, 830, 200*player2.getHp()/player2.character.getHp(), 50);
-        hp_Bar_Character_1.rect(hp_1.x, hp_1.y, hp_1.width, hp_1.height);
-        hp_Bar_Character_2.rect(hp_2.x, hp_2.y, hp_2.width, hp_2.height);
+        hpBarPlayer1.rect(hp_1.x, hp_1.y, hp_1.width, hp_1.height);
+        hpBarPlayer2.rect(hp_2.x, hp_2.y, hp_2.width, hp_2.height);
+        //PA
+        playerPa.setColor(Color.WHITE);
+        playerPa.getData().setScale(3);
+        playerPa.draw(batch,"PA :" + gameManager.GetActualPlayer().getPa(),50,140);
+        //PM
+        playerPm.setColor(Color.WHITE);
+        playerPm.getData().setScale(3);
+        playerPm.draw(batch,"PM :" + gameManager.GetActualPlayer().getPm(),50,60);
 
         //end batch
         batch.end();
         timer.end();
-        hp_Bar_Character_1.end();
-        hp_Bar_Character_2.end();
+        hpBarPlayer1.end();
+        hpBarPlayer2.end();
     }
 
     @Override
@@ -176,6 +189,11 @@ public class GameScreen implements Screen, InputProcessor
         //Destroy the things created before quit application
         batch.dispose();
         map.Dispose();
+        timer.dispose();
+        hpBarPlayer1.dispose();
+        hpBarPlayer2.dispose();
+        playerPa.dispose();
+        playerPm.dispose();
     }
 
     public List<int[]> getSpellRangePosition(Spell spell)
