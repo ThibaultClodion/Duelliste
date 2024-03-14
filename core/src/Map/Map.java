@@ -351,11 +351,11 @@ public class Map
 
     public void DisplayMap()
     {
-        for(int i = 0; i < width; i++)
+        for(int i = 0; i < height; i++)
         {
-            for(int j = 0; j < height; j++)
+            for(int j = 0; j < width; j++)
             {
-                System.out.print(grid[i][j] + " ");
+                System.out.print(grid[j][i] + " ");
             }
             System.out.println();
         }

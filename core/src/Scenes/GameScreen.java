@@ -86,13 +86,13 @@ public class GameScreen implements Screen, InputProcessor
         batch.begin();
 
         //Draw the map
-        for(int line = 0; line < map.width; line++)
+        for(int column = 0; column < map.width; column++)
         {
-            for(int column = 0; column < map.height; column++)
+            for(int line = 0; line < map.height; line++)
             {
-                batch.draw(map.GetTexture(line, column),
-                        line*map.tileWidth + xMapOffset,
-                        column*map.tileHeight + yMapOffset);
+                batch.draw(map.GetTexture(column, line),
+                        column*map.tileWidth + xMapOffset,
+                        (map.height - 1 - line)*map.tileHeight + yMapOffset);
             }
         }
 
