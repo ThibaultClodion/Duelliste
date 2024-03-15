@@ -92,14 +92,14 @@ public class PlayerController
             pm -= Distance(position);
         }
     }
-
-    public int[] GetCurrentPosition()
+// Getters
+    public int[] getCurrentPosition()
     {
         return currentPosition;
     }
-
     public float getHp() { return hp; }
     public float getPa() { return pa; }
-    public float getPm() { return pm; }
+    public int getPm() {return pm;}
+
     //endregion
 }

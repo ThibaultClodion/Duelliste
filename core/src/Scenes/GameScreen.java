@@ -124,8 +124,8 @@ public class GameScreen implements Screen, InputProcessor
         //Draw the players
         if(player1 != null && player2 != null)
         {
-            batch.draw(player1.character.getImage(), player1.GetCurrentPosition()[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - player1.GetCurrentPosition()[1] * map.tileHeight + yMapOffset);
-            batch.draw(player2.character.getImage(), player2.GetCurrentPosition()[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - player2.GetCurrentPosition()[1] * map.tileHeight + yMapOffset);
+            batch.draw(player1.character.getImage(), player1.getCurrentPosition()[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - player1.getCurrentPosition()[1] * map.tileHeight + yMapOffset);
+            batch.draw(player2.character.getImage(), player2.getCurrentPosition()[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - player2.getCurrentPosition()[1] * map.tileHeight + yMapOffset);
         }
 
 
