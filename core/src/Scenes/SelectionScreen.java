@@ -15,7 +15,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -57,7 +56,10 @@ public class SelectionScreen implements Screen, InputProcessor
     public BitmapFont spellTextFont;
     public Rectangle validation;
     public String spellText;
-    public Rectangle textCoord;
+    public Rectangle spellTextRectangle;
+    private String classText;
+    private BitmapFont classTextFont;
+    private Rectangle classTextRectangle;
 
     public SelectionScreen(GameManager GM)
     {
@@ -100,15 +102,21 @@ public class SelectionScreen implements Screen, InputProcessor
         validationImage = new Texture(Gdx.files.internal("validation.JPG")); // 100x100
         rectangle = new Rectangle(1600 /2 - 1200/2, 0, 1200, 600);
         validation = new Rectangle(1450, 100, 100, 100);
-        textCoord = new Rectangle(1600 / 2 - 1200 / 2 + 50, 200, 1200, 200 );
+        spellTextRectangle = new Rectangle(1600 / 2 - 1200 / 2 + 50, 200, 1200, 200 );
 
         // load the background sound in the menu
         menuSound = Gdx.audio.newMusic(Gdx.files.internal("pkm.mp3"));
 
         // start the playback of the background music immediately
 
+        // Create texts
+
         spellText = "Cliquez sur un sort";
         spellTextFont = new BitmapFont();
+        classText = "Choisissez une classe";
+        classTextFont = new BitmapFont();
+        classTextRectangle = new Rectangle(1600 / 2 - 1200 / 2 + 50, 600, 1200, 200 );
+
 
     }
 
@@ -159,97 +167,26 @@ public class SelectionScreen implements Screen, InputProcessor
         batch.draw(rectangleImage, rectangle.x, rectangle.y);
         batch.draw(validationImage, validation.x, validation.y);
 
-        //Draw the spells rectangle
-        /*for(int i = 0; i < spellsRectangles.length; i++)
-        {
-            batch.draw(spellSquareImage, spellsRectangles[i].x, spellsRectangles[i].y);
-        }*/
-
         //Draw the class rectangle
         for(int i = 0; i < classRectangles.length; i++)
         {
             batch.draw(classImages[i], classRectangles[i].x, classRectangles[i].y);
         }
 
-        /*if (this.classNumber == 1)
-        {
-            //this.characterSelected = new Aleator();
-            //int nbSort = this.characterSelected.nbSort;
-            //for(int i = 0; i < nbSort; i++) {
-            //game.batch.draw(classSpellImage, 180/2 + 5 + 100 * i + 10 * i, 160 + 30)
-            //}
-        }*/
-
-        /*if(Gdx.input.isTouched())
-        {
-            pos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            camera.unproject(pos);
-        }*/
         spellTextFont.getData().setScale(2f);
+        classTextFont.getData().setScale(2f);
+        classTextFont.draw(batch, classText, classTextRectangle.x, classTextRectangle.y);
 
-        spellTextFont.draw(batch, spellText, textCoord.x, textCoord.y);
-
+        // Display spellSquare & spell texts
         if(classNumber <= 4 && classNumber >= 0) {
+            spellTextFont.draw(batch, spellText, spellTextRectangle.x, spellTextRectangle.y);
             for (int j = 0; j < this.characters[classNumber].getNbSpell(); j++) {
                 batch.draw(spellSquareImage, spellsRectangles[j].x, spellsRectangles[j].y);
             }
         }
 
-        /*for (int k = 0; k < 10; k++) {
-            if (spellNumber == k) {
-            }
-        }*/
-
-
-        /*if (clicEffectue)
-        {
-            for (int j = 0; j < this.characters[classNumber].getNbSpell(); j++) {
-                batch.draw(spellSquareImage, spellsRectangles[j].x, spellsRectangles[j].y);
-            }
-        }*/
-
-
-        //if(true)
-        //{
-            /*Vector3 touchPos = new Vector3();
-            touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            camera.unproject(touchPos);*/
-
-            /*for (int i = 0; i < classRectangles.length; i++)
-            {
-                if ((pos.x <= classRectangles[i].x + classRectangles[i].width && pos.x >= classRectangles[i].x)
-                        && (pos.y <= classRectangles[i].y + classRectangles[i].height && pos.y >= classRectangles[i].y)) {
-                    // En gros faire classText = "Pa : X            PM : X              PV : X" + System.currentTimeMillis(), séparer en 3 éventuellement
-                    this.classNumber = i;
-                    //Character chosen = this.characters[i];
-                    for (int j = 0; j < this.characters[i].getNbSpell(); j++) {
-                        batch.draw(spellSquareImage, spellsRectangles[j].x, spellsRectangles[j].y);
-                    }
-                }
-            }*/
-
-            /*if (touchPos.x >= validation.x && touchPos.x <= validation.x + validation.width && touchPos.y >= validation.y && touchPos.y <= validation.y + validation.height)
-            {
-                this.classNumber = 0;
-                if (playerNumber == 1)
-                {
-                    this.gameManager.player1.character = this.characterSelected;
-                    this.playerNumber = 2;
-                }
-                else 
-            }*/
-
-            // Il faut rajouter un si on clic sur validation alors on définit player1.class et on remet classNumber à 0, on incrémente countPlayer
-            // puis quand countPlayer vaut 2 : on switch sur la map de combat
-        //}
-
         batch.end();
 
-        /*if(classNumber <= 4 && classNumber >= 0) {
-            if (spellNumber <= characters[classNumber].getNbSpell() && spellNumber >= 0) {
-                spellText = "PA = " + characters[classNumber].GetSpell(spellNumber).getPa() + "| ";
-            }
-        }*/
     }
 
     @Override
@@ -293,30 +230,17 @@ public class SelectionScreen implements Screen, InputProcessor
 
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         pos.set(screenX, screenY, 0);
-        clicEffectue = true;
-
-        //Several check
-        /*System.out.println(pos.x);
-        //System.out.println(pos.y);
-        //System.out.println(1600 - pos.x);
-        System.out.println(900 - pos.y);
-        System.out.println(900 - pos.y >= spellsRectangles[0].y);
-        System.out.println(900 - pos.y <= spellsRectangles[0].y + spellsRectangles[0].height);
-        System.out.println(pos.x <= spellsRectangles[0].x + spellsRectangles[0].width);
-        System.out.println(pos.x >= spellsRectangles[0].x);
-        System.out.println(classNumber <= 4 && classNumber >= 0);*/
+        // Check if we have to unproject the camera ( a simple game? )
 
         if(button == Input.Buttons.LEFT) {
             for (int i = 0; i < classRectangles.length; i++) {
                 // Cheking if a classRectangle has been chosen
                 if (pos.x <= classRectangles[i].x + classRectangles[i].width && pos.x >= classRectangles[i].x
                         && 900 - pos.y <= classRectangles[i].y + classRectangles[i].height && 900 - pos.y >= classRectangles[i].y) {
-                    //System.out.println(pos.x);
-                    //System.out.println(pos.y);
                     // En gros faire classText = "Pa : X            PM : X              PV : X" + System.currentTimeMillis(), séparer en 3 éventuellement
                     this.classNumber = i;
-                    //System.out.println(classNumber);
-                    //Character chosen = this.characters[i];
+                    spellText = "Cliquez sur un sort";
+                    classText = "HP : " + characters[i].getHp() + " | PA : " + characters[i].getPa() + " | PM : " + characters[i].getPm();
                 }
             }
             if(classNumber <= 4 && classNumber >= 0) {
@@ -324,26 +248,29 @@ public class SelectionScreen implements Screen, InputProcessor
                     if(pos.x <= spellsRectangles[j].x + spellsRectangles[j].width && pos.x >= spellsRectangles[j].x
                             && 900 - pos.y <= /*spellsRectangles[j].y - spellsRectangles[j].height*/ 460 && 900 - pos.y >= /*spellsRectangles[j].y*/ 360) {
                         spellNumber = j;
-                        //System.out.println("okkk");
-                        spellText = "PA = " + characters[classNumber].GetSpell(spellNumber).getPa() + " |";
+                        spellText = "PA = " + characters[classNumber].GetSpell(spellNumber).getPa() + " | " + characters[classNumber].GetSpell(spellNumber).getRange();
                         Gdx.graphics.requestRendering();
                     }
                 }
                 // Now looking if validation button is clicked
                 if(pos.x <= validation.x + validation.width && pos.x >= validation.x && 900 - pos.y <= validation.y + validation.height && 900 - pos.y >= validation.y) {
+                    // Check whose player is validating his choice
                     if (this.playerNumber == 1) {
                         gameManager.setPlayer1(new PlayerController(characters[classNumber], new int[] {8, 5}));
                         playerNumber = playerNumber + 1;
+                        classNumber = 5;
+                        classText = "Choisissez une classe";
                     }
                     else {
                         gameManager.setPlayer2(new PlayerController(characters[classNumber], new int[] {7, 4}));
+                        classNumber = 5;
+                        // Eventually reset everything here
                         gameManager.setGameScreen();
                     }
                 }
             }
 
         }
-        nbClicEffectue++;
         return true;
     }
 
