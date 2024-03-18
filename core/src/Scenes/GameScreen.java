@@ -41,8 +41,10 @@ public class GameScreen implements Screen, InputProcessor
     private final ShapeRenderer timer;
     private final ShapeRenderer hpBarPlayer1;
     private final ShapeRenderer hpBarPlayer2;
-    private BitmapFont playerPa;
-    private BitmapFont playerPm;
+    private final ShapeRenderer hpBarBackgroundPlayer1;
+    private final ShapeRenderer hpBarBackgroundPlayer2;
+    private final BitmapFont playerPa;
+    private final BitmapFont playerPm;
 
     //Players Data's
     private final PlayerController player1;
@@ -81,6 +83,8 @@ public class GameScreen implements Screen, InputProcessor
         timer = new ShapeRenderer();
         hpBarPlayer1 = new ShapeRenderer();
         hpBarPlayer2 = new ShapeRenderer();
+        hpBarBackgroundPlayer1 = new ShapeRenderer();
+        hpBarBackgroundPlayer2 = new ShapeRenderer();
         next_Turn_Inactive_Button = new Texture("next_turn_inactive.png");
         next_Turn_Active_Button = new Texture("next_turn_active.png");
 
@@ -158,7 +162,16 @@ public class GameScreen implements Screen, InputProcessor
         else {batch.draw(next_Turn_Inactive_Button, 860,830,50,50 );}
 
         //Player Info Display
-        //HP
+        //HP Bar Background
+        hpBarBackgroundPlayer1.begin(ShapeRenderer.ShapeType.Filled);
+        hpBarBackgroundPlayer2.begin(ShapeRenderer.ShapeType.Filled);
+        hpBarBackgroundPlayer1.setColor(Color.BLACK);
+        hpBarBackgroundPlayer2.setColor(Color.BLACK);
+        Rectangle hp_background_1 = new Rectangle(100, 830, 200, 50);
+        Rectangle hp_background_2 = new Rectangle(1300, 830, 200, 50);
+        hpBarBackgroundPlayer1.rect(hp_background_1.x, hp_background_1.y, hp_background_1.width, hp_background_1.height);
+        hpBarBackgroundPlayer2.rect(hp_background_2.x, hp_background_2.y, hp_background_2.width, hp_background_2.height);
+        //HP Bar Foreground
         hpBarPlayer1.begin(ShapeRenderer.ShapeType.Filled);
         hpBarPlayer2.begin(ShapeRenderer.ShapeType.Filled);
         hpBarPlayer1.setColor(Color.RED);
@@ -179,6 +192,8 @@ public class GameScreen implements Screen, InputProcessor
         //end batch
         batch.end();
         timer.end();
+        hpBarBackgroundPlayer1.end();
+        hpBarBackgroundPlayer2.end();
         hpBarPlayer1.end();
         hpBarPlayer2.end();
     }
@@ -192,6 +207,8 @@ public class GameScreen implements Screen, InputProcessor
         timer.dispose();
         hpBarPlayer1.dispose();
         hpBarPlayer2.dispose();
+        hpBarBackgroundPlayer1.dispose();
+        hpBarBackgroundPlayer2.dispose();
         playerPa.dispose();
         playerPm.dispose();
     }
