@@ -1,5 +1,6 @@
 package Class;
 
+import OldSpells.Spellv1;
 import Spells.Spell;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -8,7 +9,6 @@ public class Character
     private float hp;
     private int pm;
     private int pa;
-    private int nbSpell;
     private Texture image;
     private Spell[] spells;
 

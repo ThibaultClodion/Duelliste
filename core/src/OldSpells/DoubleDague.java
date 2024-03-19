@@ -1,4 +1,4 @@
-package Spells;
+package OldSpells;
 
 public class DoubleDague extends Attack{
     public DoubleDague()

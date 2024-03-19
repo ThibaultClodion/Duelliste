@@ -1,8 +1,9 @@
 package Spells;
 
-public class Morsure extends Attack{
+public class Morsure extends Spell
+{
     public Morsure()
     {
-        super(1,150,1);
+        super(new SpellComponent[] {new Damage(150)}, 1, 3);
     }
 }

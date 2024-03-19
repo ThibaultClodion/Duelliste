@@ -2,15 +2,24 @@ package Spells;
 
 import Game.PlayerController;
 
-public abstract class Spell
-{
-    private int pa;
-    private int range;
+import java.util.List;
 
-    public Spell(int pa, int range)
+public class Spell
+{
+    SpellComponent[] components;
+    int pa;
+    int range;
+
+    public Spell(SpellComponent[] components, int pa, int range)
     {
+        this.components = components;
         this.pa = pa;
         this.range = range;
+    }
+
+    public int getRange()
+    {
+        return range;
     }
 
     public int getPa()
@@ -18,7 +27,11 @@ public abstract class Spell
         return pa;
     }
 
-    public int getRange(){return range;}
-
-    public abstract void Launch(int[] pos, PlayerController otherPlayer,PlayerController myPlayer);
+    public void Launch(int[] mapPos, PlayerController otherPlayer, PlayerController myPlayer)
+    {
+        for (SpellComponent component: components)
+        {
+            component.execute(mapPos, otherPlayer, myPlayer);
+        }
+    }
 }

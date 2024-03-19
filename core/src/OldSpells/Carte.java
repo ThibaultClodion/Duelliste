@@ -1,4 +1,4 @@
-package Spells;
+package OldSpells;
 
 /* Inflicts a random damage between 0 and 200
 * 3 PA

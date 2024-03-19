@@ -2,11 +2,7 @@ package Game;
 
 import Scenes.GameScreen;
 import Scenes.SelectionScreen;
-import Class.Aleator;
-import Class.Lamenpeine;
-import Spells.Des;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.Texture;
 
 public class GameManager extends Game
 {

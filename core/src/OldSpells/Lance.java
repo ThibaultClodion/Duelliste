@@ -1,4 +1,4 @@
-package Spells;
+package OldSpells;
 
 public class Lance extends Attack {
 

@@ -1,10 +1,10 @@
-package Spells;
+package OldSpells;
 
 import Game.PlayerController;
 
 import java.util.Arrays;
 
-public class Attack extends Spell
+public class Attack extends Spellv1
 {
     private int damage;
 
