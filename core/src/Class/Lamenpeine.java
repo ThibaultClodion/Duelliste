@@ -4,7 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import Spells.Spell;
 import Spells.Morsure;
 
-public class Lamenpeine extends Character{
+public class Lamenpeine extends Character
+{
 
     public Lamenpeine()
     {

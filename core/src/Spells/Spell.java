@@ -1,9 +1,6 @@
 package Spells;
 
 import Game.PlayerController;
-
-import java.util.List;
-
 public class Spell
 {
     SpellComponent[] components;
