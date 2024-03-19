@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -49,6 +50,8 @@ public class GameScreen implements Screen, InputProcessor
     //Players Data's
     private final PlayerController player1;
     private final PlayerController player2;
+    private boolean isMoving;
+
     //Timer Gestion Ressources
     private float clock=0;
     private final float delta_time=1/60f;
@@ -59,6 +62,9 @@ public class GameScreen implements Screen, InputProcessor
         this.gameManager = GM;
         this.player1 = player1;
         this.player2 = player2;
+
+        //Initially the player is moving
+        isMoving = true;
 
         //Initialize the batch
         batch = new SpriteBatch();
@@ -113,12 +119,23 @@ public class GameScreen implements Screen, InputProcessor
         }
 
         //Draw the range of actual spell
-        if(gameManager.GetActualPlayer() != null)
+        if(gameManager.GetActualPlayer() != null && !isMoving)
         {
             //For now, we use only the first spell of the character
             List<int[]> rangePositions = getSpellRangePosition(gameManager.GetActualPlayer().character.GetSpell(0));
 
             for (int[] position: rangePositions)
+            {
+                //If the position is not a hole or a wall
+                batch.draw(rangeTexture, position[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - position[1] * map.tileHeight + yMapOffset);
+            }
+        }
+        else if(gameManager.GetActualPlayer() != null && isMoving)
+        {
+            //Get the possible movement position
+            List<int[]> MovementPositions = getMovementPosition();
+
+            for (int[] position: MovementPositions)
             {
                 //If the position is not a hole or a wall
                 batch.draw(rangeTexture, position[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - position[1] * map.tileHeight + yMapOffset);
@@ -137,6 +154,7 @@ public class GameScreen implements Screen, InputProcessor
         if ( clock > 10 )
         {
             clock=0;
+            isMoving = true;
             gameManager.EndRound();
         }
 
@@ -215,19 +233,29 @@ public class GameScreen implements Screen, InputProcessor
 
     public List<int[]> getSpellRangePosition(Spell spell)
     {
+        return getRangePosition(spell.getRange());
+    }
+
+    public List<int[]> getMovementPosition()
+    {
+        return getRangePosition(gameManager.GetActualPlayer().getPm());
+    }
+
+    public List<int[]> getRangePosition(int range)
+    {
         int[] actualPosition = gameManager.GetActualPlayer().currentPosition;
         List<int[]> positions = new ArrayList<>();
 
-        for(int i = -spell.getRange(); i <= spell.getRange(); i++)
+        for(int i = -range; i <= range; i++)
         {
-            for(int j = -spell.getRange(); j <= spell.getRange(); j++)
+            for(int j = -range; j <= range; j++)
             {
                 //If the position is in range of the spell
-                if(Math.abs(i) + Math.abs(j) <= spell.getRange())
+                if(Math.abs(i) + Math.abs(j) <= range)
                 {
                     //Verify if the position is on the map
                     if(actualPosition[0] + i >= 0 && actualPosition[0] + i < map.width
-                    && actualPosition[1] + j >= 0 && actualPosition[1] + j < map.height)
+                            && actualPosition[1] + j >= 0 && actualPosition[1] + j < map.height)
                     {
                         //Verify is the position is a ground
                         if(map.IsGroundPosition(actualPosition[0] + i, actualPosition[1] + j))
@@ -301,9 +329,16 @@ public class GameScreen implements Screen, InputProcessor
             position[0] = (screenX-xMapOffset)/map.tileWidth;
             position[1] = (screenY-(900 - map.height* map.tileHeight - yMapOffset))/map.tileHeight;
 
-            //Use the spell
-            gameManager.LaunchSpell(position);
-            return true;
+            if(isMoving && map.IsGroundPosition(position[0], position[1]) && !Arrays.equals(position, gameManager.GetOtherPlayer().currentPosition))
+            {
+                gameManager.GetActualPlayer().Move(position);
+            }
+            else if(!isMoving)
+            {
+                //Use the spell
+                gameManager.LaunchSpell(position);
+                return true;
+            }
         }
         return false;
     }

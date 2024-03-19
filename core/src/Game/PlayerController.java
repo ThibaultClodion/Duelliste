@@ -43,7 +43,6 @@ public class PlayerController
     public void Hit(int damage)
     {
         this.hp -= damage;
-        System.out.println("Il me reste " + hp + " HP");
     }
     //endregion
 
@@ -89,8 +88,8 @@ public class PlayerController
         //Move the player to the position if it's possible and decrease PM
         if(CanMove(position))
         {
-            currentPosition = position;
             pm -= Distance(position);
+            currentPosition = position;
         }
     }
 // Getters
