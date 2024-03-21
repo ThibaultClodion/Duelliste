@@ -158,6 +158,8 @@ public class SelectionScreen implements Screen, InputProcessor
     public void render(float delta)
     {
         ScreenUtils.clear(0, 0, 0.2f, 1);
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
 
         //Begin the batch
         batch.begin();
@@ -230,13 +232,14 @@ public class SelectionScreen implements Screen, InputProcessor
 
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         pos.set(screenX, screenY, 0);
+        camera.unproject(pos);
         // Check if we have to unproject the camera ( a simple game? )
 
         if(button == Input.Buttons.LEFT) {
             for (int i = 0; i < classRectangles.length; i++) {
                 // Cheking if a classRectangle has been chosen
-                if (pos.x <= classRectangles[i].x + classRectangles[i].width && pos.x >= classRectangles[i].x
-                        && 900 - pos.y <= classRectangles[i].y + classRectangles[i].height && 900 - pos.y >= classRectangles[i].y) {
+                if (classRectangles[i].contains(pos.x, pos.y)/*pos.x <= classRectangles[i].x + classRectangles[i].width && pos.x >= classRectangles[i].x
+                        && 900 - pos.y <= classRectangles[i].y + classRectangles[i].height && 900 - pos.y >= classRectangles[i].y*/) {
                     // En gros faire classText = "Pa : X            PM : X              PV : X" + System.currentTimeMillis(), séparer en 3 éventuellement
                     this.classNumber = i;
                     spellText = "Cliquez sur un sort";
@@ -245,15 +248,15 @@ public class SelectionScreen implements Screen, InputProcessor
             }
             if(classNumber <= 4 && classNumber >= 0) {
                 for (int j = 0; j < characters[classNumber].getNbSpell(); j++) {
-                    if(pos.x <= spellsRectangles[j].x + spellsRectangles[j].width && pos.x >= spellsRectangles[j].x
-                            && 900 - pos.y <= /*spellsRectangles[j].y - spellsRectangles[j].height*/ 460 && 900 - pos.y >= /*spellsRectangles[j].y*/ 360) {
+                    if(spellsRectangles[j].contains(pos.x, pos.y)/*pos.x <= spellsRectangles[j].x + spellsRectangles[j].width && pos.x >= spellsRectangles[j].x
+                            && 900 - pos.y <=*/ /*spellsRectangles[j].y - spellsRectangles[j].height*/ /*460 && 900 - pos.y >=*/ /*spellsRectangles[j].y*/ /*360*/) {
                         spellNumber = j;
                         spellText = "PA = " + characters[classNumber].GetSpell(spellNumber).getPa() + " | Range = " + characters[classNumber].GetSpell(spellNumber).getRange();
                         Gdx.graphics.requestRendering();
                     }
                 }
                 // Now looking if validation button is clicked
-                if(pos.x <= validation.x + validation.width && pos.x >= validation.x && 900 - pos.y <= validation.y + validation.height && 900 - pos.y >= validation.y) {
+                if(validation.contains(pos.x, pos.y)/*pos.x <= validation.x + validation.width && pos.x >= validation.x && 900 - pos.y <= validation.y + validation.height && 900 - pos.y >= validation.y*/) {
                     // Check whose player is validating his choice
                     if (this.playerNumber == 1) {
                         gameManager.setPlayer1(new PlayerController(characters[classNumber], new int[] {8, 5}));

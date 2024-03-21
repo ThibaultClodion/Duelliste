@@ -9,6 +9,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -27,6 +28,7 @@ public class GameScreen implements Screen, InputProcessor
 
     //Batch
     private final SpriteBatch batch;
+    OrthographicCamera camera;
 
     //Map Data's
     public Map map;
@@ -69,6 +71,9 @@ public class GameScreen implements Screen, InputProcessor
         //Initialize the batch
         batch = new SpriteBatch();
 
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 1600, 900);
+
         //Initialize the map
         Random random = new Random();
         int seed = random.nextInt();
@@ -103,6 +108,8 @@ public class GameScreen implements Screen, InputProcessor
     {
         //Set background color
         ScreenUtils.clear(255, 255, 255, 1);
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
 
         //Render the grid
         batch.begin();
