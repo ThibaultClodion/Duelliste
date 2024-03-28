@@ -336,7 +336,7 @@ public class GameScreen implements Screen, InputProcessor
             position[0] = (screenX-xMapOffset)/map.tileWidth;
             position[1] = (screenY-(900 - map.height* map.tileHeight - yMapOffset))/map.tileHeight;
 
-            if(position[0] >= 0 && position[0] < map.tileWidth - 1 && position[1] >= 0 && position[1] < map.tileHeight - 1) {
+            if(position[0] >= 0 && position[0] < map.tileWidth && position[1] >= 0 && position[1] < map.tileHeight) {
 
 
                 if (isMoving && map.IsGroundPosition(position[0], position[1]) && !Arrays.equals(position, gameManager.GetOtherPlayer().currentPosition)) {
