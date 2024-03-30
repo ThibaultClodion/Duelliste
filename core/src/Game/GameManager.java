@@ -23,11 +23,6 @@ public final class GameManager extends Game
 
     public static GameManager getInstance()
     {
-        if (instance == null)
-        {
-            instance = new GameManager();
-        }
-
         return instance;
     }
 
@@ -41,7 +36,7 @@ public final class GameManager extends Game
         setSelectionScreen();
     }
 
-    //region <Turn Management>
+    //region <Game Management>
     public void EndRound()
     {
         //The stats are reset
@@ -50,6 +45,11 @@ public final class GameManager extends Game
 
         //The actual player switch
         actualPlayer = GetOtherPlayer();
+    }
+
+    public void GameOver(PlayerController loserPlayer)
+    {
+        setSelectionScreen();
     }
 
     //endregion
@@ -69,7 +69,7 @@ public final class GameManager extends Game
 
     public boolean isAValidPosition(int[] position)
     {
-        Map map = Map.getInstance(-1);
+        Map map = Map.getInstance();
         return !Arrays.equals(position, GetOtherPlayer().currentPosition) && map.IsGroundPosition(position[0], position[1])
                 && !Arrays.equals(position, GetActualPlayer().getCurrentPosition());
     }

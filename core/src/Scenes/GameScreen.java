@@ -66,7 +66,7 @@ public class GameScreen implements Screen, InputProcessor
         this.player2 = player2;
 
         //Initially the player is moving
-        isMoving = true;
+        isMoving = false;
 
         //Initialize the batch
         batch = new SpriteBatch();
@@ -77,9 +77,8 @@ public class GameScreen implements Screen, InputProcessor
         //Initialize the map
         Random random = new Random();
         int seed = random.nextInt();
-        map = Map.getInstance(seed);
+        map = new Map(seed);
 
-        map.DisplayMap();
 
         //Initialize the offset
         xMapOffset = (1600 - map.width*map.tileWidth)/2;
@@ -161,7 +160,7 @@ public class GameScreen implements Screen, InputProcessor
         if ( clock > 10 )
         {
             clock=0;
-            isMoving = true;
+            //isMoving = true;
             gameManager.EndRound();
         }
 
@@ -336,18 +335,18 @@ public class GameScreen implements Screen, InputProcessor
             position[0] = (screenX-xMapOffset)/map.tileWidth;
             position[1] = (screenY-(900 - map.height* map.tileHeight - yMapOffset))/map.tileHeight;
 
-            if(position[0] >= 0 && position[0] < map.tileWidth && position[1] >= 0 && position[1] < map.tileHeight) {
-
-
+            if(position[0] >= 0 && position[0] < map.tileWidth && position[1] >= 0 && position[1] < map.tileHeight)
+            {
                 if (isMoving)
                 {
                     gameManager.Move(position);
                 }
-                else if (!isMoving) {
+                else if (!isMoving)
+                {
                     //Use the spell
                     gameManager.LaunchSpell(position);
-                    return true;
                 }
+                return true;
             }
         }
         return false;

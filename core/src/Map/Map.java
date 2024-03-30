@@ -28,6 +28,9 @@ public final class Map
     //region <Map Creation>
     public Map(int seed)
     {
+        //Initialize the Singleton
+        instance = this;
+
         //Initialize the prefabs array
         prefabs = createPrefabs();
 
@@ -35,12 +38,8 @@ public final class Map
         CreateAMap(seed);
     }
 
-    public static Map getInstance(int seed)
+    public static Map getInstance()
     {
-        if (instance == null)
-        {
-            instance = new Map(seed);
-        }
         return instance;
     }
 

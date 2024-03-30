@@ -43,6 +43,11 @@ public class PlayerController
     public void Hit(int damage)
     {
         this.hp -= damage;
+
+        if(this.hp <= 0)
+        {
+            GameManager.getInstance().GameOver(this);
+        }
     }
     //endregion
 
@@ -101,7 +106,7 @@ public class PlayerController
             currentPosition = position;
         }
     }
-// Getters
+    // region <Getters>
     public int[] getCurrentPosition()
     {
         return currentPosition;
