@@ -77,7 +77,7 @@ public class GameScreen implements Screen, InputProcessor
         //Initialize the map
         Random random = new Random();
         int seed = random.nextInt();
-        map = new Map(seed);
+        map = Map.getInstance(seed);
 
         map.DisplayMap();
 
@@ -339,9 +339,11 @@ public class GameScreen implements Screen, InputProcessor
             if(position[0] >= 0 && position[0] < map.tileWidth && position[1] >= 0 && position[1] < map.tileHeight) {
 
 
-                if (isMoving && map.IsGroundPosition(position[0], position[1]) && !Arrays.equals(position, gameManager.GetOtherPlayer().currentPosition)) {
-                    gameManager.GetActualPlayer().Move(position);
-                } else if (!isMoving) {
+                if (isMoving)
+                {
+                    gameManager.Move(position);
+                }
+                else if (!isMoving) {
                     //Use the spell
                     gameManager.LaunchSpell(position);
                     return true;

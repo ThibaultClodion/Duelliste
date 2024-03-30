@@ -4,8 +4,11 @@ import com.badlogic.gdx.graphics.Texture;
 
 import java.util.*;
 
-public class Map
+public final class Map
 {
+    //Map is a Singleton
+    private static Map instance;
+
     //Grid
     private char[][] grid;
     private final char[][][] prefabs;
@@ -30,6 +33,15 @@ public class Map
 
         //Create a random Map
         CreateAMap(seed);
+    }
+
+    public static Map getInstance(int seed)
+    {
+        if (instance == null)
+        {
+            instance = new Map(seed);
+        }
+        return instance;
     }
 
     private void CreateAMap(int seed)

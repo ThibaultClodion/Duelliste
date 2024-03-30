@@ -68,10 +68,15 @@ public class PlayerController
     //endregion
 
     //region <Movement>
-    public boolean CanMove(int[] position)
+    public boolean CanMovePM(int[] position)
     {
         //Determine if a player can access a position
-        return (pm - Distance(position)) >= 0;
+        return (pm - Distance(position)) >= 0 && GameManager.getInstance().isAValidPosition(position);
+    }
+
+    private boolean CanMovePA(int[] position)
+    {
+        return GameManager.getInstance().isAValidPosition(position);
     }
 
     public int Distance(int[] position)
@@ -83,12 +88,16 @@ public class PlayerController
         return xMove + yMove;
     }
 
-    public void Move(int[] position)
+    public void Move(int[] position, boolean usePM)
     {
         //Move the player to the position if it's possible and decrease PM
-        if(CanMove(position))
+        if(usePM && CanMovePM(position))
         {
             pm -= Distance(position);
+            currentPosition = position;
+        }
+        else if(!usePM && CanMovePA(position))
+        {
             currentPosition = position;
         }
     }

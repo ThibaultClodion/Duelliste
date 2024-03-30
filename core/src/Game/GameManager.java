@@ -3,9 +3,15 @@ package Game;
 import Scenes.GameScreen;
 import Scenes.SelectionScreen;
 import com.badlogic.gdx.Game;
+import Map.Map;
 
-public class GameManager extends Game
+import java.util.Arrays;
+
+public final class GameManager extends Game
 {
+    //GameManager is a Singleton
+    private static GameManager instance;
+
     //Screens
     private GameScreen gameScreen;
     private SelectionScreen selectionScreen;
@@ -15,14 +21,27 @@ public class GameManager extends Game
     public PlayerController player2;
     private PlayerController actualPlayer;
 
+    public static GameManager getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new GameManager();
+        }
+
+        return instance;
+    }
+
     @Override
     public void create()
     {
+        //Initialize the Singleton
+        instance = this;
+
         //Start with the selection screen
         setSelectionScreen();
     }
 
-    //region <Fight Management>
+    //region <Turn Management>
     public void EndRound()
     {
         //The stats are reset
@@ -41,6 +60,18 @@ public class GameManager extends Game
     {
         //Only the actual player can use his spells
         actualPlayer.UseSpell(position, player1.character.GetSpell(0), GetOtherPlayer());
+    }
+
+    public void Move(int[] position)
+    {
+        GetActualPlayer().Move(position, true);
+    }
+
+    public boolean isAValidPosition(int[] position)
+    {
+        Map map = Map.getInstance(-1);
+        return !Arrays.equals(position, GetOtherPlayer().currentPosition) && map.IsGroundPosition(position[0], position[1])
+                && !Arrays.equals(position, GetActualPlayer().getCurrentPosition());
     }
 
     public void setPlayer1(PlayerController playerController)
