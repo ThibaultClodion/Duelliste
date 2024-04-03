@@ -102,6 +102,8 @@ public class SelectionScreen implements Screen, InputProcessor
 
         // load the background sound in the menu
         menuSound = Gdx.audio.newMusic(Gdx.files.internal("pkm.mp3"));
+        menuSound.setLooping(true);
+        menuSound.play();
 
         // start the playback of the background music immediately
 
@@ -169,6 +171,7 @@ public class SelectionScreen implements Screen, InputProcessor
         for(int i = 0; i < classRectangles.length; i++)
         {
             batch.draw(classImages[i], classRectangles[i].x, classRectangles[i].y);
+            batch.draw(characters[i].getImage(), classRectangles[i].x, classRectangles[i].y);
         }
 
         spellTextFont.getData().setScale(2f);
