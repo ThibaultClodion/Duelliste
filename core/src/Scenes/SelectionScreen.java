@@ -28,6 +28,7 @@ public class SelectionScreen implements Screen, InputProcessor
     private GameManager gameManager;
     private Character characterSelected;
     private Character[] characters;
+    private String[] charactersImage;
 
     //Batch
     private SpriteBatch batch;
@@ -66,6 +67,8 @@ public class SelectionScreen implements Screen, InputProcessor
     {
         this.gameManager = GM;
         this.characters = new Character[] {new Aleator(), new Goblin(), new Lamenpeine(), new Aleator(), new Aleator()};
+        this.charactersImage = new String[] {"aleatorRectangle.JPG", "goblinRectangle.JPG", "creationnisteRectangle.JPG", "aleatorRectangle.JPG", "goblinRectangle.JPG"};
+
 
         pos = new Vector3();
         clicEffectue = false;
@@ -132,7 +135,7 @@ public class SelectionScreen implements Screen, InputProcessor
     {
         for(int i = 0; i < classImages.length; i++)
         {
-            classImages[i] = new Texture(Gdx.files.internal("classSquare" + i + ".JPG"));
+            classImages[i] = new Texture(Gdx.files.internal(charactersImage[i]/*"classSquare" + i + ".JPG"*/));
         }
     }
 
@@ -171,7 +174,7 @@ public class SelectionScreen implements Screen, InputProcessor
         for(int i = 0; i < classRectangles.length; i++)
         {
             batch.draw(classImages[i], classRectangles[i].x, classRectangles[i].y);
-            batch.draw(characters[i].getImage(), classRectangles[i].x, classRectangles[i].y);
+            //batch.draw(characters[i].getImage(), classRectangles[i].x, classRectangles[i].y);
         }
 
         spellTextFont.getData().setScale(2f);
