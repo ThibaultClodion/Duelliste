@@ -2,6 +2,7 @@ package Class;
 
 import Spells.Spell;
 import Spells.Morsure;
+import Spells.VolDesorganise;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Goblin extends Character
