@@ -260,6 +260,8 @@ public class GameScreen implements Screen, InputProcessor
                 button.render(batch);
             }
         }
+        handleInput(Gdx.input.getX(),900-Gdx.input.getY());
+
         //end batch
         timer.end();
         hpBarBackgroundPlayer1.end();
@@ -300,7 +302,7 @@ public class GameScreen implements Screen, InputProcessor
         {
             for (SpellButton button : spellButtonsPlayer1)
             {
-                if (button.isClicked(x, y))
+                if (button.isClicked(x, y) && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT))
                 {
                     System.out.println("Button clicked");
                     player1.actualSpeel = button.getSpell();
@@ -311,7 +313,7 @@ public class GameScreen implements Screen, InputProcessor
         {
             for (SpellButton button : spellButtonsPlayer2)
             {
-                if (button.isClicked(x, y))
+                if (button.isClicked(x, y) && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT))
                 {
                     player2.actualSpeel = button.getSpell();
                 }
