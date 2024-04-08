@@ -102,12 +102,12 @@ public class GameScreen implements Screen, InputProcessor
         spellButtonsPlayer2 = new ArrayList<>();
         for (int i=0; i< player1.character.getNbSpell(); i++) {
             Texture spellTexture = new Texture("classSquare" + i + ".JPG");
-            SpellButton spellButton = new SpellButton(spellTexture, 200+100*i, 100, 50, 50);
+            SpellButton spellButton = new SpellButton(spellTexture, 200+100*i, 100, 50, 50, player1.character.GetSpell(i));
             spellButtonsPlayer1.add(spellButton);
         }
         for (int i=0; i< player2.character.getNbSpell(); i++) {
             Texture spellTexture = new Texture("classSquare" + i + ".JPG");
-            SpellButton spellButton = new SpellButton(spellTexture, 200+100*i, 100, 50, 50);
+            SpellButton spellButton = new SpellButton(spellTexture, 200+100*i, 100, 50, 50, player2.character.GetSpell(i));
             spellButtonsPlayer2.add(spellButton);
         }
 
