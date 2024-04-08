@@ -1,5 +1,6 @@
 package Game;
 
+import Spells.Spell;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,11 +9,12 @@ import com.badlogic.gdx.math.Rectangle;
 public class SpellButton {
     private Texture iconTexture;
     private Rectangle rectangle;
+    private Spell spell;
 
-    public SpellButton(Texture iconTexture, float x, float y, float width, float height)
-    {
+    public SpellButton(Texture iconTexture, float x, float y, float width, float height, Spell spell) {
         this.iconTexture = iconTexture;
         rectangle = new Rectangle(x, y, width, height);
+        this.spell = spell;
     }
 
     public void render(SpriteBatch batch) {
@@ -24,4 +26,5 @@ public class SpellButton {
     }
 
     public Texture getTexture() { return iconTexture;}
+    public Spell getSpell() {return spell;}
 }
