@@ -247,13 +247,13 @@ public class SelectionScreen implements Screen, InputProcessor
                 if(validation.contains(pos.x, pos.y)/*pos.x <= validation.x + validation.width && pos.x >= validation.x && 900 - pos.y <= validation.y + validation.height && 900 - pos.y >= validation.y*/) {
                     // Check whose player is validating his choice
                     if (this.playerNumber == 1) {
-                        gameManager.setPlayer1(new PlayerController(characters[classNumber], new int[] {8, 5}));
+                        gameManager.setPlayer1(new PlayerController(characters[classNumber], new int[] {0, 0}));
                         playerNumber = playerNumber + 1;
                         classNumber = 5;
                         classText = "Choisissez une classe";
                     }
                     else {
-                        gameManager.setPlayer2(new PlayerController(characters[classNumber], new int[] {7, 4}));
+                        gameManager.setPlayer2(new PlayerController(characters[classNumber], new int[] {0, 0}));
                         classNumber = 5;
                         // Eventually reset everything here
                         gameManager.setGameScreen();

@@ -9,7 +9,8 @@ public class SpellButton {
     private Texture iconTexture;
     private Rectangle rectangle;
 
-    public SpellButton(Texture iconTexture, float x, float y, float width, float height) {
+    public SpellButton(Texture iconTexture, float x, float y, float width, float height)
+    {
         this.iconTexture = iconTexture;
         rectangle = new Rectangle(x, y, width, height);
     }

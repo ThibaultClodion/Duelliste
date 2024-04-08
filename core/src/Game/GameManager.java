@@ -69,7 +69,7 @@ public final class GameManager extends Game
 
     public boolean isAValidPosition(int[] position)
     {
-        Map map = Map.getInstance();
+        Map map = Map.GetInstance();
         return !Arrays.equals(position, GetOtherPlayer().currentPosition) && map.IsGroundPosition(position[0], position[1])
                 && !Arrays.equals(position, GetActualPlayer().getCurrentPosition());
     }

@@ -80,6 +80,10 @@ public class GameScreen implements Screen, InputProcessor
         int seed = random.nextInt();
         map = new Map(seed);
 
+        //Change Player positions
+        player1.currentPosition = Map.GetInstance().GetFirstPlayerPosition();
+        player2.currentPosition = Map.GetInstance().GetSecondPlayerPosition();
+
 
         //Initialize the offset
         xMapOffset = (1600 - map.width*map.tileWidth)/2;
@@ -265,9 +269,12 @@ public class GameScreen implements Screen, InputProcessor
         playerPa.dispose();
         playerPm.dispose();
     }
-    public void handleInput(float x, float y) {
-        for (SpellButton button : spellButtonsPlayer1) {
-            if (button.isClicked(x, y)) {
+    public void handleInput(float x, float y)
+    {
+        for (SpellButton button : spellButtonsPlayer1)
+        {
+            if (button.isClicked(x, y))
+            {
                 // clic sur le bouton
             }
         }
