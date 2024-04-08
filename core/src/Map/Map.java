@@ -45,11 +45,11 @@ public final class Map
 
     public int[] GetFirstPlayerPosition()
     {
-        int[] firstPosition = GetInstance().GetRandomPosition(instance.width/2 - 1, instance.height/2 - 1, 0, 0);
+        int[] firstPosition = GetInstance().GetRandomPosition(instance.width/2 - 1, 0);
 
         while(!instance.IsAGroundPosition(firstPosition))
         {
-            firstPosition = GetInstance().GetRandomPosition(instance.width/2 - 1, instance.height/2 - 1, 0, 0);
+            firstPosition = GetInstance().GetRandomPosition(instance.width/2 - 1, 0);
         }
 
         return firstPosition;
@@ -57,19 +57,19 @@ public final class Map
 
     public int[] GetSecondPlayerPosition()
     {
-        int[] secondPosition = GetInstance().GetRandomPosition(instance.width-1, instance.height-1, instance.width/2, instance.height/2);
+        int[] secondPosition = GetInstance().GetRandomPosition(instance.width-1, instance.height-1);
 
         while(!instance.IsAGroundPosition(secondPosition))
         {
-            secondPosition = GetInstance().GetRandomPosition(instance.width-1, instance.height-1, instance.width/2, instance.height/2);
+            secondPosition = GetInstance().GetRandomPosition(instance.width-1, instance.height-1);
         }
 
         return secondPosition;
     }
 
-    private int[] GetRandomPosition(int x, int y, int xOrigin, int yOrigin)
+    private int[] GetRandomPosition(int x, int xOrigin)
     {
-        return new int[] {(int) (Math.random() * x) + xOrigin, (int)  (Math.random() * y) + yOrigin};
+        return new int[] {(int) (Math.random() * x) + xOrigin, (int)  (Math.random() * height)};
     }
 
     private void CreateAMap(int seed)
