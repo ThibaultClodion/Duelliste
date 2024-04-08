@@ -1,6 +1,7 @@
 package Game;
 
 import Scenes.GameScreen;
+import Scenes.SeedScreen;
 import Scenes.SelectionScreen;
 import com.badlogic.gdx.Game;
 import Map.Map;
@@ -15,6 +16,7 @@ public final class GameManager extends Game
     //Screens
     private GameScreen gameScreen;
     private SelectionScreen selectionScreen;
+    private SeedScreen seedScreen;
 
     //Players
     public PlayerController player1;
@@ -117,6 +119,11 @@ public final class GameManager extends Game
     {
         selectionScreen = new SelectionScreen(this);
         setScreen(selectionScreen);
+    }
+
+    public void setSeedScreen() {
+        seedScreen = new SeedScreen(this);
+        setScreen(seedScreen);
     }
 
     @Override
