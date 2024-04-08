@@ -39,6 +39,7 @@ public class GameScreen implements Screen, InputProcessor
     private final Texture backgroundTexture1;
     private final Texture backgroundTexture2;
     private final Texture rangeTexture;
+    private final Texture selectedTexture;
     private final Texture next_Turn_Inactive_Button;
     private final Texture next_Turn_Active_Button;
     private final ShapeRenderer timer;
@@ -93,6 +94,7 @@ public class GameScreen implements Screen, InputProcessor
         backgroundTexture1 = new Texture("backgroundInformation.png");
         backgroundTexture2 = new Texture("backgroundInformation2.png");
         rangeTexture = new Texture("range.png");
+        selectedTexture = new Texture("selected.png");
         playerPa = new BitmapFont();
         playerPm = new BitmapFont();
         timer = new ShapeRenderer();
@@ -153,6 +155,23 @@ public class GameScreen implements Screen, InputProcessor
                 batch.draw(rangeTexture, position[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - position[1] * map.tileHeight + yMapOffset);
             }
         }
+
+        //Display the case selected by the current player
+        int screenX = Gdx.input.getX();
+        int screenY = Gdx.input.getY();
+        if (IsValidMapPosition(screenX, screenY))
+        {
+            //Get touch position on the map
+            int[] position = new int[2];
+            position[0] = (screenX - xMapOffset) / map.tileWidth;
+            position[1] = (screenY - (900 - map.height * map.tileHeight - yMapOffset)) / map.tileHeight;
+            if(Map.GetInstance().IsGroundPosition(position[0], position[1]))
+            {
+                batch.draw(selectedTexture, position[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - position[1] * map.tileHeight + yMapOffset);
+            }
+        }
+
+
         else if(gameManager.GetActualPlayer() != null && isMoving)
         {
             //Get the possible movement position
@@ -254,6 +273,11 @@ public class GameScreen implements Screen, InputProcessor
             button.getTexture().dispose();
         }
         batch.end();
+    }
+
+    private boolean IsValidMapPosition(int screenX, int screenY)
+    {
+        return screenX >= xMapOffset && screenX <= 1600-xMapOffset && screenY >= 900 - (yMapOffset + map.tileHeight * map.height) && screenY <= 900-yMapOffset;
     }
 
     @Override
@@ -408,11 +432,6 @@ public class GameScreen implements Screen, InputProcessor
             }
         }
         return false;
-    }
-
-    private boolean IsValidMapPosition(int screenX, int screenY)
-    {
-        return screenX >= xMapOffset && screenX <= 1600-xMapOffset && screenY >= 900 - (yMapOffset + map.tileHeight * map.height) && screenY <= 900-yMapOffset;
     }
 
     @Override
