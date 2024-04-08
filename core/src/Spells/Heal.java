@@ -17,7 +17,10 @@ public class Heal implements SpellComponent
     {
         if(Arrays.equals(mapPos, otherPlayer.getCurrentPosition()))
         {
-            myPlayer.Hit(-heal);
+            if (myPlayer.getHp()<= myPlayer.getHpInitiaux())
+            {
+                myPlayer.Hit(-heal);
+            }
         }
     }
 }

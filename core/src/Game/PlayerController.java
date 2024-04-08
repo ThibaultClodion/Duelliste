@@ -114,5 +114,7 @@ public class PlayerController
     public float getPa() { return pa; }
     public int getPm() {return pm;}
 
+    public float getHpInitiaux() {return character.GetHp();}
+
     //endregion
 }
