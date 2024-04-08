@@ -49,12 +49,12 @@ public class GameScreen implements Screen, InputProcessor
     private final ShapeRenderer hpBarBackgroundPlayer2;
     private final BitmapFont playerPa;
     private final BitmapFont playerPm;
-    private List<SpellButton> spellButtonsPlayer1;
-    private List<SpellButton> spellButtonsPlayer2;
+    private final List<SpellButton> spellButtonsPlayer1;
+    private final List<SpellButton> spellButtonsPlayer2;
     //Players Data's
     private final PlayerController player1;
     private final PlayerController player2;
-    private boolean isMoving;
+    private final boolean isMoving;
 
     //Timer Gestion Ressources
     private float clock=0;
@@ -107,14 +107,26 @@ public class GameScreen implements Screen, InputProcessor
         spellButtonsPlayer1 = new ArrayList<>();
         spellButtonsPlayer2 = new ArrayList<>();
         for (int i=0; i< player1.character.getNbSpell(); i++) {
-            Texture spellTexture = new Texture("classSquare" + i + ".JPG");
-            SpellButton spellButton = new SpellButton(spellTexture, 200+100*i, 100, 50, 50, player1.character.GetSpell(i));
-            spellButtonsPlayer1.add(spellButton);
+            Texture spellTexture = new Texture("classSquare1.JPG");
+            if ( i%2 == 0) {
+                SpellButton spellButton = new SpellButton(spellTexture, 220+100*i/2, 25, 50, 50, player2.character.GetSpell(i));
+                spellButtonsPlayer1.add(spellButton);
+            }
+            else {
+                SpellButton spellButton = new SpellButton(spellTexture, 220+100*(i+1)/2, 100, 50, 50, player2.character.GetSpell(i));
+                spellButtonsPlayer1.add(spellButton);
+            }
         }
         for (int i=0; i< player2.character.getNbSpell(); i++) {
-            Texture spellTexture = new Texture("classSquare" + i + ".JPG");
-            SpellButton spellButton = new SpellButton(spellTexture, 200+100*i, 100, 50, 50, player2.character.GetSpell(i));
-            spellButtonsPlayer2.add(spellButton);
+            Texture spellTexture = new Texture("classSquare1.JPG");
+            if ( i%2 == 0) {
+                SpellButton spellButton = new SpellButton(spellTexture, 220+100*i/2, 25, 50, 50, player2.character.GetSpell(i));
+                spellButtonsPlayer2.add(spellButton);
+            }
+            else {
+                SpellButton spellButton = new SpellButton(spellTexture, 220+100*(i+1)/2, 100, 50, 50, player2.character.GetSpell(i));
+                spellButtonsPlayer2.add(spellButton);
+            }
         }
 
         //Initialize the input
@@ -425,7 +437,7 @@ public class GameScreen implements Screen, InputProcessor
                 {
                     gameManager.Move(position);
                 }
-                else if (!isMoving)
+                else
                 {
                     //Use the spell
                     gameManager.LaunchSpell(position);
