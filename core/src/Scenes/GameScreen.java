@@ -327,7 +327,7 @@ public class GameScreen implements Screen, InputProcessor
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {
         //Left mouse button action (for now just on the map)
-        if (button == Input.Buttons.LEFT)
+        if (button == Input.Buttons.LEFT && IsValidMapPosition(screenX, screenY))
         {
             //Get touch position on the map
             int[] position = new int[2];
@@ -349,6 +349,11 @@ public class GameScreen implements Screen, InputProcessor
             }
         }
         return false;
+    }
+
+    private boolean IsValidMapPosition(int screenX, int screenY)
+    {
+        return screenX >= xMapOffset && screenX <= 1600-xMapOffset && screenY >= 900 - (yMapOffset + map.tileHeight * map.height) && screenY <= 900-yMapOffset;
     }
 
     @Override
