@@ -59,7 +59,7 @@ public final class GameManager extends Game
     public void LaunchSpell(int[] position)
     {
         //Only the actual player can use his spells
-        actualPlayer.UseSpell(position, player1.character.GetSpell(0), GetOtherPlayer());
+        actualPlayer.UseSpell(position, GetOtherPlayer());
     }
 
     public void Move(int[] position)
@@ -69,7 +69,7 @@ public final class GameManager extends Game
 
     public boolean isAValidPosition(int[] position)
     {
-        Map map = Map.getInstance();
+        Map map = Map.GetInstance();
         return !Arrays.equals(position, GetOtherPlayer().currentPosition) && map.IsGroundPosition(position[0], position[1])
                 && !Arrays.equals(position, GetActualPlayer().getCurrentPosition());
     }
