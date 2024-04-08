@@ -145,7 +145,7 @@ public class GameScreen implements Screen, InputProcessor
         if(gameManager.GetActualPlayer() != null && !isMoving)
         {
             //For now, we use only the first spell of the character
-            List<int[]> rangePositions = getSpellRangePosition(gameManager.GetActualPlayer().character.GetSpell(0));
+            List<int[]> rangePositions = getSpellRangePosition(gameManager.GetActualPlayer().actualSpeel);
 
             for (int[] position: rangePositions)
             {
@@ -229,6 +229,7 @@ public class GameScreen implements Screen, InputProcessor
         playerPm.setColor(Color.WHITE);
         playerPm.getData().setScale(3);
         playerPm.draw(batch,"PM :" + gameManager.GetActualPlayer().getPm(),50,60);
+
         // Dessiner tous les boutons de sorts
         if ( gameManager.GetActualPlayer()==player1 ) {
             for (SpellButton button : spellButtonsPlayer1) {
@@ -271,11 +272,25 @@ public class GameScreen implements Screen, InputProcessor
     }
     public void handleInput(float x, float y)
     {
-        for (SpellButton button : spellButtonsPlayer1)
+        if(GameManager.getInstance().GetActualPlayer() == player1)
         {
-            if (button.isClicked(x, y))
+            for (SpellButton button : spellButtonsPlayer1)
             {
-                // clic sur le bouton
+                if (button.isClicked(x, y))
+                {
+                    System.out.println("Button clicked");
+                    player1.actualSpeel = button.getSpell();
+                }
+            }
+        }
+        else
+        {
+            for (SpellButton button : spellButtonsPlayer2)
+            {
+                if (button.isClicked(x, y))
+                {
+                    player2.actualSpeel = button.getSpell();
+                }
             }
         }
     }
