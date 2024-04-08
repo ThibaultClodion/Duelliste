@@ -83,7 +83,7 @@ public class SelectionScreen implements Screen, InputProcessor
         camera.setToOrtho(false, 1600, 900);
 
         //Load the Images
-        backgroundImage = new Texture(Gdx.files.internal("backgroundV2.jpeg"));
+        backgroundImage = new Texture(Gdx.files.internal("backgroundV3.JPG"));
         spellSquareImage = new Texture(Gdx.files.internal("spellSquare.JPG"));
 
         //Create the spells and class Rectangle
@@ -91,7 +91,7 @@ public class SelectionScreen implements Screen, InputProcessor
         CreateClassRectangles();
 
         //Rectangle and Validation
-        rectangleImage = new Texture(Gdx.files.internal("rectangleV2.jpeg"));
+        rectangleImage = new Texture(Gdx.files.internal("rectangleV3.JPG"));
         validationImage = new Texture(Gdx.files.internal("validation.JPG")); // 100x100
         rectangle = new Rectangle(1600 /2 - 1200/2, 0, 1200, 600);
         validation = new Rectangle(1450, 100, 100, 100);
