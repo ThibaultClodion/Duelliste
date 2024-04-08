@@ -2,6 +2,7 @@ package Scenes;
 
 import Game.GameManager;
 import Game.PlayerController;
+import Game.SpellButton;
 import Map.Map;
 import Spells.Spell;
 import com.badlogic.gdx.Gdx;
@@ -47,7 +48,8 @@ public class GameScreen implements Screen, InputProcessor
     private final ShapeRenderer hpBarBackgroundPlayer2;
     private final BitmapFont playerPa;
     private final BitmapFont playerPm;
-
+    private List<SpellButton> spellButtonsPlayer1;
+    private List<SpellButton> spellButtonsPlayer2;
     //Players Data's
     private final PlayerController player1;
     private final PlayerController player2;
@@ -96,6 +98,18 @@ public class GameScreen implements Screen, InputProcessor
         hpBarBackgroundPlayer2 = new ShapeRenderer();
         next_Turn_Inactive_Button = new Texture("next_turn_inactive.png");
         next_Turn_Active_Button = new Texture("next_turn_active.png");
+        spellButtonsPlayer1 = new ArrayList<>();
+        spellButtonsPlayer2 = new ArrayList<>();
+        for (int i=0; i< player1.character.getNbSpell(); i++) {
+            Texture spellTexture = new Texture("classSquare" + i + ".JPG");
+            SpellButton spellButton = new SpellButton(spellTexture, 200+100*i, 100, 50, 50);
+            spellButtonsPlayer1.add(spellButton);
+        }
+        for (int i=0; i< player2.character.getNbSpell(); i++) {
+            Texture spellTexture = new Texture("classSquare" + i + ".JPG");
+            SpellButton spellButton = new SpellButton(spellTexture, 200+100*i, 100, 50, 50);
+            spellButtonsPlayer2.add(spellButton);
+        }
 
         //Initialize the input
         Gdx.input.setInputProcessor(this);
@@ -211,14 +225,30 @@ public class GameScreen implements Screen, InputProcessor
         playerPm.setColor(Color.WHITE);
         playerPm.getData().setScale(3);
         playerPm.draw(batch,"PM :" + gameManager.GetActualPlayer().getPm(),50,60);
-
+        // Dessiner tous les boutons de sorts
+        if ( gameManager.GetActualPlayer()==player1 ) {
+            for (SpellButton button : spellButtonsPlayer1) {
+                button.render(batch);
+            }
+        }
+        else {
+            for (SpellButton button : spellButtonsPlayer2) {
+                button.render(batch);
+            }
+        }
         //end batch
-        batch.end();
         timer.end();
         hpBarBackgroundPlayer1.end();
         hpBarBackgroundPlayer2.end();
         hpBarPlayer1.end();
         hpBarPlayer2.end();
+        for (SpellButton button : spellButtonsPlayer1) {
+            button.getTexture().dispose();
+        }
+        for (SpellButton button : spellButtonsPlayer2) {
+            button.getTexture().dispose();
+        }
+        batch.end();
     }
 
     @Override
@@ -234,6 +264,13 @@ public class GameScreen implements Screen, InputProcessor
         hpBarBackgroundPlayer2.dispose();
         playerPa.dispose();
         playerPm.dispose();
+    }
+    public void handleInput(float x, float y) {
+        for (SpellButton button : spellButtonsPlayer1) {
+            if (button.isClicked(x, y)) {
+                // clic sur le bouton
+            }
+        }
     }
 
     public List<int[]> getSpellRangePosition(Spell spell)
