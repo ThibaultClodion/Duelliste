@@ -17,7 +17,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -151,8 +150,8 @@ public class GameScreen implements Screen, InputProcessor
         //Draw the players
         if(player1 != null && player2 != null)
         {
-            batch.draw(player1.character.getImage(), player1.getCurrentPosition()[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - player1.getCurrentPosition()[1] * map.tileHeight + yMapOffset);
-            batch.draw(player2.character.getImage(), player2.getCurrentPosition()[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - player2.getCurrentPosition()[1] * map.tileHeight + yMapOffset);
+            batch.draw(player1.character.GetImage(), player1.getCurrentPosition()[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - player1.getCurrentPosition()[1] * map.tileHeight + yMapOffset);
+            batch.draw(player2.character.GetImage(), player2.getCurrentPosition()[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - player2.getCurrentPosition()[1] * map.tileHeight + yMapOffset);
         }
 
 
@@ -200,8 +199,8 @@ public class GameScreen implements Screen, InputProcessor
         hpBarPlayer2.begin(ShapeRenderer.ShapeType.Filled);
         hpBarPlayer1.setColor(Color.RED);
         hpBarPlayer2.setColor(Color.RED);
-        Rectangle hp_1 = new Rectangle(100, 830, 200*player1.getHp()/player1.character.getHp(), 50); //La largeur de la barre est multipliée par le ratio PVactuerl/PVmax
-        Rectangle hp_2 = new Rectangle(1300, 830, 200*player2.getHp()/player2.character.getHp(), 50);
+        Rectangle hp_1 = new Rectangle(100, 830, 200*player1.getHp()/player1.character.GetHp(), 50); //La largeur de la barre est multipliée par le ratio PVactuerl/PVmax
+        Rectangle hp_2 = new Rectangle(1300, 830, 200*player2.getHp()/player2.character.GetHp(), 50);
         hpBarPlayer1.rect(hp_1.x, hp_1.y, hp_1.width, hp_1.height);
         hpBarPlayer2.rect(hp_2.x, hp_2.y, hp_2.width, hp_2.height);
         //PA

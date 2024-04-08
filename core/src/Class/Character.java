@@ -1,6 +1,5 @@
 package Class;
 
-import OldSpells.Spellv1;
 import Spells.Spell;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -10,35 +9,41 @@ public class Character
     private int pm;
     private int pa;
     private Texture image;
+    private Texture imageRectangle;
     private Spell[] spells;
 
-    public Character(float hp, int pm, int pa, Texture image, Spell[] spells)
+    public Character(float hp, int pm, int pa, Texture image, Texture imageRectangle, Spell[] spells)
     {
         this.hp = hp;
         this.pm = pm;
         this.pa = pa;
         this.image = image;
+        this.imageRectangle = imageRectangle;
         this.spells = spells;
     }
 
-    public float getHp()
+    public float GetHp()
     {
         return hp;
     }
 
-    public int getPm()
+    public int GetPm()
     {
         return pm;
     }
 
-    public int getPa()
+    public int GetPa()
     {
         return pa;
     }
 
-    public Texture getImage()
+    public Texture GetImage()
     {
         return image;
+    }
+    public Texture GetRectangleImage()
+    {
+        return imageRectangle;
     }
 
     public Spell GetSpell(int index)

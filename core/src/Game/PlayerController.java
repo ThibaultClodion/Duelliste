@@ -1,6 +1,5 @@
 package Game;
 
-import OldSpells.Spellv1;
 import Class.Character;
 import Spells.Spell;
 
@@ -28,16 +27,16 @@ public class PlayerController
         this.character = character;
 
         //Initialize his data's
-        this.hp = character.getHp();
-        this.pm = character.getPm();
-        this.pa = character.getPa();
+        this.hp = character.GetHp();
+        this.pm = character.GetPm();
+        this.pa = character.GetPa();
     }
 
     public void NewRound()
     {
         //Reset the PM and PA
-        pm = character.getPm();
-        pa = character.getPa();
+        pm = character.GetPm();
+        pa = character.GetPa();
     }
 
     public void Hit(int damage)

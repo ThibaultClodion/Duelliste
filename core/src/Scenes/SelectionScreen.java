@@ -4,6 +4,8 @@ import Class.Aleator;
 import Class.Goblin;
 import Class.Character;
 import Class.Lamenpeine;
+import Class.Rageux;
+import Class.Creationiste;
 import Game.GameManager;
 import Game.PlayerController;
 import com.badlogic.gdx.Gdx;
@@ -26,9 +28,7 @@ public class SelectionScreen implements Screen, InputProcessor
     private int nbClicEffectue;
     //Game Manager
     private GameManager gameManager;
-    private Character characterSelected;
     private Character[] characters;
-    private String[] charactersImage;
 
     //Batch
     private SpriteBatch batch;
@@ -40,9 +40,6 @@ public class SelectionScreen implements Screen, InputProcessor
     public Texture backgroundImage;
     public Texture spellSquareImage;
     public Texture rectangleImage; // for PV, PA, PM, and spells
-
-    //Class Image
-    public Texture[] classImages = new Texture[5];
 
     public Texture validationImage;
     public Music menuSound;
@@ -66,9 +63,7 @@ public class SelectionScreen implements Screen, InputProcessor
     public SelectionScreen(GameManager GM)
     {
         this.gameManager = GM;
-        this.characters = new Character[] {new Aleator(), new Goblin(), new Lamenpeine(), new Aleator(), new Aleator()};
-        this.charactersImage = new String[] {"aleatorRectangle.JPG", "goblinRectangle.JPG", "creationnisteRectangle.JPG", "aleatorRectangle.JPG", "goblinRectangle.JPG"};
-
+        this.characters = new Character[] {new Aleator(), new Goblin(), new Lamenpeine(), new Creationiste(), new Rageux()};
 
         pos = new Vector3();
         clicEffectue = false;
@@ -90,7 +85,6 @@ public class SelectionScreen implements Screen, InputProcessor
         //Load the Images
         backgroundImage = new Texture(Gdx.files.internal("backgroundV2.jpeg"));
         spellSquareImage = new Texture(Gdx.files.internal("spellSquare.JPG"));
-        LoadClassImages();
 
         //Create the spells and class Rectangle
         CreateSpellsRectangle();
@@ -131,14 +125,6 @@ public class SelectionScreen implements Screen, InputProcessor
         }
     }
 
-    private void LoadClassImages()
-    {
-        for(int i = 0; i < classImages.length; i++)
-        {
-            classImages[i] = new Texture(Gdx.files.internal(charactersImage[i]/*"classSquare" + i + ".JPG"*/));
-        }
-    }
-
     private void CreateSpellsRectangle()
     {
         // Les carrés seront espacés de 10 pixels et compris dans un rectangle de 160 de hauteur et 1100 de long
@@ -173,7 +159,7 @@ public class SelectionScreen implements Screen, InputProcessor
         //Draw the class rectangle
         for(int i = 0; i < classRectangles.length; i++)
         {
-            batch.draw(classImages[i], classRectangles[i].x, classRectangles[i].y);
+            batch.draw(characters[i].GetRectangleImage(), classRectangles[i].x, classRectangles[i].y);
             //batch.draw(characters[i].getImage(), classRectangles[i].x, classRectangles[i].y);
         }
 
@@ -245,7 +231,7 @@ public class SelectionScreen implements Screen, InputProcessor
                     // En gros faire classText = "Pa : X            PM : X              PV : X" + System.currentTimeMillis(), séparer en 3 éventuellement
                     this.classNumber = i;
                     spellText = "Cliquez sur un sort";
-                    classText = "HP : " + characters[i].getHp() + " | PA : " + characters[i].getPa() + " | PM : " + characters[i].getPm();
+                    classText = "HP : " + characters[i].GetHp() + " | PA : " + characters[i].GetPa() + " | PM : " + characters[i].GetPm();
                 }
             }
             if(classNumber <= 4 && classNumber >= 0) {
@@ -309,9 +295,9 @@ public class SelectionScreen implements Screen, InputProcessor
         spellTextFont.dispose();
 
         //Dispose all class images
-        for(int i = 0; i < classImages.length; i++)
+        for(int i = 0; i < characters.length; i++)
         {
-            classImages[i].dispose();
+            characters[i].GetRectangleImage().dispose();
         }
 
         rectangleImage.dispose();
