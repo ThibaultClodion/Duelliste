@@ -372,6 +372,10 @@ public final class Map
         }
     }
 
+    public char[][] getGrid() {
+        return grid;
+    }
+
     public boolean IsGroundPosition(int line, int column)
     {
         return grid[line][column] == 'G';
