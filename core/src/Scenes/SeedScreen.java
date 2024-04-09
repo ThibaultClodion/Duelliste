@@ -22,10 +22,12 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.Input.TextInputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
 public class SeedScreen implements Screen, InputProcessor  {
     Texture background;
@@ -41,8 +43,13 @@ public class SeedScreen implements Screen, InputProcessor  {
     private Skin skin;
     private Stage stage;
     private TextInputListener seedListener;
+    private TextButton yes;
+    private TextButton no;
+    private ButtonGroup yesno;
+    private Button selection;
     public SeedScreen(GameManager GM) {
-        Gdx.input.setInputProcessor(this);
+        stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
         background = new Texture(Gdx.files.internal("backgroundSeed.jpg"));
         random = new Texture(Gdx.files.internal("random.jpg"));
         validation = new Texture(Gdx.files.internal("validation.JPG"));
@@ -52,8 +59,18 @@ public class SeedScreen implements Screen, InputProcessor  {
         // Charge le skin par défaut
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
+        //TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
+
         seedField = new TextField("Enter your seed", skin);
         seed = "";
+
+        yes = new TextButton("Yes", skin);
+        no = new TextButton("No", skin);
+        selection = new Button(skin);
+        yesno = new ButtonGroup(yes, no);
+
+        this.seedField.setPosition(1600/2,900/2);
+        this.seedField.setSize(300, 40);
 
         batch = new SpriteBatch();
 
@@ -62,10 +79,19 @@ public class SeedScreen implements Screen, InputProcessor  {
 
         pos = new Vector3();
 
-        this.seedField.setPosition(1600/2,900/2);
-        this.seedField.setSize(300, 40);
+        stage.addActor(seedField);
+        stage.addActor(yes);
+        stage.addActor(no);
 
-        seedListener = new TextInputListener() {
+        // Sélectionne le premier bouton par défaut
+        yesno.setChecked("button1");
+
+        yesno.setUncheckLast(true); // Permet de désélectionner le bouton précédemment sélectionné
+        yesno.setMinCheckCount(0); // Permet de désélectionner tous les boutons
+        yesno.setMaxCheckCount(1); // Permet de sélectionner un seul bouton à la fois
+
+
+        /*seedListener = new TextInputListener() {
             @Override
             public void input(String s) {
                 seed = s;
@@ -76,10 +102,7 @@ public class SeedScreen implements Screen, InputProcessor  {
             public void canceled() {
 
             }
-        };
-
-        //stage = new Stage();
-        //stage.addActor(seedField);
+        };*/
 
         //https://stackoverflow.com/questions/45014420/using-textfield-with-libgdx
     }
@@ -104,6 +127,8 @@ public class SeedScreen implements Screen, InputProcessor  {
         batch.draw(validation, validationButton.x, validationButton.y);
 
         batch.end();
+
+        stage.draw();
 
 
     }
@@ -131,6 +156,7 @@ public class SeedScreen implements Screen, InputProcessor  {
         validation.dispose();
         batch.dispose();
         skin.dispose();
+        stage.dispose();
 
     }
 
@@ -155,7 +181,15 @@ public class SeedScreen implements Screen, InputProcessor  {
         camera.unproject(pos);
         if(validationButton.contains(pos.x, pos.y)) {
             System.out.println("ok");
-            Gdx.input.getTextInput(seedListener, "Entrez votre seed", "", "");
+            //Gdx.input.getTextInput(seedListener, "Entrez votre seed", "", "");
+            selection = yesno.getChecked();
+            if(selection == yes) {
+                System.out.println("ok");
+            }
+            else {
+                seed = seedField.getText();
+                System.out.println("pas ok");
+            }
         }
         return true;
     }
