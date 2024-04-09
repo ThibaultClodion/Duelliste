@@ -256,7 +256,7 @@ public class SelectionScreen implements Screen, InputProcessor
                         gameManager.setPlayer2(new PlayerController(characters[classNumber], new int[] {0, 0}));
                         classNumber = 5;
                         // Eventually reset everything here by creating a function reset and call it
-                        gameManager.setGameScreen();
+                        gameManager.setSeedScreen();
                     }
                 }
             }

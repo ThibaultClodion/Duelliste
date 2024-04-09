@@ -40,7 +40,9 @@ public class SeedScreen implements Screen, InputProcessor  {
     private Vector3 pos;
     private Skin skin;
     private Stage stage;
+    private TextInputListener seedListener;
     public SeedScreen(GameManager GM) {
+        Gdx.input.setInputProcessor(this);
         background = new Texture(Gdx.files.internal("backgroundSeed.jpg"));
         random = new Texture(Gdx.files.internal("random.jpg"));
         validation = new Texture(Gdx.files.internal("validation.JPG"));
@@ -63,10 +65,21 @@ public class SeedScreen implements Screen, InputProcessor  {
         this.seedField.setPosition(1600/2,900/2);
         this.seedField.setSize(300, 40);
 
-        stage = new Stage();
-        stage.addActor(seedField);
+        seedListener = new TextInputListener() {
+            @Override
+            public void input(String s) {
+                seed = s;
+                System.out.println(seed);
+            }
 
-        Gdx.input.setInputProcessor(stage);
+            @Override
+            public void canceled() {
+
+            }
+        };
+
+        //stage = new Stage();
+        //stage.addActor(seedField);
 
         //https://stackoverflow.com/questions/45014420/using-textfield-with-libgdx
     }
@@ -140,6 +153,10 @@ public class SeedScreen implements Screen, InputProcessor  {
     public boolean touchDown(int i, int i1, int i2, int i3) {
         pos.set(i, i1, 0);
         camera.unproject(pos);
+        if(validationButton.contains(pos.x, pos.y)) {
+            System.out.println("ok");
+            Gdx.input.getTextInput(seedListener, "Entrez votre seed", "", "");
+        }
         return true;
     }
 
