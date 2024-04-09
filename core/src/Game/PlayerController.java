@@ -115,6 +115,7 @@ public class PlayerController
     public float getHp() { return hp; }
     public float getPa() { return pa; }
     public int getPm() {return pm;}
+    public Character getCharacter() {return character;}
 
     public float getHpInitiaux() {return character.GetHp();}
 

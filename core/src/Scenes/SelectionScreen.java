@@ -221,7 +221,7 @@ public class SelectionScreen implements Screen, InputProcessor
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         pos.set(screenX, screenY, 0);
         camera.unproject(pos);
-        // Check if we have to unproject the camera ( a simple game? )
+        // Check if we have to unproject the camera ( a simple game? ) Yes, for having good coords i think
 
         if(button == Input.Buttons.LEFT) {
             for (int i = 0; i < classRectangles.length; i++) {
@@ -255,7 +255,7 @@ public class SelectionScreen implements Screen, InputProcessor
                     else {
                         gameManager.setPlayer2(new PlayerController(characters[classNumber], new int[] {0, 0}));
                         classNumber = 5;
-                        // Eventually reset everything here
+                        // Eventually reset everything here by creating a function reset and call it
                         gameManager.setGameScreen();
                     }
                 }
