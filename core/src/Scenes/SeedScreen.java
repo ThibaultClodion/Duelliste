@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -38,6 +39,7 @@ public class SeedScreen implements Screen, InputProcessor  {
     private OrthographicCamera camera;
     private Vector3 pos;
     private Skin skin;
+    private Stage stage;
     public SeedScreen(GameManager GM) {
         background = new Texture(Gdx.files.internal("backgroundSeed.jpg"));
         random = new Texture(Gdx.files.internal("random.jpg"));
@@ -48,14 +50,7 @@ public class SeedScreen implements Screen, InputProcessor  {
         // Charge le skin par défaut
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
-        textFieldStyle.font = skin.getFont("default-font");
-        textFieldStyle.fontColor = skin.getColor("text");
-        textFieldStyle.cursor = skin.getDrawable("cursor");
-        textFieldStyle.selection = skin.getDrawable("selection");
-        textFieldStyle.background = skin.getDrawable("textfield");
-
-        seedField = new TextField("Enter your seed", textFieldStyle);
+        seedField = new TextField("Enter your seed", skin);
         seed = "";
 
         batch = new SpriteBatch();
@@ -63,11 +58,15 @@ public class SeedScreen implements Screen, InputProcessor  {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 900);
 
-        Gdx.input.setInputProcessor(this);
         pos = new Vector3();
 
-        this.seedField.setPosition(24,73);
-        this.seedField.setSize(88, 14);
+        this.seedField.setPosition(1600/2,900/2);
+        this.seedField.setSize(300, 40);
+
+        stage = new Stage();
+        stage.addActor(seedField);
+
+        Gdx.input.setInputProcessor(stage);
 
         //https://stackoverflow.com/questions/45014420/using-textfield-with-libgdx
     }
@@ -83,13 +82,14 @@ public class SeedScreen implements Screen, InputProcessor  {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
-        ScreenUtils.clear(0, 0, 0.2f, 1);
+        ScreenUtils.clear(255, 255, 255, 1);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
 
         batch.draw(validation, validationButton.x, validationButton.y);
+
         batch.end();
 
 
