@@ -8,6 +8,7 @@ import Class.Rageux;
 import Class.Creationiste;
 import Game.GameManager;
 import Game.PlayerController;
+import Map.Map;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -23,11 +24,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+
+import java.util.Random;
 
 public class SeedScreen implements Screen, InputProcessor  {
     private GameManager gameManager;
@@ -36,8 +40,11 @@ public class SeedScreen implements Screen, InputProcessor  {
     Texture validation;
     Rectangle randomButton;
     Rectangle validationButton;
+    TextButton playSeed;
     TextField seedField;
     String seed;
+    String seedInfo;
+    BitmapFont seedInfoFont;
     private SpriteBatch batch;
     private OrthographicCamera camera;
     private Vector3 pos;
@@ -46,6 +53,7 @@ public class SeedScreen implements Screen, InputProcessor  {
     private TextInputListener seedListener;
     private TextButton yes;
     private TextButton no;
+    private TextButton aleatoire;
     private ButtonGroup yesno;
     private Button selection;
     public SeedScreen(GameManager GM) {
@@ -66,11 +74,20 @@ public class SeedScreen implements Screen, InputProcessor  {
 
         seedField = new TextField("Enter your seed", skin);
         seed = "";
+        seedInfo = "Entrez une seed";
+
+        seedInfoFont = new BitmapFont();
+
+        aleatoire = new TextButton("Aléatoire", skin);
+        playSeed = new TextButton("Lire la seed", skin);
 
         yes = new TextButton("Yes", skin);
         no = new TextButton("No", skin);
         selection = new Button(skin);
         yesno = new ButtonGroup(yes, no);
+
+        aleatoire.setPosition(100, 100);
+        playSeed.setPosition(1000, 100);
 
         yes.setPosition(100, 100);
         no.setPosition(1000, 100);
@@ -85,9 +102,39 @@ public class SeedScreen implements Screen, InputProcessor  {
 
         pos = new Vector3();
 
+        playSeed.addListener(new ClickListener() {
+            @Override
+            public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
+                // Action à effectuer lorsque le bouton est cliqué
+                seed = seedField.getText();
+                System.out.println(seed);// test
+                if(isInteger(seed)) {
+                    gameManager.setGameScreen(new Map(Integer.parseInt(seed)));
+                }
+                else {
+                    seedInfo = "Entrez une seed valide ( Qui est un entier )";
+                }
+            }
+        });
+
+        aleatoire.addListener(new ClickListener() {
+            @Override
+            public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
+                // Action à effectuer lorsque le bouton est cliqué
+                Random random = new Random();
+                int seed = random.nextInt();
+                Map map = new Map(seed);
+                gameManager.setGameScreen(map);
+            }
+        });
+
+        stage.addActor(playSeed);
+        stage.addActor(aleatoire);
+
         stage.addActor(seedField);
-        stage.addActor(yes);
-        stage.addActor(no);
+        //stage.addActor(yes);
+        //stage.addActor(no);
+        //Cas où on utilise les boutons oui / non
 
         // Sélectionne le premier bouton par défaut
         yesno.setChecked("button1");
@@ -95,20 +142,6 @@ public class SeedScreen implements Screen, InputProcessor  {
         yesno.setUncheckLast(true); // Permet de désélectionner le bouton précédemment sélectionné
         yesno.setMinCheckCount(0); // Permet de désélectionner tous les boutons
         yesno.setMaxCheckCount(1); // Permet de sélectionner un seul bouton à la fois
-
-
-        /*seedListener = new TextInputListener() {
-            @Override
-            public void input(String s) {
-                seed = s;
-                System.out.println(seed);
-            }
-
-            @Override
-            public void canceled() {
-
-            }
-        };*/
 
         //https://stackoverflow.com/questions/45014420/using-textfield-with-libgdx
     }
@@ -130,11 +163,13 @@ public class SeedScreen implements Screen, InputProcessor  {
 
         batch.begin();
 
-        batch.draw(validation, validationButton.x, validationButton.y);
+        seedInfoFont.getData().setScale(2f);
+        seedInfoFont.draw(batch, seedInfo, 100, 600);
+        //batch.draw(validation, validationButton.x, validationButton.y);
 
         batch.end();
 
-        if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+        /*if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             pos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(pos);
             if(validationButton.contains(pos.x, pos.y)) {
@@ -152,7 +187,7 @@ public class SeedScreen implements Screen, InputProcessor  {
                     gameManager.setGameScreen();
                 }
             }
-        }
+        }*/
 
         stage.draw();
 
@@ -244,5 +279,14 @@ public class SeedScreen implements Screen, InputProcessor  {
     @Override
     public boolean scrolled(float v, float v1) {
         return false;
+    }
+
+    public static boolean isInteger(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }

@@ -62,7 +62,7 @@ public class GameScreen implements Screen, InputProcessor
     private final float delta_time=1/60f;
 
 
-    public GameScreen(GameManager GM, PlayerController player1, PlayerController player2)
+    public GameScreen(GameManager GM, PlayerController player1, PlayerController player2, Map seede)
     {
         this.gameManager = GM;
         this.player1 = player1;
@@ -78,9 +78,10 @@ public class GameScreen implements Screen, InputProcessor
         camera.setToOrtho(false, 1600, 900);
 
         //Initialize the map
-        Random random = new Random();
+        /*Random random = new Random();
         int seed = random.nextInt();
-        map = new Map(seed);
+        map = new Map(seed);*/
+        map = seede;
 
         //Change Player positions
         player1.currentPosition = Map.GetInstance().GetFirstPlayerPosition();
