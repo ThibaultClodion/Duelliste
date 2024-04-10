@@ -450,6 +450,9 @@ public class GameScreen implements Screen, InputProcessor
                 {
                     //Use the spell
                     gameManager.LaunchSpell(position);
+                    if(gameManager.player1.getHp() <= 0 || gameManager.player2.getHp() <= 0) {
+                        gameManager.setEndScreen();
+                    }
                 }
                 return true;
             }

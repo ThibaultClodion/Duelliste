@@ -1,6 +1,8 @@
 package Game;
 
+import Scenes.EndScreen;
 import Scenes.GameScreen;
+import Scenes.SeedScreen;
 import Scenes.SelectionScreen;
 import com.badlogic.gdx.Game;
 import Map.Map;
@@ -15,6 +17,8 @@ public final class GameManager extends Game
     //Screens
     private GameScreen gameScreen;
     private SelectionScreen selectionScreen;
+    private SeedScreen seedScreen;
+    private EndScreen endScreen;
 
     //Players
     public PlayerController player1;
@@ -113,10 +117,26 @@ public final class GameManager extends Game
         setScreen(gameScreen);
     }
 
-    private void setSelectionScreen()
+    public void setSelectionScreen()
     {
         selectionScreen = new SelectionScreen(this);
         setScreen(selectionScreen);
+    }
+
+    public void setSeedScreen() {
+        seedScreen = new SeedScreen(this);
+        setScreen(seedScreen);
+    }
+
+    public void setEndScreen() {
+        endScreen = new EndScreen(this);
+        if(this.player1.getHp() <= 0) {
+            endScreen.setPodium("J2", "J1", player2, player1);
+        }
+        else {
+            endScreen.setPodium("J1", "J2", player1, player2);
+        }
+        setScreen(endScreen);
     }
 
     @Override
