@@ -30,6 +30,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
 public class SeedScreen implements Screen, InputProcessor  {
+    private GameManager gameManager;
     Texture background;
     Texture random;
     Texture validation;
@@ -48,6 +49,8 @@ public class SeedScreen implements Screen, InputProcessor  {
     private ButtonGroup yesno;
     private Button selection;
     public SeedScreen(GameManager GM) {
+        gameManager = GM;
+
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         background = new Texture(Gdx.files.internal("backgroundSeed.jpg"));
@@ -68,6 +71,9 @@ public class SeedScreen implements Screen, InputProcessor  {
         no = new TextButton("No", skin);
         selection = new Button(skin);
         yesno = new ButtonGroup(yes, no);
+
+        yes.setPosition(100, 100);
+        no.setPosition(1000, 100);
 
         this.seedField.setPosition(1600/2,900/2);
         this.seedField.setSize(300, 40);
@@ -128,6 +134,26 @@ public class SeedScreen implements Screen, InputProcessor  {
 
         batch.end();
 
+        if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            pos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(pos);
+            if(validationButton.contains(pos.x, pos.y)) {
+                //System.out.println("ok?");
+                //System.out.println("ok");
+                //Gdx.input.getTextInput(seedListener, "Entrez votre seed", "", "");
+                if(yesno.getChecked() == yes || yesno.getChecked() == no) {
+                    selection = yesno.getChecked();
+                    if (selection == yes) {
+                        System.out.println("ok"); // test
+                    } else {
+                        seed = seedField.getText();
+                        System.out.println(seed); // test
+                    }
+                    gameManager.setGameScreen();
+                }
+            }
+        }
+
         stage.draw();
 
 
@@ -179,6 +205,7 @@ public class SeedScreen implements Screen, InputProcessor  {
     public boolean touchDown(int i, int i1, int i2, int i3) {
         pos.set(i, i1, 0);
         camera.unproject(pos);
+        System.out.println("ok?");
         if(validationButton.contains(pos.x, pos.y)) {
             System.out.println("ok");
             //Gdx.input.getTextInput(seedListener, "Entrez votre seed", "", "");
@@ -188,7 +215,7 @@ public class SeedScreen implements Screen, InputProcessor  {
             }
             else {
                 seed = seedField.getText();
-                System.out.println("pas ok");
+                System.out.println(seed);
             }
         }
         return true;
