@@ -42,6 +42,7 @@ public class GameScreen implements Screen, InputProcessor
     private final Texture selectedTexture;
     private final Texture next_Turn_Inactive_Button;
     private final Texture next_Turn_Active_Button;
+    private final Texture moving_button;
     private final ShapeRenderer timer;
     private final ShapeRenderer hpBarPlayer1;
     private final ShapeRenderer hpBarPlayer2;
@@ -54,7 +55,7 @@ public class GameScreen implements Screen, InputProcessor
     //Players Data's
     private final PlayerController player1;
     private final PlayerController player2;
-    private final boolean isMoving;
+    private boolean isMoving;
 
     //Timer Gestion Ressources
     private float clock=0;
@@ -95,6 +96,7 @@ public class GameScreen implements Screen, InputProcessor
         backgroundTexture2 = new Texture("backgroundInformation2.png");
         rangeTexture = new Texture("range.png");
         selectedTexture = new Texture("selected.png");
+        moving_button = new Texture("moving_button.png");
         playerPa = new BitmapFont();
         playerPm = new BitmapFont();
         timer = new ShapeRenderer();
@@ -273,6 +275,10 @@ public class GameScreen implements Screen, InputProcessor
             }
         }
         handleInput(Gdx.input.getX(),900-Gdx.input.getY());
+        batch.draw(moving_button, 220,100,50,50 );
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && 220 < Gdx.input.getX() && Gdx.input.getX() < 270 && 750 < Gdx.input.getY() && Gdx.input.getY() < 800) {
+            isMoving = true;
+        }
 
         //end batch
         timer.end();
@@ -299,6 +305,7 @@ public class GameScreen implements Screen, InputProcessor
     {
         //Destroy the things created before quit application
         batch.dispose();
+        moving_button.dispose();
         map.Dispose();
         timer.dispose();
         hpBarPlayer1.dispose();
@@ -317,6 +324,7 @@ public class GameScreen implements Screen, InputProcessor
                 if (button.isClicked(x, y) && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT))
                 {
                     System.out.println("Button clicked");
+                    isMoving=false;
                     player1.actualSpeel = button.getSpell();
                 }
             }
@@ -327,6 +335,7 @@ public class GameScreen implements Screen, InputProcessor
             {
                 if (button.isClicked(x, y) && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT))
                 {
+                    isMoving = false;
                     player2.actualSpeel = button.getSpell();
                 }
             }
