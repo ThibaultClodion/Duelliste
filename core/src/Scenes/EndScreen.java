@@ -36,6 +36,8 @@ public class EndScreen implements Screen, InputProcessor {
     GameManager gameManager;
     OrthographicCamera camera;
     Vector3 pos;
+    BitmapFont seedFont;
+    String seed;
     public EndScreen(GameManager gm) {
         gameManager = gm;
         background = new Texture(Gdx.files.internal("backgroundV2.jpeg"));
@@ -56,6 +58,9 @@ public class EndScreen implements Screen, InputProcessor {
         pos = new Vector3();
 
         batch = new SpriteBatch();
+
+        seedFont = new BitmapFont();
+        seed = "Seed de la map : ";
     }
     @Override
     public void show() {
@@ -76,6 +81,7 @@ public class EndScreen implements Screen, InputProcessor {
         batch.draw(playAgain, playAgainButton.x, playAgainButton.y);
 
         gagnantFont.draw(batch, gagnant, 5 * 900 / 6 - 100, 1600 / 2 - 100);
+        seedFont.draw(batch, seed + gameManager.getGameScreen().getMap().getSeed(), 1000, 100);
 
         batch.draw(gagnantPlayer.getCharacter().GetImage(), 1600/2 - 100/2, 900/2 - 100/2, 100, 100);
 
@@ -118,6 +124,7 @@ public class EndScreen implements Screen, InputProcessor {
         gagnantFont.dispose();
         perdantFont.dispose();
         victoire.dispose();
+        seedFont.dispose();
 
     }
 

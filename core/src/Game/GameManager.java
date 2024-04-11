@@ -139,6 +139,10 @@ public final class GameManager extends Game
         setScreen(endScreen);
     }
 
+    public GameScreen getGameScreen() {
+        return gameScreen;
+    }
+
     @Override
     public void dispose()
     {

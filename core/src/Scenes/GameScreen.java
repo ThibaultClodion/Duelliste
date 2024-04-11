@@ -461,6 +461,10 @@ public class GameScreen implements Screen, InputProcessor
         return false;
     }
 
+    public Map getMap() {
+        return map;
+    }
+
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         return false;

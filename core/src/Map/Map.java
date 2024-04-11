@@ -18,6 +18,7 @@ public final class Map
     public int height = 10;
     public int tileWidth = 64;
     public int tileHeight = 64;
+    private int seede;
 
     //Texture and Sprites
     private final Texture ground1Image = new Texture("ground1.png");
@@ -36,6 +37,8 @@ public final class Map
 
         //Create a random Map
         CreateAMap(seed);
+
+        seede = seed;
     }
 
     public static Map GetInstance()
@@ -399,6 +402,10 @@ public final class Map
             }
             System.out.println();
         }
+    }
+
+    public int getSeed() {
+        return seede;
     }
 
     public char[][] getGrid() {
