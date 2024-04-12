@@ -45,6 +45,8 @@ public class SeedScreen implements Screen, InputProcessor  {
     String seed;
     String seedInfo;
     BitmapFont seedInfoFont;
+    String seedEnter;
+    BitmapFont seedEnterFont;
     private SpriteBatch batch;
     private OrthographicCamera camera;
     private Vector3 pos;
@@ -74,11 +76,13 @@ public class SeedScreen implements Screen, InputProcessor  {
 
         seedField = new TextField("Enter your seed", skin);
         seed = "";
-        seedInfo = "Entrez une seed";
+        seedInfo = "";
+        seedEnter = "Entrez une seed";
 
         seedInfoFont = new BitmapFont();
+        seedEnterFont = new BitmapFont();
 
-        aleatoire = new TextButton("Aléatoire", skin);
+        aleatoire = new TextButton("Aleatoire", skin);
         playSeed = new TextButton("Lire la seed", skin);
 
         yes = new TextButton("Yes", skin);
@@ -86,14 +90,16 @@ public class SeedScreen implements Screen, InputProcessor  {
         selection = new Button(skin);
         yesno = new ButtonGroup(yes, no);
 
-        aleatoire.setPosition(100, 100);
-        playSeed.setPosition(1000, 100);
+        aleatoire.setPosition(1600 / 2 - 100 / 2 - 100 - 25, 100);
+        playSeed.setPosition(1600 / 2 - 100 / 2 + 100 + 25, 100);
+        aleatoire.setSize(100, 100);
+        playSeed.setSize(100, 100);
 
         yes.setPosition(100, 100);
         no.setPosition(1000, 100);
 
-        this.seedField.setPosition(1600/2,900/2);
-        this.seedField.setSize(300, 40);
+        this.seedField.setPosition(1600/2 - 200 / 2,900/2 - 50 / 2 + 100);
+        this.seedField.setSize(200, 50);
 
         batch = new SpriteBatch();
 
@@ -112,7 +118,7 @@ public class SeedScreen implements Screen, InputProcessor  {
                     gameManager.setGameScreen(new Map(Integer.parseInt(seed)));
                 }
                 else {
-                    seedInfo = "Entrez une seed valide ( Qui est un entier )";
+                    seedInfo = "La seed n'est pas valide ( seed est un entier )";
                 }
             }
         });
@@ -164,7 +170,8 @@ public class SeedScreen implements Screen, InputProcessor  {
         batch.begin();
 
         seedInfoFont.getData().setScale(2f);
-        seedInfoFont.draw(batch, seedInfo, 100, 600);
+        seedInfoFont.draw(batch, seedInfo, 1600 / 2 - 50, 900 / 2 - 20);
+        seedEnterFont.draw(batch, seedEnter, 1600 / 2 - 50, 900 / 2 - 20 + 100 + 100 + 100);
         //batch.draw(validation, validationButton.x, validationButton.y);
 
         batch.end();
@@ -190,6 +197,11 @@ public class SeedScreen implements Screen, InputProcessor  {
         }*/
 
         stage.draw();
+
+        if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            System.out.println(Gdx.input.getX());
+            System.out.println(Gdx.input.getY());
+        }
 
 
     }
@@ -218,6 +230,8 @@ public class SeedScreen implements Screen, InputProcessor  {
         batch.dispose();
         skin.dispose();
         stage.dispose();
+        seedEnterFont.dispose();
+        seedInfoFont.dispose();
 
     }
 
