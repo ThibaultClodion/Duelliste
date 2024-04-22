@@ -17,8 +17,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.*;
 
 public class GameScreen implements Screen, InputProcessor
 {
@@ -170,7 +170,7 @@ public class GameScreen implements Screen, InputProcessor
         if(gameManager.GetActualPlayer() != null && isMoving)
         {
             //For now, we use only the first spell of the character
-            List<int[]> rangePositions = getRangePosition(gameManager.GetActualPlayer().getPm());
+            List<int[]> rangePositions = GetMovementPosition();
 
             for (int[] position: rangePositions)
             {
@@ -191,19 +191,6 @@ public class GameScreen implements Screen, InputProcessor
             if(Map.GetInstance().IsGroundPosition(position[0], position[1]))
             {
                 batch.draw(selectedTexture, position[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - position[1] * map.tileHeight + yMapOffset);
-            }
-        }
-
-
-        else if(gameManager.GetActualPlayer() != null && isMoving)
-        {
-            //Get the possible movement position
-            List<int[]> MovementPositions = getMovementPosition();
-
-            for (int[] position: MovementPositions)
-            {
-                //If the position is not a hole or a wall
-                batch.draw(rangeTexture, position[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - position[1] * map.tileHeight + yMapOffset);
             }
         }
 
@@ -356,15 +343,15 @@ public class GameScreen implements Screen, InputProcessor
 
     public List<int[]> getSpellRangePosition(Spell spell)
     {
-        return getRangePosition(spell.getRange());
+        return GetValidPositions(gameManager.GetActualPlayer().getCurrentPosition(), spell.getRange());
     }
 
-    public List<int[]> getMovementPosition()
+    public List<int[]> GetMovementPosition()
     {
-        return getRangePosition(gameManager.GetActualPlayer().getPm());
+        return GetRangePosition(gameManager.GetActualPlayer().getPm());
     }
 
-    public List<int[]> getRangePosition(int range)
+    public List<int[]> GetRangePosition(int range)
     {
         int[] actualPosition = gameManager.GetActualPlayer().currentPosition;
         List<int[]> positions = new ArrayList<>();
@@ -390,6 +377,64 @@ public class GameScreen implements Screen, InputProcessor
             }
         }
         return positions;
+    }
+
+    public List<int[]> GetValidPositions(int[] initialPosition, int range)
+    {
+        List<int[]> validPositions = new ArrayList<>();
+
+        //Make a depth-first search to get the ground cases accessible
+        Set<List<Integer>> visited = new HashSet<>();
+        Stack<int[]> toVisit = new Stack<>();
+        Stack<Integer> distanceToInitialPosition = new Stack<>();
+
+        toVisit.add(initialPosition);
+        distanceToInitialPosition.add(0);
+
+        while(!toVisit.empty())
+        {
+            int[] s = toVisit.pop();
+            int distance = distanceToInitialPosition.pop();
+
+            //Transform s to a list for Set Contains test
+            List<Integer> sToList = new ArrayList<>();
+            sToList.add(s[0]);
+            sToList.add(s[1]);
+
+            if(!visited.contains(sToList) && distance <= range && Map.GetInstance().IsGroundPosition(s[0], s[1]))
+            {
+
+                visited.add(sToList);
+
+                Set<int[]> neighbors = Map.GetInstance().GetNeighborPosition(s);
+
+                for(int[] t : neighbors)
+                {
+                    //Transform t to a list for Set Contains test
+                    List<Integer> tToList = new ArrayList<>();
+                    tToList.add(t[0]);
+                    tToList.add(t[1]);
+
+                    if(!visited.contains(tToList))
+                    {
+                        toVisit.add(t);
+                        distanceToInitialPosition.add(distance + 1);
+                    }
+                }
+            }
+        }
+
+        for (List<Integer> position : visited)
+        {
+            //Transform s to a list for Set Contains test
+            int[] convertPosition = new int[2];
+            convertPosition[0] = position.get(0);
+            convertPosition[1] = position.get(1);
+
+            validPositions.add(convertPosition);
+        }
+
+        return validPositions;
     }
 
     //region <Useless ScreenManagement

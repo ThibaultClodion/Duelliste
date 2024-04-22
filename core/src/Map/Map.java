@@ -18,7 +18,7 @@ public final class Map
     public int height = 10;
     public int tileWidth = 64;
     public int tileHeight = 64;
-    private int seede;
+    private int seed;
 
     //Texture and Sprites
     private final Texture ground1Image = new Texture("ground1.png");
@@ -38,7 +38,7 @@ public final class Map
         //Create a random Map
         CreateAMap(seed);
 
-        seede = seed;
+        this.seed = seed;
     }
 
     public static Map GetInstance()
@@ -201,7 +201,7 @@ public final class Map
         return cpt;
     }
 
-    private Set<int[]> GetNeighborPosition(int[] position)
+    public Set<int[]> GetNeighborPosition(int[] position)
     {
         Set<int[]> neighbors = new HashSet<>();
 
@@ -405,7 +405,7 @@ public final class Map
     }
 
     public int getSeed() {
-        return seede;
+        return seed;
     }
 
     public char[][] getGrid() {
