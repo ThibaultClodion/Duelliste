@@ -414,7 +414,14 @@ public final class Map
 
     public boolean IsGroundPosition(int line, int column)
     {
-        return grid[line][column] == 'G';
+        if(column < height && line < width)
+        {
+            return grid[line][column] == 'G';
+        }
+        else
+        {
+            return false;
+        }
     }
     //endregion
 

@@ -111,7 +111,7 @@ public final class GameManager extends Game
 
     //region <Screen Management>
 
-    public void setGameScreen(Map seed)
+    public void setGameScreen(int seed)
     {
         gameScreen = new GameScreen(this , player1, player2, seed);
         setScreen(gameScreen);

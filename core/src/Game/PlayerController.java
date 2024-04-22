@@ -10,7 +10,7 @@ public class PlayerController
 
     //Combat Data's
     public int[] currentPosition;
-    public Spell actualSpeel;
+    public Spell actualSpell;
     private float hp;
     private int pm;
     private int pa;
@@ -19,7 +19,7 @@ public class PlayerController
     {
         changeCharacter(character);
         currentPosition = beginPosition;
-        actualSpeel = character.GetSpell(0);
+        actualSpell = character.GetSpell(0);
     }
 
     //region <Datas Management>
@@ -39,6 +39,7 @@ public class PlayerController
         //Reset the PM and PA
         pm = character.GetPm();
         pa = character.GetPa();
+        actualSpell = character.GetSpell(0);
     }
 
     public void Hit(int damage)
@@ -60,13 +61,13 @@ public class PlayerController
 
     public void UseSpell(int[] position, PlayerController otherPlayer)
     {
-        if(CanUseSpell(position, actualSpeel))
+        if(CanUseSpell(position, actualSpell))
         {
             //Use the spell
-            actualSpeel.Launch(position, otherPlayer,this);
+            actualSpell.Launch(position, otherPlayer,this);
 
             //Decrease PA
-            pa -= actualSpeel.getPa();
+            pa -= actualSpell.getPa();
 
         }
     }

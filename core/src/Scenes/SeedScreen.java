@@ -115,7 +115,7 @@ public class SeedScreen implements Screen, InputProcessor  {
                 seed = seedField.getText();
                 System.out.println(seed);// test
                 if(isInteger(seed)) {
-                    gameManager.setGameScreen(new Map(Integer.parseInt(seed)));
+                    gameManager.setGameScreen(Integer.parseInt(seed));
                 }
                 else {
                     seedInfo = "La seed n'est pas valide ( seed est un entier )";
@@ -129,8 +129,7 @@ public class SeedScreen implements Screen, InputProcessor  {
                 // Action à effectuer lorsque le bouton est cliqué
                 Random random = new Random();
                 int seed = random.nextInt();
-                Map map = new Map(seed);
-                gameManager.setGameScreen(map);
+                gameManager.setGameScreen(seed);
             }
         });
 
