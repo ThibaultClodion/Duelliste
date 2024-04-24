@@ -51,10 +51,12 @@ public class GameScreen implements Screen, InputProcessor
     private final BitmapFont playerPm;
     private final List<SpellButton> spellButtonsPlayer1;
     private final List<SpellButton> spellButtonsPlayer2;
+
     //Players Data's
     private final PlayerController player1;
     private final PlayerController player2;
     private boolean isMoving;
+    List<int[]> rangePositions;
 
     //Timer Gestion Ressources
     private float clock=0;
@@ -70,6 +72,7 @@ public class GameScreen implements Screen, InputProcessor
 
         //Initially the player is moving
         isMoving = true;
+        rangePositions = new ArrayList<>();
 
         //Initialize the batch
         batch = new SpriteBatch();
@@ -129,6 +132,8 @@ public class GameScreen implements Screen, InputProcessor
             }
         }
 
+        GetRangePosition(); //Display the cell in range
+
         //Initialize the input
         Gdx.input.setInputProcessor(this);
     }
@@ -155,28 +160,9 @@ public class GameScreen implements Screen, InputProcessor
             }
         }
 
-        //Draw the range of actual spell
-        if(gameManager.GetActualPlayer() != null && !isMoving)
+        for (int[] position: rangePositions)
         {
-            //For now, we use only the first spell of the character
-            List<int[]> rangePositions = getSpellRangePosition(gameManager.GetActualPlayer().actualSpell);
-
-            for (int[] position: rangePositions)
-            {
-                //If the position is not a hole or a wall
-                batch.draw(rangeTexture, position[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - position[1] * map.tileHeight + yMapOffset);
-            }
-        }
-        if(gameManager.GetActualPlayer() != null && isMoving)
-        {
-            //For now, we use only the first spell of the character
-            List<int[]> rangePositions = GetMovementPosition();
-
-            for (int[] position: rangePositions)
-            {
-                //If the position is not a hole or a wall
-                batch.draw(rangeTexture, position[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - position[1] * map.tileHeight + yMapOffset);
-            }
+            batch.draw(rangeTexture, position[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - position[1] * map.tileHeight + yMapOffset);
         }
 
         //Display the case selected by the current player
@@ -205,6 +191,7 @@ public class GameScreen implements Screen, InputProcessor
         //If the timer is over then the round is over too
         if ( clock > roundTime )
         {
+            GetRangePosition();
             clock=0;
             gameManager.EndRound();
             isMoving = true;
@@ -228,6 +215,7 @@ public class GameScreen implements Screen, InputProcessor
                 clock=0;
                 gameManager.EndRound();
                 isMoving = true;
+                GetRangePosition();
             }
         }
         else {batch.draw(next_Turn_Inactive_Button, 860,830,50,50 );}
@@ -325,6 +313,7 @@ public class GameScreen implements Screen, InputProcessor
                     System.out.println("Button clicked");
                     isMoving=false;
                     player1.actualSpell = button.getSpell();
+                    GetRangePosition();
                 }
             }
         }
@@ -336,75 +325,68 @@ public class GameScreen implements Screen, InputProcessor
                 {
                     isMoving = false;
                     player2.actualSpell = button.getSpell();
+                    GetRangePosition();
                 }
             }
         }
     }
 
-    public List<int[]> getSpellRangePosition(Spell spell)
+    public List<int[]> GetSpellRangePosition()
     {
-        return GetValidPositions(gameManager.GetActualPlayer().getCurrentPosition(), spell.getRange());
+        return GetValidPositions(gameManager.GetActualPlayer().getCurrentPosition(), gameManager.GetActualPlayer().actualSpell.getRange());
     }
 
-    public List<int[]> GetMovementPosition()
+    private void GetRangePosition()
     {
-        return GetRangePosition(gameManager.GetActualPlayer().getPm());
-    }
-
-    public List<int[]> GetRangePosition(int range)
-    {
-        int[] actualPosition = gameManager.GetActualPlayer().currentPosition;
-        List<int[]> positions = new ArrayList<>();
-
-        for(int i = -range; i <= range; i++)
+        //Get spell range
+        if(gameManager.GetActualPlayer() != null && !isMoving)
         {
-            for(int j = -range; j <= range; j++)
-            {
-                //If the position is in range of the spell
-                if(Math.abs(i) + Math.abs(j) <= range)
-                {
-                    //Verify if the position is on the map
-                    if(actualPosition[0] + i >= 0 && actualPosition[0] + i < map.width
-                            && actualPosition[1] + j >= 0 && actualPosition[1] + j < map.height)
-                    {
-                        //Verify is the position is a ground
-                        if(map.IsGroundPosition(actualPosition[0] + i, actualPosition[1] + j))
-                        {
-                            positions.add(new int[]{actualPosition[0] + i, actualPosition[1] + j});
-                        }
-                    }
-                }
-            }
+            rangePositions = GetSpellRangePosition();
         }
-        return positions;
+        //Get movement range
+        else if(gameManager.GetActualPlayer() != null && isMoving)
+        {
+            rangePositions = GetMovementPosition();
+        }
     }
 
-    public List<int[]> GetValidPositions(int[] initialPosition, int range)
+    private List<int[]> GetMovementPosition()
+    {
+        return GetValidPositions(gameManager.GetActualPlayer().currentPosition, gameManager.GetActualPlayer().getPm());
+    }
+
+    private List<int[]> GetValidPositions(int[] initialPosition, int range)
     {
         List<int[]> validPositions = new ArrayList<>();
 
         //Make a depth-first search to get the ground cases accessible
         Set<List<Integer>> visited = new HashSet<>();
-        Stack<int[]> toVisit = new Stack<>();
-        Stack<Integer> distanceToInitialPosition = new Stack<>();
+        Queue<int[]> toVisit = new ArrayDeque<>();
+        Queue<Integer> distanceToInitialPosition =  new ArrayDeque<>();
 
         toVisit.add(initialPosition);
         distanceToInitialPosition.add(0);
 
-        while(!toVisit.empty())
+        while(!toVisit.isEmpty())
         {
-            int[] s = toVisit.pop();
-            int distance = distanceToInitialPosition.pop();
+            int[] s = toVisit.poll();
+            int distance = distanceToInitialPosition.poll();
 
             //Transform s to a list for Set Contains test
             List<Integer> sToList = new ArrayList<>();
             sToList.add(s[0]);
             sToList.add(s[1]);
 
-            if(!visited.contains(sToList) && distance <= range && Map.GetInstance().IsGroundPosition(s[0], s[1]))
+            if(distance > range)
+            {
+                return validPositions;
+            }
+
+            if(!visited.contains(sToList) && Map.GetInstance().IsGroundPosition(s[0], s[1]))
             {
 
                 visited.add(sToList);
+                validPositions.add(s);
 
                 Set<int[]> neighbors = Map.GetInstance().GetNeighborPosition(s);
 
@@ -424,17 +406,20 @@ public class GameScreen implements Screen, InputProcessor
             }
         }
 
-        for (List<Integer> position : visited)
-        {
-            //Transform s to a list for Set Contains test
-            int[] convertPosition = new int[2];
-            convertPosition[0] = position.get(0);
-            convertPosition[1] = position.get(1);
+        return validPositions;
+    }
 
-            validPositions.add(convertPosition);
+    private boolean IsARangedPosition(int[] position)
+    {
+        for (int[] rangePosition: rangePositions)
+        {
+            if(rangePosition[0] == position[0] && rangePosition[1] == position[1])
+            {
+                return true;
+            }
         }
 
-        return validPositions;
+        return false;
     }
 
     //region <Useless ScreenManagement
@@ -497,17 +482,23 @@ public class GameScreen implements Screen, InputProcessor
             position[0] = (screenX-xMapOffset)/map.tileWidth;
             position[1] = (screenY-(900 - map.height* map.tileHeight - yMapOffset))/map.tileHeight;
 
-            if(position[0] >= 0 && position[0] < map.tileWidth && position[1] >= 0 && position[1] < map.tileHeight)
+            if(position[0] >= 0 && position[0] < map.tileWidth && position[1] >= 0 && position[1] < map.tileHeight
+            && IsARangedPosition(position))
             {
                 if (isMoving)
                 {
                     gameManager.Move(position);
+                    GetRangePosition();
                 }
                 else
                 {
                     //Use the spell
                     gameManager.LaunchSpell(position);
-                    if(gameManager.player1.getHp() <= 0 || gameManager.player2.getHp() <= 0) {
+                    GetRangePosition();
+
+                    //End the game
+                    if(gameManager.player1.getHp() <= 0 || gameManager.player2.getHp() <= 0)
+                    {
                         gameManager.setEndScreen();
                     }
                 }

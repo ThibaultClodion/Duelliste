@@ -24,7 +24,6 @@ public final class Map
     private final Texture ground1Image = new Texture("ground1.png");
     private final Texture ground2Image = new Texture("ground2.png");
     private final Texture rockImage = new Texture("rock.png");
-    private final Texture holeImage = new Texture("hole.png");
 
     //region <Map Creation>
     public Map(int seed)
@@ -128,7 +127,7 @@ public final class Map
                     //Check if the position selected is valid
                     if (IsValidPosition(xPosition + i, yPosition + j)) {
                         //Allow to only define the useful things in the prefabs
-                        if (prefab[i][j] == 'R' || prefab[i][j] == 'H') {
+                        if (prefab[i][j] == 'R') {
                             grid[xPosition + i][yPosition + j] = prefab[i][j];
                         }
                     }
@@ -139,7 +138,7 @@ public final class Map
 
     private boolean IsTheMapValid()
     {
-        //Make a depth-first search to get the ground cases accessible
+        //Make a breath-first search to get the ground cases accessible
         Set<List<Integer>> visited = new HashSet<>();
         Stack<int[]> toVisit = new Stack<>();
 
@@ -276,7 +275,8 @@ public final class Map
 
         for (char[] line : prefab) {
             for (char c : line) {
-                if (c == 'R' || c == 'H') {
+                if (c == 'R')
+                {
                     cpt++;
                 }
             }
@@ -323,45 +323,8 @@ public final class Map
         TformRock[1][1] = 'R';
         TformRock[2][0] = 'R';
 
-        char[][] singleHole = new char[1][1];
-        singleHole[0][0] = 'H';
-
-        char[][] twoHoleVertical = new char[2][1];
-        twoHoleVertical[0][0] = 'H';
-        twoHoleVertical[1][0] = 'H';
-
-        char[][] twoHoleHorizontal = new char[1][2];
-        twoHoleHorizontal[0][0] = 'H';
-        twoHoleHorizontal[0][1] = 'H';
-
-        char[][] LformHoleV1 = new char[2][2];
-        LformHoleV1[0][0] = 'H';
-        LformHoleV1[0][1] = 'H';
-        LformHoleV1[1][0] = 'H';
-
-        char[][] LformHoleV2 = new char[2][2];
-        LformHoleV2[0][0] = 'H';
-        LformHoleV2[0][1] = 'H';
-        LformHoleV2[1][1] = 'H';
-
-        char[][] LformHoleV3 = new char[2][2];
-        LformHoleV3[1][0] = 'H';
-        LformHoleV3[0][1] = 'H';
-        LformHoleV3[1][1] = 'H';
-
-        char[][] LformHoleV4 = new char[2][2];
-        LformHoleV4[0][0] = 'H';
-        LformHoleV4[1][1] = 'H';
-        LformHoleV4[1][0] = 'H';
-
-        char[][] TformHole = new char[3][2];
-        TformHole[0][0] = 'H';
-        TformHole[1][1] = 'H';
-        TformHole[2][0] = 'H';
-
-
         return new char[][][] {singleRock, twoRockVertical, twoRockHorizontal, LformRockV1, LformRockV2, LformRockV3, LformRockV4,
-        TformRock,TformHole, singleHole, twoHoleVertical, twoHoleHorizontal, LformHoleV1, LformHoleV2, LformHoleV3, LformHoleV4};
+        TformRock};
     }
     //endregion
 
@@ -380,12 +343,8 @@ public final class Map
         {
             return rockImage;
         }
-        else if(grid[line][column] == 'H')
-        {
-            return holeImage;
-        }
 
-        //Normally there should not be other things then G, R, H
+        //Normally there should not be other things then G, R
         else
         {
             return ground1Image;
@@ -431,7 +390,6 @@ public final class Map
         //Dispose all the Textures
         ground1Image.dispose();
         rockImage.dispose();
-        holeImage.dispose();
     }
     //endregion
 }
