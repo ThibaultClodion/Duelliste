@@ -109,25 +109,27 @@ public class GameScreen implements Screen, InputProcessor
         next_Turn_Active_Button = new Texture("next_turn_active.png");
         spellButtonsPlayer1 = new ArrayList<>();
         spellButtonsPlayer2 = new ArrayList<>();
-        for (int i=0; i< player1.character.getNbSpell(); i++) {
-            Texture spellTexture = new Texture("classSquare1.JPG");
+
+        for (int i=0; i< player1.character.getNbSpell(); i++)
+        {
             if ( i%2 == 0) {
-                SpellButton spellButton = new SpellButton(spellTexture, 220+100*i/2, 25, 50, 50, player1.character.GetSpell(i));
+                SpellButton spellButton = new SpellButton(220+100*i/2, 25, 50, 50, player1.character.GetSpell(i));
                 spellButtonsPlayer1.add(spellButton);
             }
             else {
-                SpellButton spellButton = new SpellButton(spellTexture, 220+100*(i+1)/2, 100, 50, 50, player1.character.GetSpell(i));
+                SpellButton spellButton = new SpellButton(220+100*(i+1)/2, 100, 50, 50, player1.character.GetSpell(i));
                 spellButtonsPlayer1.add(spellButton);
             }
         }
-        for (int i=0; i< player2.character.getNbSpell(); i++) {
-            Texture spellTexture = new Texture("classSquare1.JPG");
+
+        for (int i=0; i< player2.character.getNbSpell(); i++)
+        {
             if ( i%2 == 0) {
-                SpellButton spellButton = new SpellButton(spellTexture, 220+100*i/2, 25, 50, 50, player2.character.GetSpell(i));
+                SpellButton spellButton = new SpellButton(220+100*i/2, 25, 50, 50, player2.character.GetSpell(i));
                 spellButtonsPlayer2.add(spellButton);
             }
             else {
-                SpellButton spellButton = new SpellButton(spellTexture, 220+100*(i+1)/2, 100, 50, 50, player2.character.GetSpell(i));
+                SpellButton spellButton = new SpellButton(220+100*(i+1)/2, 100, 50, 50, player2.character.GetSpell(i));
                 spellButtonsPlayer2.add(spellButton);
             }
         }
@@ -183,18 +185,18 @@ public class GameScreen implements Screen, InputProcessor
         //Draw the players
         if(player1 != null && player2 != null)
         {
-            batch.draw(player1.character.GetImage(), player1.getCurrentPosition()[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - player1.getCurrentPosition()[1] * map.tileHeight + yMapOffset);
-            batch.draw(player2.character.GetImage(), player2.getCurrentPosition()[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - player2.getCurrentPosition()[1] * map.tileHeight + yMapOffset);
+            batch.draw(player1.character.GetImage(), player1.getCurrentPosition()[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - player1.getCurrentPosition()[1] * map.tileHeight + yMapOffset, 64, 64);
+            batch.draw(player2.character.GetImage(), player2.getCurrentPosition()[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - player2.getCurrentPosition()[1] * map.tileHeight + yMapOffset, 64, 64);
         }
 
 
         //If the timer is over then the round is over too
         if ( clock > roundTime )
         {
-            GetRangePosition();
             clock=0;
             gameManager.EndRound();
             isMoving = true;
+            GetRangePosition();
         }
 
         //Timer Renderer
@@ -265,6 +267,7 @@ public class GameScreen implements Screen, InputProcessor
         batch.draw(rangeTexture, 220,100, 50, 50); //I don't know why but this correct the display of the moving button
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && 220 < Gdx.input.getX() && Gdx.input.getX() < 270 && 750 < Gdx.input.getY() && Gdx.input.getY() < 800) {
             isMoving = true;
+            GetRangePosition();
         }
 
         //end batch

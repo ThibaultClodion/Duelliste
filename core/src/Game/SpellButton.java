@@ -7,24 +7,24 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
 public class SpellButton {
-    private Texture iconTexture;
-    private Rectangle rectangle;
+    public Rectangle rectangle;
     private Spell spell;
 
-    public SpellButton(Texture iconTexture, float x, float y, float width, float height, Spell spell) {
-        this.iconTexture = iconTexture;
+    public SpellButton(float x, float y, float width, float height, Spell spell)
+    {
         rectangle = new Rectangle(x, y, width, height);
         this.spell = spell;
     }
 
-    public void render(SpriteBatch batch) {
-        batch.draw(iconTexture, rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+    public void render(SpriteBatch batch)
+    {
+        batch.draw(new Texture(spell.image.toString()), rectangle.x, rectangle.y, rectangle.width, rectangle.height);
     }
 
     public boolean isClicked(float x, float y) {
         return rectangle.contains(x, y);
     }
 
-    public Texture getTexture() { return iconTexture;}
+    public Texture getTexture() { return spell.image;}
     public Spell getSpell() {return spell;}
 }

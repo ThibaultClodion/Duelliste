@@ -171,7 +171,7 @@ public class SelectionScreen implements Screen, InputProcessor
         if(classNumber <= 4 && classNumber >= 0) {
             spellTextFont.draw(batch, spellText, spellTextRectangle.x, spellTextRectangle.y);
             for (int j = 0; j < this.characters[classNumber].getNbSpell(); j++) {
-                batch.draw(spellSquareImage, spellsRectangles[j].x, spellsRectangles[j].y);
+                batch.draw(new Texture(this.characters[classNumber].GetSpell(j).image.toString()), spellsRectangles[j].x, spellsRectangles[j].y, 100, 100);
             }
         }
 
