@@ -114,6 +114,10 @@ public class PlayerController
         this.pm = this.pa;
         this.pa = y;
     }
+    public void AjoutPmrPa()
+    {
+        this.pa = this.pa + this.pm;
+    }
     // region <Getters>
     public int[] getCurrentPosition()
     {
