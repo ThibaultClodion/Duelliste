@@ -1,7 +1,7 @@
 package Scenes;
 
 import Class.Aleator;
-import Class.Goblin;
+import Class.ElGoblino;
 import Class.Character;
 import Class.Lamenpeine;
 import Class.Rageux;
@@ -63,7 +63,7 @@ public class SelectionScreen implements Screen, InputProcessor
     public SelectionScreen(GameManager GM)
     {
         this.gameManager = GM;
-        this.characters = new Character[] {new Aleator(), new Goblin(), new Lamenpeine(), new Creationiste(), new Rageux()};
+        this.characters = new Character[] {new Aleator(), new ElGoblino(), new Lamenpeine(), new Creationiste(), new Rageux()};
 
         pos = new Vector3();
         clicEffectue = false;

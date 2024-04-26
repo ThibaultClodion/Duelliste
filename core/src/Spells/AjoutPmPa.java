@@ -1,12 +1,11 @@
 package Spells;
 
 import Game.PlayerController;
-import Map.Map;
 
-public class ChangeMap implements SpellComponent{
+public class AjoutPmPa implements SpellComponent{
     @Override
     public void execute(int[] mapPos, PlayerController otherPlayer, PlayerController myPlayer)
     {
-
+        myPlayer.AjoutPmrPa();
     }
 }

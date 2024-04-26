@@ -108,13 +108,23 @@ public class PlayerController
             currentPosition = position;
         }
     }
+    public void Echange()
+    {
+        int y = this.pm;
+        this.pm = this.pa;
+        this.pa = y;
+    }
+    public void AjoutPmrPa()
+    {
+        this.pa = this.pa + this.pm;
+    }
     // region <Getters>
     public int[] getCurrentPosition()
     {
         return currentPosition;
     }
     public float getHp() { return hp; }
-    public float getPa() { return pa; }
+    public int getPa() { return pa; }
     public int getPm() {return pm;}
     public Character getCharacter() {return character;}
 
