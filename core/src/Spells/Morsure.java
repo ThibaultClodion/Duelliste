@@ -6,6 +6,6 @@ public class Morsure extends Spell
 {
     public Morsure()
     {
-        super(new SpellComponent[] {new Damage(150)}, 1, 2,0, new Texture("classSquare1.JPG"));
+        super(new SpellComponent[] {new Damage(150)}, 1, 2,0, new Texture("morsure.png"));
     }
 }
