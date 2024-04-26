@@ -8,17 +8,38 @@ public class Spell
     SpellComponent[] components;
     int pa;
     int range;
+    int cooldown;
+    int currentCooldown;
     public Texture image;
 
 
-    public Spell(SpellComponent[] components, int pa, int range, Texture image)
+    public Spell(SpellComponent[] components, int pa, int range, int cooldown, Texture image)
     {
         this.components = components;
         this.pa = pa;
         this.range = range;
         this.image = image;
+        this.cooldown = cooldown;
+        currentCooldown = 0;
     }
 
+    public void UpdateCooldown()
+    {
+        if(currentCooldown > 0)
+        {
+            currentCooldown--;
+        }
+    }
+
+    public boolean IsReloaded()
+    {
+        return currentCooldown <= 0;
+    }
+
+    public void ResetCooldown()
+    {
+        currentCooldown = cooldown;
+    }
 
 
     public int getRange()

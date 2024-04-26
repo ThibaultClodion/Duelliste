@@ -46,6 +46,7 @@ public final class GameManager extends Game
         //The stats are reset
         player1.NewRound();
         player2.NewRound();
+        actualPlayer.UpdateCooldown();
 
         //The actual player switch
         actualPlayer = GetOtherPlayer();

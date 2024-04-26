@@ -10,7 +10,7 @@ public class Character
     private int pa;
     private Texture image;
     private Texture imageRectangle;
-    private Spell[] spells;
+    public Spell[] spells;
 
     public Character(float hp, int pm, int pa, Texture image, Texture imageRectangle, Spell[] spells)
     {
@@ -49,6 +49,14 @@ public class Character
     public Spell GetSpell(int index)
     {
         return spells[index];
+    }
+
+    public void UpdateSpellCooldowns()
+    {
+        for (Spell spell: spells)
+        {
+            spell.UpdateCooldown();
+        }
     }
 
     public int getNbSpell() {

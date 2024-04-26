@@ -42,6 +42,14 @@ public class PlayerController
         actualSpell = character.GetSpell(0);
     }
 
+    public void UpdateCooldown()
+    {
+        for (Spell spell: character.spells)
+        {
+            spell.UpdateCooldown();
+        }
+    }
+
     public void Hit(int damage)
     {
         this.hp -= damage;
@@ -56,7 +64,7 @@ public class PlayerController
     //region <Spells>
     public boolean CanUseSpell(int[] position, Spell spell)
     {
-        return Distance(position) <= spell.getRange() && pa - spell.getPa() >= 0;
+        return Distance(position) <= spell.getRange() && pa - spell.getPa() >= 0 && spell.IsReloaded();
     }
 
     public void UseSpell(int[] position, PlayerController otherPlayer)
@@ -66,9 +74,9 @@ public class PlayerController
             //Use the spell
             actualSpell.Launch(position, otherPlayer,this);
 
-            //Decrease PA
+            //Decrease PA and update cooldown
             pa -= actualSpell.getPa();
-
+            actualSpell.ResetCooldown();
         }
     }
 
