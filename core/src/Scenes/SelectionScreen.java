@@ -42,6 +42,7 @@ public class SelectionScreen implements Screen, InputProcessor
     public Texture rectangleImage; // for PV, PA, PM, and spells
 
     public Texture validationImage;
+    private Texture musicImage;
     public Music menuSound;
 
     //Spells
@@ -54,6 +55,7 @@ public class SelectionScreen implements Screen, InputProcessor
 
     public BitmapFont spellTextFont;
     public Rectangle validation;
+    private Rectangle music;
     public String spellText;
     public Rectangle spellTextRectangle;
     private String classText;
@@ -93,14 +95,16 @@ public class SelectionScreen implements Screen, InputProcessor
         //Rectangle and Validation
         rectangleImage = new Texture(Gdx.files.internal("rectangleVF.JPG"));
         validationImage = new Texture(Gdx.files.internal("validation.JPG")); // 100x100
+        musicImage = new Texture(Gdx.files.internal("musique.jpg"));
         rectangle = new Rectangle(1600 /2 - 1200/2, 0, 1200, 600);
         validation = new Rectangle(1450, 100, 100, 100);
+        music = new Rectangle(50, 100, 100, 100);
         spellTextRectangle = new Rectangle(1600 / 2 - 1200 / 2 + 50, 200, 1200, 200 );
 
         // load the background sound in the menu
-        menuSound = Gdx.audio.newMusic(Gdx.files.internal("pkm.mp3"));
-        //menuSound.setLooping(true);
-        //menuSound.play();
+        menuSound = Gdx.audio.newMusic(Gdx.files.internal("backgroundMusique.mp3"));
+        menuSound.setLooping(true);
+        menuSound.play();
 
         // start the playback of the background music immediately
 
@@ -155,6 +159,7 @@ public class SelectionScreen implements Screen, InputProcessor
         batch.draw(backgroundImage, 0, 0);
         batch.draw(rectangleImage, rectangle.x, rectangle.y);
         batch.draw(validationImage, validation.x, validation.y);
+        batch.draw(musicImage, music.x, music.y, music.width, music.height);
 
         //Draw the class rectangle
         for(int i = 0; i < classRectangles.length; i++)
@@ -224,6 +229,15 @@ public class SelectionScreen implements Screen, InputProcessor
         // Check if we have to unproject the camera ( a simple game? ) Yes, for having good coords i think
 
         if(button == Input.Buttons.LEFT) {
+            if(music.contains(pos.x, pos.y)) {
+                if(menuSound.isPlaying()) {
+                    menuSound.pause();
+                }
+                else {
+                    menuSound.play();
+                }
+            }
+
             for (int i = 0; i < classRectangles.length; i++) {
                 // Cheking if a classRectangle has been chosen
                 if (classRectangles[i].contains(pos.x, pos.y)/*pos.x <= classRectangles[i].x + classRectangles[i].width && pos.x >= classRectangles[i].x
