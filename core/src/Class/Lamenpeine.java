@@ -8,6 +8,6 @@ public class Lamenpeine extends Character
 
     public Lamenpeine()
     {
-        super(1400f, 2, 5, new Texture("lamenpeine62x62.png"), new Texture("lamenpeine.JPG"), new Spell[] {new SautDeLange(), new Morsure(),new Coup_circulaire(), new Coup_d_epee(), new Dechiquetage(),new Explosion(),new Lame_Sacrificielle()});
+        super(1400f, 2, 5, new Texture("lamenpeine62x62.png"), new Texture("lamenpeine.JPG"), new Spell[] {new SautDeLange(), new Morsure(),new Coup_circulaire(), new Coup_d_epee(), new Dechiquetage(),new Explosion(),new Soif_de_sang()});
     }
 }
