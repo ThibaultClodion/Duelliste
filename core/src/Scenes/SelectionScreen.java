@@ -318,5 +318,6 @@ public class SelectionScreen implements Screen, InputProcessor
         validationImage.dispose();
         backgroundImage.dispose();
         menuSound.dispose();
+        musicImage.dispose();
     }
 }
