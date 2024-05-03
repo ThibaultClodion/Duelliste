@@ -203,7 +203,7 @@ public class GameScreen implements Screen, InputProcessor
         clock += delta_time;
         timer.begin(ShapeRenderer.ShapeType.Filled);
         timer.setColor(Color.DARK_GRAY);
-        Rectangle rectangle = new Rectangle(750, 830, 100-10*clock, 50);
+        Rectangle rectangle = new Rectangle(750, 830, roundTime*3-3*clock, 50);
         timer.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 
         //Draw the background of information
