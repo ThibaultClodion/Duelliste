@@ -247,7 +247,7 @@ public class GameScreen implements Screen, InputProcessor
         if(player1 != null && player2 != null)
         {
             batch.draw(player1.character.GetImage(), hp_1.x - 80, hp_1.y, 64, 64);
-            batch.draw(player2.character.GetImage(), hp_2.x + hp_2.width + 10, hp_2.y, 64, 64);
+            batch.draw(player2.character.GetImage(), hp_2.x + 200 + 10, hp_2.y, 64, 64);
         }
 
         //PA
