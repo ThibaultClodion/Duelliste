@@ -3,5 +3,5 @@ package Spells;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Entaille extends Spell{
-    public Entaille(){super(new SpellComponent[] {new Damage(300)},2,1,1,new Texture("classSquare1.JPG"));}
+    public Entaille(){super(new SpellComponent[] {new Damage(300)},2,1,1,new Texture("classSquare1.JPG"),"Entaille est une attaque infligeant 300 dégats");}
 }

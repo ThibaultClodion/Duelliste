@@ -10,16 +10,18 @@ public class Spell
     int range;
     int cooldown;
     int currentCooldown;
+    String description;
     public Texture image;
 
 
-    public Spell(SpellComponent[] components, int pa, int range, int cooldown, Texture image)
+    public Spell(SpellComponent[] components, int pa, int range, int cooldown, Texture image, String description)
     {
         this.components = components;
         this.pa = pa;
         this.range = range;
         this.image = image;
         this.cooldown = cooldown;
+        this.description = description;
         currentCooldown = 0;
     }
 
@@ -51,6 +53,10 @@ public class Spell
     {
         return pa;
     }
+
+    public int getCooldown() {return cooldown;}
+
+    public String getDescription() {return description;}
 
     public void Launch(int[] mapPos, PlayerController otherPlayer, PlayerController myPlayer)
     {

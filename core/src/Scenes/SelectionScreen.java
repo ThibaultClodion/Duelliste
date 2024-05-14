@@ -253,7 +253,7 @@ public class SelectionScreen implements Screen, InputProcessor
                     if(spellsRectangles[j].contains(pos.x, pos.y)/*pos.x <= spellsRectangles[j].x + spellsRectangles[j].width && pos.x >= spellsRectangles[j].x
                             && 900 - pos.y <=*/ /*spellsRectangles[j].y - spellsRectangles[j].height*/ /*460 && 900 - pos.y >=*/ /*spellsRectangles[j].y*/ /*360*/) {
                         spellNumber = j;
-                        spellText = "PA = " + characters[classNumber].GetSpell(spellNumber).getPa() + " | Range = " + characters[classNumber].GetSpell(spellNumber).getRange();
+                        spellText = "PA = " + characters[classNumber].GetSpell(spellNumber).getPa() + " | Range = " + characters[classNumber].GetSpell(spellNumber).getRange() + " | Cooldown =" + characters[classNumber].GetSpell(spellNumber).getCooldown() + "\n" + characters[classNumber].GetSpell(spellNumber).getDescription();
                         Gdx.graphics.requestRendering();
                     }
                 }
