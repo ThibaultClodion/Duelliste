@@ -51,6 +51,8 @@ public class GameScreen implements Screen, InputProcessor
     private final BitmapFont playerPm;
     private final List<SpellButton> spellButtonsPlayer1;
     private final List<SpellButton> spellButtonsPlayer2;
+    private final Texture coolD;
+    private int coolDset;
 
     //Players Data's
     private final PlayerController player1;
@@ -109,6 +111,8 @@ public class GameScreen implements Screen, InputProcessor
         next_Turn_Active_Button = new Texture("next_turn_active.png");
         spellButtonsPlayer1 = new ArrayList<>();
         spellButtonsPlayer2 = new ArrayList<>();
+        coolD = new Texture("spellSquare.JPG");
+        coolDset = 0;
 
         for (int i=0; i< player1.character.getNbSpell(); i++)
         {
@@ -264,6 +268,16 @@ public class GameScreen implements Screen, InputProcessor
         if ( gameManager.GetActualPlayer()==player1 ) {
             for (SpellButton button : spellButtonsPlayer1) {
                 button.render(batch);
+                if(! button.getSpell().IsReloaded() && coolDset == 1) {
+                    batch.setColor(1, 1, 1, 0.7f);
+                    batch.draw(coolD, button.getRectangle().x, button.getRectangle().y, 50, 50);
+                    batch.setColor(Color.WHITE);
+                    coolDset = 0;
+                }
+                else {
+                    coolD.dispose();
+                    coolDset = 1;
+                }
             }
         }
         else {
@@ -314,6 +328,9 @@ public class GameScreen implements Screen, InputProcessor
         hpBarBackgroundPlayer2.dispose();
         playerPa.dispose();
         playerPm.dispose();
+        if(coolDset == 0) {
+            coolD.dispose();
+        }
     }
     public void handleInput(float x, float y)
     {

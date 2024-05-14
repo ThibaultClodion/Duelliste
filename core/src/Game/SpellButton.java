@@ -27,4 +27,5 @@ public class SpellButton {
 
     public Texture getTexture() { return spell.image;}
     public Spell getSpell() {return spell;}
+    public Rectangle getRectangle() {return rectangle;}
 }
