@@ -232,6 +232,7 @@ public class GameScreen implements Screen, InputProcessor
         Rectangle hp_background_2 = new Rectangle(1300, 830, 200, 50);
         hpBarBackgroundPlayer1.rect(hp_background_1.x, hp_background_1.y, hp_background_1.width, hp_background_1.height);
         hpBarBackgroundPlayer2.rect(hp_background_2.x, hp_background_2.y, hp_background_2.width, hp_background_2.height);
+
         //HP Bar Foreground
         hpBarPlayer1.begin(ShapeRenderer.ShapeType.Filled);
         hpBarPlayer2.begin(ShapeRenderer.ShapeType.Filled);
@@ -241,10 +242,19 @@ public class GameScreen implements Screen, InputProcessor
         Rectangle hp_2 = new Rectangle(1300, 830, 200*player2.getHp()/player2.character.GetHp(), 50);
         hpBarPlayer1.rect(hp_1.x, hp_1.y, hp_1.width, hp_1.height);
         hpBarPlayer2.rect(hp_2.x, hp_2.y, hp_2.width, hp_2.height);
+
+        //Draw players icons at the side of health bar
+        if(player1 != null && player2 != null)
+        {
+            batch.draw(player1.character.GetImage(), hp_1.x - 80, hp_1.y, 64, 64);
+            batch.draw(player2.character.GetImage(), hp_2.x + hp_2.width + 10, hp_2.y, 64, 64);
+        }
+
         //PA
         playerPa.setColor(Color.WHITE);
         playerPa.getData().setScale(3);
         playerPa.draw(batch,"PA :" + gameManager.GetActualPlayer().getPa(),50,140);
+
         //PM
         playerPm.setColor(Color.WHITE);
         playerPm.getData().setScale(3);
