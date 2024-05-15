@@ -268,15 +268,10 @@ public class GameScreen implements Screen, InputProcessor
         if ( gameManager.GetActualPlayer()==player1 ) {
             for (SpellButton button : spellButtonsPlayer1) {
                 button.render(batch);
-                if(! button.getSpell().IsReloaded() && coolDset == 1) {
+                if(! button.getSpell().IsReloaded()) {
                     batch.setColor(1, 1, 1, 0.7f);
                     batch.draw(coolD, button.getRectangle().x, button.getRectangle().y, 50, 50);
                     batch.setColor(Color.WHITE);
-                    coolDset = 0;
-                }
-                else {
-                    coolD.dispose();
-                    coolDset = 1;
                 }
             }
         }
@@ -328,9 +323,7 @@ public class GameScreen implements Screen, InputProcessor
         hpBarBackgroundPlayer2.dispose();
         playerPa.dispose();
         playerPm.dispose();
-        if(coolDset == 0) {
-            coolD.dispose();
-        }
+        coolD.dispose();
     }
     public void handleInput(float x, float y)
     {
