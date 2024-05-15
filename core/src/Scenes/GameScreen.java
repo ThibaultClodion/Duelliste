@@ -278,6 +278,11 @@ public class GameScreen implements Screen, InputProcessor
         else {
             for (SpellButton button : spellButtonsPlayer2) {
                 button.render(batch);
+                if(! button.getSpell().IsReloaded()) {
+                    batch.setColor(1, 1, 1, 0.7f);
+                    batch.draw(coolD, button.getRectangle().x, button.getRectangle().y, 50, 50);
+                    batch.setColor(Color.WHITE);
+                }
             }
         }
         handleInput(Gdx.input.getX(),900-Gdx.input.getY());
