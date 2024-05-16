@@ -2,96 +2,66 @@ package Scenes;
 
 import Game.GameManager;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.Input.TextInputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
 import java.util.Random;
 
 public class SeedScreen implements Screen, InputProcessor  {
-    private GameManager gameManager;
-    private Texture backgroundTexture;
-    Texture validation;
+    private final GameManager gameManager;
+    private final Texture backgroundTexture = new Texture("backgroundVF.JPG");
+    private final Texture validation = new Texture(Gdx.files.internal("validation.JPG"));
     TextButton playSeed;
     TextField seedField;
-    String seed;
-    String seedInfo;
-    BitmapFont seedInfoFont;
-    String seedEnter;
-    BitmapFont seedEnterFont;
-    private SpriteBatch batch;
-    private OrthographicCamera camera;
-    private Vector3 pos;
-    private Skin skin;
-    private Stage stage;
-    private TextInputListener seedListener;
-    private TextButton yes;
-    private TextButton no;
+    private String seed = "";
+    private String seedInfo = "";
+    private final BitmapFont seedInfoFont = new BitmapFont();
+    private final String seedEnter = "Entrez une graine de génération de Map";
+    private final BitmapFont seedEnterFont = new BitmapFont();
+    private final SpriteBatch batch = new SpriteBatch();
+    private final OrthographicCamera camera = new OrthographicCamera();
+    private final Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+    private final Stage stage = new Stage();
     private TextButton aleatoire;
-    private ButtonGroup yesno;
-    private Button selection;
-    public SeedScreen(GameManager GM) {
+
+    public SeedScreen(GameManager GM)
+    {
         gameManager = GM;
-
-        stage = new Stage();
         Gdx.input.setInputProcessor(stage);
+        camera.setToOrtho(false, 1600, 900);
+        batch.setProjectionMatrix(camera.combined);
 
-        backgroundTexture = new Texture("backgroundVF.JPG");
-        validation = new Texture(Gdx.files.internal("validation.JPG"));
+        UIInit();
+        ButtonsListenerInit();
+        StageInit();
+    }
 
-        // Charge le skin par défaut
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+    private void UIInit()
+    {
         skin.getFont("default-font").getData().setScale(1.5f);
-
-
         seedField = new TextField("", skin);
-        seed = "";
-        seedInfo = "";
-        seedEnter = "Entrez une graine de génération de Map";
-
-        seedInfoFont = new BitmapFont();
-        seedEnterFont = new BitmapFont();
         seedInfoFont.getData().setScale(1.5f);
         seedEnterFont.getData().setScale(1.5f);
-
         aleatoire = new TextButton("Aleatoire", skin);
         playSeed = new TextButton("Jouer", skin);
-
-        yes = new TextButton("Oui", skin);
-        no = new TextButton("Non", skin);
-        selection = new Button(skin);
-        yesno = new ButtonGroup(yes, no);
-
-        aleatoire.setPosition(1600 / 2 - 100 / 2 - 225, 100);
-        playSeed.setPosition(1600 / 2 - 100 / 2 + 225, 100);
+        aleatoire.setPosition((float) 1600 / 2 - (float) 100 / 2 - 225, 100);
+        playSeed.setPosition((float) 1600 / 2 - (float) 100 / 2 + 225, 100);
         aleatoire.setSize(200, 100);
         playSeed.setSize(200, 100);
-
-        yes.setPosition(100, 100);
-        no.setPosition(1000, 100);
-
-        this.seedField.setPosition(1600/2 - 200/2,900/2 - 100 / 2);
+        this.seedField.setPosition((float) 1600 /2 - (float) 200 /2, (float) 900 /2 - (float) 100 / 2);
         this.seedField.setSize(300, 100);
+    }
 
-        batch = new SpriteBatch();
-
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 1600, 900);
-
-        pos = new Vector3();
-
+    private void ButtonsListenerInit()
+    {
         playSeed.addListener(new ClickListener() {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
@@ -117,20 +87,14 @@ public class SeedScreen implements Screen, InputProcessor  {
                 seedField.setText(String.valueOf(seed));
             }
         });
-
-        stage.addActor(playSeed);
-        stage.addActor(aleatoire);
-
-        stage.addActor(seedField);
-
-        // Sélectionne le premier bouton par défaut
-        yesno.setChecked("button1");
-
-        yesno.setUncheckLast(true); // Permet de désélectionner le bouton précédemment sélectionné
-        yesno.setMinCheckCount(0); // Permet de désélectionner tous les boutons
-        yesno.setMaxCheckCount(1); // Permet de sélectionner un seul bouton à la fois
     }
 
+    private void StageInit()
+    {
+        stage.addActor(playSeed);
+        stage.addActor(aleatoire);
+        stage.addActor(seedField);
+    }
 
 
     @Override
@@ -139,29 +103,18 @@ public class SeedScreen implements Screen, InputProcessor  {
     }
 
     public void render(float v) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            Gdx.app.exit();
-        }
+
         ScreenUtils.clear(255, 255, 255, 1);
         camera.update();
-        batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
 
         batch.draw(backgroundTexture, 0, 0);
-        seedInfoFont.draw(batch, seedInfo, 1600 / 2 - 110, 900 / 2 - 100);
-        seedEnterFont.draw(batch, seedEnter, 1600 / 2 - 130, 900 / 2 + 100);
-
-        batch.end();
-
+        seedInfoFont.draw(batch, seedInfo, (float) 1600 / 2 - 110, (float) 900 / 2 - 100);
+        seedEnterFont.draw(batch, seedEnter, (float) 1600 / 2 - 130, (float) 900 / 2 + 100);
         stage.draw();
 
-        if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            System.out.println(Gdx.input.getX());
-            System.out.println(Gdx.input.getY());
-        }
-
-
+        batch.end();
     }
     public void resize(int i, int i1) {
 
@@ -181,7 +134,8 @@ public class SeedScreen implements Screen, InputProcessor  {
     }
 
     @Override
-    public void dispose() {
+    public void dispose()
+    {
         backgroundTexture.dispose();
         validation.dispose();
         batch.dispose();
