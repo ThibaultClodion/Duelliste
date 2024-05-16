@@ -4,7 +4,6 @@ import Game.GameManager;
 import Game.PlayerController;
 import Game.SpellButton;
 import Map.Map;
-import Spells.Spell;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -47,12 +46,13 @@ public class GameScreen implements Screen, InputProcessor
     private final ShapeRenderer hpBarPlayer2;
     private final ShapeRenderer hpBarBackgroundPlayer1;
     private final ShapeRenderer hpBarBackgroundPlayer2;
+    private final BitmapFont player1HP;
+    private final BitmapFont player2HP;
     private final BitmapFont playerPa;
     private final BitmapFont playerPm;
     private final List<SpellButton> spellButtonsPlayer1;
     private final List<SpellButton> spellButtonsPlayer2;
     private final Texture coolD;
-    private int coolDset;
 
     //Players Data's
     private final PlayerController player1;
@@ -100,6 +100,8 @@ public class GameScreen implements Screen, InputProcessor
         rangeTexture = new Texture("range.png");
         selectedTexture = new Texture("selected.png");
         moving_button = new Texture("moving_button.png");
+        player1HP = new BitmapFont();
+        player2HP = new BitmapFont();
         playerPa = new BitmapFont();
         playerPm = new BitmapFont();
         timer = new ShapeRenderer();
@@ -112,16 +114,15 @@ public class GameScreen implements Screen, InputProcessor
         spellButtonsPlayer1 = new ArrayList<>();
         spellButtonsPlayer2 = new ArrayList<>();
         coolD = new Texture("spellSquare.JPG");
-        coolDset = 0;
 
         for (int i=0; i< player1.character.getNbSpell(); i++)
         {
             if ( i%2 == 0) {
-                SpellButton spellButton = new SpellButton(220+100*i/2, 25, 50, 50, player1.character.GetSpell(i));
+                SpellButton spellButton = new SpellButton(250 + 100*i/2, 20, 50, 50, player1.character.GetSpell(i));
                 spellButtonsPlayer1.add(spellButton);
             }
             else {
-                SpellButton spellButton = new SpellButton(220+100*(i+1)/2, 100, 50, 50, player1.character.GetSpell(i));
+                SpellButton spellButton = new SpellButton(250 + 100*(i+1)/2, 95, 50, 50, player1.character.GetSpell(i));
                 spellButtonsPlayer1.add(spellButton);
             }
         }
@@ -129,11 +130,11 @@ public class GameScreen implements Screen, InputProcessor
         for (int i=0; i< player2.character.getNbSpell(); i++)
         {
             if ( i%2 == 0) {
-                SpellButton spellButton = new SpellButton(220+100*i/2, 25, 50, 50, player2.character.GetSpell(i));
+                SpellButton spellButton = new SpellButton(250 + 100*i/2, 20, 50, 50, player2.character.GetSpell(i));
                 spellButtonsPlayer2.add(spellButton);
             }
             else {
-                SpellButton spellButton = new SpellButton(220+100*(i+1)/2, 100, 50, 50, player2.character.GetSpell(i));
+                SpellButton spellButton = new SpellButton(250 + 100*(i+1)/2, 95, 50, 50, player2.character.GetSpell(i));
                 spellButtonsPlayer2.add(spellButton);
             }
         }
@@ -227,6 +228,8 @@ public class GameScreen implements Screen, InputProcessor
         else {batch.draw(next_Turn_Inactive_Button, 860,830,50,50 );}
 
         //Player Info Display
+
+
         //HP Bar Background
         hpBarBackgroundPlayer1.begin(ShapeRenderer.ShapeType.Filled);
         hpBarBackgroundPlayer2.begin(ShapeRenderer.ShapeType.Filled);
@@ -246,6 +249,13 @@ public class GameScreen implements Screen, InputProcessor
         Rectangle hp_2 = new Rectangle(1300, 830, 200*player2.getHp()/player2.character.GetHp(), 50);
         hpBarPlayer1.rect(hp_1.x, hp_1.y, hp_1.width, hp_1.height);
         hpBarPlayer2.rect(hp_2.x, hp_2.y, hp_2.width, hp_2.height);
+        //Draw player HP
+        player1HP.setColor(Color.WHITE);
+        player1HP.getData().setScale(2);
+        player1HP.draw(batch, "PV : " + player1.getHp(), 325, 865);
+        player2HP.setColor(Color.WHITE);
+        player2HP.getData().setScale(2);
+        player2HP.draw(batch, "PV : " + player2.getHp(), 1130, 865);
 
         //Draw players icons at the side of health bar
         if(player1 != null && player2 != null)
@@ -264,9 +274,13 @@ public class GameScreen implements Screen, InputProcessor
         playerPm.getData().setScale(3);
         playerPm.draw(batch,"PM :" + gameManager.GetActualPlayer().getPm(),50,60);
 
+
         // Dessiner tous les boutons de sorts
-        if ( gameManager.GetActualPlayer()==player1 ) {
-            for (SpellButton button : spellButtonsPlayer1) {
+        batch.draw(moving_button, 250,95,50,50 );
+        if ( gameManager.GetActualPlayer()==player1 )
+        {
+            for (SpellButton button : spellButtonsPlayer1)
+            {
                 button.render(batch);
                 if(! button.getSpell().IsReloaded()) {
                     batch.setColor(1, 1, 1, 0.7f);
@@ -275,20 +289,22 @@ public class GameScreen implements Screen, InputProcessor
                 }
             }
         }
-        else {
-            for (SpellButton button : spellButtonsPlayer2) {
+        else
+        {
+            for (SpellButton button : spellButtonsPlayer2)
+            {
                 button.render(batch);
-                if(! button.getSpell().IsReloaded()) {
+                if(! button.getSpell().IsReloaded())
+                {
                     batch.setColor(1, 1, 1, 0.7f);
-                    batch.draw(coolD, button.getRectangle().x, button.getRectangle().y, 50, 50);
+                    batch.draw(coolD, button.getRectangle().x, button.getRectangle().y, 64, 64);
                     batch.setColor(Color.WHITE);
                 }
             }
         }
         handleInput(Gdx.input.getX(),900-Gdx.input.getY());
+        batch.draw(moving_button, 250,95,0,0 ); //Don't Delete it
 
-        batch.draw(moving_button, 220,100,50,50 );
-        batch.draw(rangeTexture, 220,100, 50, 50); //I don't know why but this correct the display of the moving button
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && 220 < Gdx.input.getX() && Gdx.input.getX() < 270 && 750 < Gdx.input.getY() && Gdx.input.getY() < 800) {
             isMoving = true;
             GetRangePosition();
@@ -306,6 +322,7 @@ public class GameScreen implements Screen, InputProcessor
         for (SpellButton button : spellButtonsPlayer2) {
             button.getTexture().dispose();
         }
+
         batch.end();
     }
 

@@ -72,15 +72,15 @@ public class EndScreen implements Screen, InputProcessor {
         batch.draw(background, 0, 0);
         batch.draw(playAgain, playAgainButton.x, playAgainButton.y);
 
-        gagnantFont.draw(batch, gagnant, 1600/2 - 300, 1600 / 2 - 150);
+        gagnantFont.draw(batch, gagnant, 1600/2 - 400, 1600 / 2 - 150);
         gagnantFont.getData().setScale(1.5f);
-        perdantFont.draw(batch, perdant, 1600/2 + 300, 1600 / 2 - 150);
+        perdantFont.draw(batch, perdant, 1600/2 + 200, 1600 / 2 - 150);
         perdantFont.getData().setScale(1.5f);
         seedFont.draw(batch, seed + gameManager.getGameScreen().getMap().getSeed(), 150, 150);
         seedFont.getData().setScale(1.5f);
 
-        batch.draw(gagnantPlayer.getCharacter().GetImage(), 1600/2 - 300, 900/2 - 200/2, 200, 200);
-        batch.draw(perdantPlayer.getCharacter().GetImage(), 1600/2 + 300, 900/2 - 200/2, 200, 200);
+        batch.draw(gagnantPlayer.getCharacter().GetImage(), 1600/2 - 400, 900/2 - 200/2, 200, 200);
+        batch.draw(perdantPlayer.getCharacter().GetImage(), 1600/2 + 200, 900/2 - 200/2, 200, 200);
 
         batch.end();
 
