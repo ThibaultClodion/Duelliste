@@ -242,14 +242,14 @@ public class SelectionScreen implements Screen, InputProcessor
                 {
                     this.classNumber = i;
                     spellText = "Cliquez sur un sort";
-                    classText = "HP :  " + characters[i].GetHp() + "          PA :  " + characters[i].GetPa() + "           PM :  " + characters[i].GetPm();
+                    classText = "Point de vie :  " + characters[i].GetHp() + "          Point d'action :  " + characters[i].GetPa() + "           Point de déplacement :  " + characters[i].GetPm();
                 }
             }
             if(classNumber <= 4 && classNumber >= 0) {
                 for (int j = 0; j < characters[classNumber].getNbSpell(); j++) {
                     if(spellsRectangles[j].contains(pos.x, pos.y)) {
                         spellNumber = j;
-                        spellText = "PA = " + characters[classNumber].GetSpell(spellNumber).getPa() + "         Range = " + characters[classNumber].GetSpell(spellNumber).getRange() + "            Cooldown =" + characters[classNumber].GetSpell(spellNumber).getCooldown() + "\n\n" + characters[classNumber].GetSpell(spellNumber).getDescription();
+                        spellText = "Point d'action = " + characters[classNumber].GetSpell(spellNumber).getPa() + "         Portée = " + characters[classNumber].GetSpell(spellNumber).getRange() + "            Temps de rechargement =" + characters[classNumber].GetSpell(spellNumber).getCooldown() + "\n\n" + characters[classNumber].GetSpell(spellNumber).getDescription();
                         Gdx.graphics.requestRendering();
                     }
                 }

@@ -59,18 +59,18 @@ public class SeedScreen implements Screen, InputProcessor  {
         seedField = new TextField("", skin);
         seed = "";
         seedInfo = "";
-        seedEnter = "Enter a Map Generation Seed";
+        seedEnter = "Entrez une graine de génération de Map";
 
         seedInfoFont = new BitmapFont();
         seedEnterFont = new BitmapFont();
         seedInfoFont.getData().setScale(1.5f);
         seedEnterFont.getData().setScale(1.5f);
 
-        aleatoire = new TextButton("Random", skin);
-        playSeed = new TextButton("Play", skin);
+        aleatoire = new TextButton("Aleatoire", skin);
+        playSeed = new TextButton("Jouer", skin);
 
-        yes = new TextButton("Yes", skin);
-        no = new TextButton("No", skin);
+        yes = new TextButton("Oui", skin);
+        no = new TextButton("Non", skin);
         selection = new Button(skin);
         yesno = new ButtonGroup(yes, no);
 
@@ -103,7 +103,7 @@ public class SeedScreen implements Screen, InputProcessor  {
                     gameManager.setGameScreen(Integer.parseInt(seed));
                 }
                 else {
-                    seedInfo = "Seed must be an int";
+                    seedInfo = "La graine doit être un nombre entier";
                 }
             }
         });
@@ -149,8 +149,8 @@ public class SeedScreen implements Screen, InputProcessor  {
         batch.begin();
 
         batch.draw(backgroundTexture, 0, 0);
-        seedInfoFont.draw(batch, seedInfo, 1600 / 2 - 50, 900 / 2 - 100);
-        seedEnterFont.draw(batch, seedEnter, 1600 / 2 - 95, 900 / 2 + 100);
+        seedInfoFont.draw(batch, seedInfo, 1600 / 2 - 110, 900 / 2 - 100);
+        seedEnterFont.draw(batch, seedEnter, 1600 / 2 - 130, 900 / 2 + 100);
 
         batch.end();
 
