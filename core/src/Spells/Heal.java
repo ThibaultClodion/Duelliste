@@ -15,14 +15,14 @@ public class Heal implements SpellComponent
     @Override
     public void execute(int[] mapPos, PlayerController otherPlayer, PlayerController myPlayer)
     {
-        if(Arrays.equals(mapPos, otherPlayer.getCurrentPosition()))
+        if(Arrays.equals(mapPos, otherPlayer.currentPosition))
         {
-            if (myPlayer.getHp() + heal <= myPlayer.getHpInitiaux())
+            if (myPlayer.GetHp() + heal <= myPlayer.GetHpInitiaux())
             {
                 myPlayer.Hit(-heal);
             }
             else {
-                myPlayer.Hit((int) -(myPlayer.getHpInitiaux() - myPlayer.getHp()));
+                myPlayer.Hit((int) -(myPlayer.GetHpInitiaux() - myPlayer.GetHp()));
             }
         }
     }

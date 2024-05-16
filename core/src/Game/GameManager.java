@@ -6,7 +6,6 @@ import Scenes.SeedScreen;
 import Scenes.SelectionScreen;
 import com.badlogic.gdx.Game;
 import Map.Map;
-import Class.Aleator;
 
 import java.util.Arrays;
 
@@ -17,9 +16,6 @@ public final class GameManager extends Game
 
     //Screens
     private GameScreen gameScreen;
-    private SelectionScreen selectionScreen;
-    private SeedScreen seedScreen;
-    private EndScreen endScreen;
 
     //Players
     public PlayerController player1;
@@ -41,7 +37,6 @@ public final class GameManager extends Game
         setSelectionScreen();
     }
 
-    //region <Game Management>
     public void EndRound()
     {
         //The stats are reset
@@ -53,14 +48,10 @@ public final class GameManager extends Game
         actualPlayer = GetOtherPlayer();
     }
 
-    public void GameOver(PlayerController loserPlayer)
+    public void GameOver()
     {
         setSelectionScreen();
     }
-
-    //endregion
-
-    //region <Player Management>
 
     public void LaunchSpell(int[] position)
     {
@@ -77,13 +68,14 @@ public final class GameManager extends Game
     {
         Map map = Map.GetInstance();
         return !Arrays.equals(position, GetOtherPlayer().currentPosition) && map.IsGroundPosition(position[0], position[1])
-                && !Arrays.equals(position, GetActualPlayer().getCurrentPosition());
+                && !Arrays.equals(position, GetActualPlayer().currentPosition);
     }
 
     public void setPlayer1(PlayerController playerController)
     {
             this.player1 = playerController;
     }
+
     public void setPlayer2(PlayerController playerController)
     {
         this.player2 = playerController;
@@ -109,10 +101,6 @@ public final class GameManager extends Game
         }
     }
 
-    //endregion
-
-    //region <Screen Management>
-
     public void setGameScreen(int seed)
     {
         gameScreen = new GameScreen(this , player1, player2, seed);
@@ -121,19 +109,19 @@ public final class GameManager extends Game
 
     public void setSelectionScreen()
     {
-        selectionScreen = new SelectionScreen(this);
+        SelectionScreen selectionScreen = new SelectionScreen(this);
         setScreen(selectionScreen);
     }
 
     public void setSeedScreen() {
-        seedScreen = new SeedScreen(this);
+        SeedScreen seedScreen = new SeedScreen(this);
         setScreen(seedScreen);
     }
 
     public void setEndScreen()
     {
-        endScreen = new EndScreen(this);
-        if(player1.getHp() <= 0) {
+        EndScreen endScreen = new EndScreen(this);
+        if(player1.GetHp() <= 0) {
             endScreen.setPodium("Joueur 2", "Joueur 1", player2, player1);
         }
         else {
@@ -175,5 +163,4 @@ public final class GameManager extends Game
     {
         super.resume();
     }
-    //endregion
 }

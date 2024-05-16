@@ -16,7 +16,7 @@ public class Damage implements SpellComponent
     @Override
     public void execute(int[] mapPos, PlayerController otherPlayer, PlayerController myPlayer)
     {
-        if(Arrays.equals(mapPos, otherPlayer.getCurrentPosition()))
+        if(Arrays.equals(mapPos, otherPlayer.currentPosition))
         {
             otherPlayer.Hit(damage);
         }

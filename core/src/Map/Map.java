@@ -18,14 +18,13 @@ public final class Map
     public int height = 10;
     public int tileWidth = 64;
     public int tileHeight = 64;
-    private int seed;
+    private final int seed;
 
     //Texture and Sprites
     private final Texture ground1Image = new Texture("ground1.png");
     private final Texture ground2Image = new Texture("ground2.png");
     private final Texture rockImage = new Texture("rock.png");
 
-    //region <Map Creation>
     public Map(int seed)
     {
         //Initialize the Singleton
@@ -115,7 +114,7 @@ public final class Map
             char[][] prefab = prefabs[random.nextInt(prefabs.length)];
 
             //Decrement the number of elements to put
-            nbElementsMax -= HowManyElement(prefab);
+            nbElementsMax -= HowManyElementOnPrefab(prefab);
 
             //Find the random position to put the new prefab
             int xPosition = random.nextInt(0, this.width + 1);
@@ -179,10 +178,10 @@ public final class Map
         //Now the set visited contains all the accessible ground cell
         //We now count if the length of this set is equals to the number of ground cells to check if a player could be blocked
 
-        return visited.size() == HowMuchGroundCell();
+        return visited.size() == HowMuchCellOfType('G');
     }
 
-    private int HowMuchGroundCell()
+    private int HowMuchCellOfType(char type)
     {
         int cpt = 0;
 
@@ -190,7 +189,7 @@ public final class Map
         {
             for (char aChar : chars)
             {
-                if (aChar == 'G')
+                if (aChar == type)
                 {
                     cpt++;
                 }
@@ -269,7 +268,7 @@ public final class Map
         return (0 <= line) &&  (line < width) && (0 <= column) && (column < height);
     }
 
-    private int HowManyElement(char[][] prefab)
+    private int HowManyElementOnPrefab(char[][] prefab)
     {
         int cpt = 0;
 
@@ -326,9 +325,7 @@ public final class Map
         return new char[][][] {singleRock, twoRockVertical, twoRockHorizontal, LformRockV1, LformRockV2, LformRockV3, LformRockV4,
         TformRock};
     }
-    //endregion
 
-    //region <Map Visualisation>
     public Texture GetTexture(int line, int column)
     {
         if(grid[line][column] == 'G' && (line + column) % 2 == 0)
@@ -351,7 +348,7 @@ public final class Map
         }
     }
 
-    public void DisplayMap()
+    public void DisplayMapOnConsole()
     {
         for(int i = 0; i < height; i++)
         {
@@ -382,14 +379,11 @@ public final class Map
             return false;
         }
     }
-    //endregion
 
-    //region <Map Destruction>
     public void Dispose()
     {
         //Dispose all the Textures
         ground1Image.dispose();
         rockImage.dispose();
     }
-    //endregion
 }

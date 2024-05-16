@@ -16,7 +16,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.sun.tools.javac.comp.Check;
 
 import java.util.*;
 
@@ -53,7 +52,7 @@ public class GameScreen implements Screen, InputProcessor
     private final BitmapFont playerPm = new BitmapFont();
     private final BitmapFont actualSpellDescription = new BitmapFont();
     private String actualSpellDescriptionText = "Permet de se déplacer via les PM";
-    private final Texture coolD = new Texture("spellSquare.JPG");;
+    private final Texture coolD = new Texture("spellSquare.JPG");
 
 
     //Players Data's
@@ -173,7 +172,7 @@ public class GameScreen implements Screen, InputProcessor
             if(! button.getSpell().IsReloaded())
             {
                 batch.setColor(1, 1, 1, 0.7f);
-                batch.draw(coolD, button.getRectangle().x, button.getRectangle().y, 64, 64);
+                batch.draw(coolD, button.getRectangle().x, button.getRectangle().y, 50, 50);
                 batch.setColor(Color.WHITE);
             }
         }
@@ -185,8 +184,8 @@ public class GameScreen implements Screen, InputProcessor
         //Draw the players
         if(player1 != null && player2 != null)
         {
-            batch.draw(player1.character.GetImage(), player1.getCurrentPosition()[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - player1.getCurrentPosition()[1] * map.tileHeight + yMapOffset, 64, 64);
-            batch.draw(player2.character.GetImage(), player2.getCurrentPosition()[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - player2.getCurrentPosition()[1] * map.tileHeight + yMapOffset, 64, 64);
+            batch.draw(player1.character.GetImage(), player1.currentPosition[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - player1.currentPosition[1] * map.tileHeight + yMapOffset, 64, 64);
+            batch.draw(player2.character.GetImage(), player2.currentPosition[0] * map.tileWidth + xMapOffset, (map.height-1)*map.tileHeight - player2.currentPosition[1] * map.tileHeight + yMapOffset, 64, 64);
         }
 
 
@@ -205,17 +204,17 @@ public class GameScreen implements Screen, InputProcessor
         hpBarPlayer2.begin(ShapeRenderer.ShapeType.Filled);
         hpBarPlayer1.setColor(Color.RED);
         hpBarPlayer2.setColor(Color.RED);
-        Rectangle hp_1 = new Rectangle(100, 830, 200*player1.getHp()/player1.character.GetHp(), 50); //La largeur de la barre est multipliée par le ratio PVactuerl/PVmax
-        Rectangle hp_2 = new Rectangle(1300, 830, 200*player2.getHp()/player2.character.GetHp(), 50);
+        Rectangle hp_1 = new Rectangle(100, 830, 200*player1.GetHp()/player1.character.GetHp(), 50); //La largeur de la barre est multipliée par le ratio PVactuerl/PVmax
+        Rectangle hp_2 = new Rectangle(1300, 830, 200*player2.GetHp()/player2.character.GetHp(), 50);
         hpBarPlayer1.rect(hp_1.x, hp_1.y, hp_1.width, hp_1.height);
         hpBarPlayer2.rect(hp_2.x, hp_2.y, hp_2.width, hp_2.height);
         //Draw player HP
         player1HP.setColor(Color.WHITE);
         player1HP.getData().setScale(2);
-        player1HP.draw(batch, "PV : " + player1.getHp(), 325, 865);
+        player1HP.draw(batch, "PV : " + player1.GetHp(), 325, 865);
         player2HP.setColor(Color.WHITE);
         player2HP.getData().setScale(2);
-        player2HP.draw(batch, "PV : " + player2.getHp(), 1130, 865);
+        player2HP.draw(batch, "PV : " + player2.GetHp(), 1130, 865);
 
         //Draw players icons at the side of health bar
         batch.draw(player1.character.GetImage(), hp_1.x - 80, hp_1.y, 64, 64);
@@ -224,12 +223,12 @@ public class GameScreen implements Screen, InputProcessor
         //PA
         playerPa.setColor(Color.WHITE);
         playerPa.getData().setScale(3);
-        playerPa.draw(batch,"PA :" + gameManager.GetActualPlayer().getPa(),50,140);
+        playerPa.draw(batch,"PA :" + gameManager.GetActualPlayer().GetPa(),50,140);
 
         //PM
         playerPm.setColor(Color.WHITE);
         playerPm.getData().setScale(3);
-        playerPm.draw(batch,"PM :" + gameManager.GetActualPlayer().getPm(),50,60);
+        playerPm.draw(batch,"PM :" + gameManager.GetActualPlayer().GetPm(),50,60);
 
     }
 
@@ -366,7 +365,7 @@ public class GameScreen implements Screen, InputProcessor
 
     public List<int[]> GetSpellRangePosition()
     {
-        return GetValidPositions(gameManager.GetActualPlayer().getCurrentPosition(), gameManager.GetActualPlayer().actualSpell.getRange());
+        return GetValidPositions(gameManager.GetActualPlayer().currentPosition, gameManager.GetActualPlayer().actualSpell.getRange());
     }
 
     private void GetRangePosition()
@@ -385,7 +384,7 @@ public class GameScreen implements Screen, InputProcessor
 
     private List<int[]> GetMovementPosition()
     {
-        return GetValidPositions(gameManager.GetActualPlayer().currentPosition, gameManager.GetActualPlayer().getPm());
+        return GetValidPositions(gameManager.GetActualPlayer().currentPosition, gameManager.GetActualPlayer().GetPm());
     }
 
     private List<int[]> GetValidPositions(int[] initialPosition, int range)
@@ -530,7 +529,7 @@ public class GameScreen implements Screen, InputProcessor
                     GetRangePosition();
 
                     //End the game
-                    if(gameManager.player1.getHp() <= 0 || gameManager.player2.getHp() <= 0)
+                    if(gameManager.player1.GetHp() <= 0 || gameManager.player2.GetHp() <= 0)
                     {
                         gameManager.setEndScreen();
                     }

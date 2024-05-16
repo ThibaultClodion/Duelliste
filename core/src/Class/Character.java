@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class Character
 {
-    private float hp;
-    private int pm;
-    private int pa;
-    private Texture image;
-    private Texture imageRectangle;
+    private final float hp;
+    private final int pm;
+    private final int pa;
+    private final Texture image;
+    private final Texture imageRectangle;
     public Spell[] spells;
 
     public Character(float hp, int pm, int pa, Texture image, Texture imageRectangle, Spell[] spells)
@@ -49,14 +49,6 @@ public class Character
     public Spell GetSpell(int index)
     {
         return spells[index];
-    }
-
-    public void UpdateSpellCooldowns()
-    {
-        for (Spell spell: spells)
-        {
-            spell.UpdateCooldown();
-        }
     }
 
     public int getNbSpell() {

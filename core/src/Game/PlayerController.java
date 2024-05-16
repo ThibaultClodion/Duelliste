@@ -22,7 +22,6 @@ public class PlayerController
         actualSpell = character.GetSpell(0);
     }
 
-    //region <Datas Management>
     public void changeCharacter(Character character)
     {
         //Get the character associated to the player
@@ -56,12 +55,11 @@ public class PlayerController
 
         if(this.hp <= 0)
         {
-            GameManager.getInstance().GameOver(this);
+            GameManager.getInstance().GameOver();
         }
     }
-    //endregion
 
-    //region <Spells>
+
     public boolean CanUseSpell(int[] position, Spell spell)
     {
         return Distance(position) <= spell.getRange() && pa - spell.getPa() >= 0 && spell.IsReloaded();
@@ -80,9 +78,6 @@ public class PlayerController
         }
     }
 
-    //endregion
-
-    //region <Movement>
     public boolean CanMovePM(int[] position)
     {
         //Determine if a player can access a position
@@ -116,28 +111,23 @@ public class PlayerController
             currentPosition = position;
         }
     }
-    public void Echange()
+
+    public void SwitchPaPm()
     {
         int y = this.pm;
         this.pm = this.pa;
         this.pa = y;
     }
-    public void AjoutPmrPa()
+
+    public void AddRemainingPmToPa()
     {
         this.pa = this.pa + this.pm;
     }
-    public void AjoutMidPm() {this.hp = Math.min(this.hp + this.getHpInitiaux()/2, this.getHpInitiaux());}
-    // region <Getters>
-    public int[] getCurrentPosition()
-    {
-        return currentPosition;
-    }
-    public float getHp() { return hp; }
-    public int getPa() { return pa; }
-    public int getPm() {return pm;}
-    public Character getCharacter() {return character;}
-
-    public float getHpInitiaux() {return character.GetHp();}
+    public void AddMidHP() {this.hp = Math.min(this.hp + this.GetHpInitiaux()/2, this.GetHpInitiaux());}
+    public float GetHp() { return hp; }
+    public int GetPa() { return pa; }
+    public int GetPm() {return pm;}
+    public float GetHpInitiaux() {return character.GetHp();}
 
     //endregion
 }

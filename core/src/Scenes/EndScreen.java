@@ -74,8 +74,8 @@ public class EndScreen implements Screen, InputProcessor
         seedFont.draw(batch, seed + gameManager.getGameScreen().getMap().getSeed(), 150, 150);
         seedFont.getData().setScale(1.5f);
 
-        batch.draw(gagnantPlayer.getCharacter().GetImage(), (float) 1600 /2 - 400, (float) 900 /2 - (float) 200 /2, 200, 200);
-        batch.draw(perdantPlayer.getCharacter().GetImage(), (float) 1600 /2 + 200, (float) 900 /2 - (float) 200 /2, 200, 200);
+        batch.draw(gagnantPlayer.character.GetImage(), (float) 1600 /2 - 400, (float) 900 /2 - (float) 200 /2, 200, 200);
+        batch.draw(perdantPlayer.character.GetImage(), (float) 1600 /2 + 200, (float) 900 /2 - (float) 200 /2, 200, 200);
     }
 
     public void setPodium(String gg, String looser, PlayerController winnerPlayer, PlayerController looserPlayer) {
