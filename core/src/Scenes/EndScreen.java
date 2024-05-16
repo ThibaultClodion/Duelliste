@@ -32,9 +32,9 @@ public class EndScreen implements Screen, InputProcessor {
     String seed;
     public EndScreen(GameManager gm) {
         gameManager = gm;
-        background = new Texture(Gdx.files.internal("backgroundV2.jpeg"));
-        playAgain = new Texture(Gdx.files.internal("validation.JPG"));
-        playAgainButton = new Rectangle(1600 / 2 - 100 / 2, 900 / 6 - 100 / 2, 100, 100);
+        background = new Texture(Gdx.files.internal("backgroundVF.JPG"));
+        playAgain = new Texture(Gdx.files.internal("replay_button.png"));
+        playAgainButton = new Rectangle(1600 - 250, 900 / 6 - 100 / 2, 100, 100);
 
         victoire = new BitmapFont();
         gagnantFont = new BitmapFont();
@@ -52,7 +52,7 @@ public class EndScreen implements Screen, InputProcessor {
         batch = new SpriteBatch();
 
         seedFont = new BitmapFont();
-        seed = "Seed de la map : ";
+        seed = "Utiliser cette seed pour rejouer sur la même carte : ";
     }
     @Override
     public void show() {
@@ -72,18 +72,23 @@ public class EndScreen implements Screen, InputProcessor {
         batch.draw(background, 0, 0);
         batch.draw(playAgain, playAgainButton.x, playAgainButton.y);
 
-        gagnantFont.draw(batch, gagnant, 5 * 900 / 6 - 100, 1600 / 2 - 100);
-        seedFont.draw(batch, seed + gameManager.getGameScreen().getMap().getSeed(), 1000, 100);
+        gagnantFont.draw(batch, gagnant, 1600/2 - 300, 1600 / 2 - 150);
+        gagnantFont.getData().setScale(1.5f);
+        perdantFont.draw(batch, perdant, 1600/2 + 300, 1600 / 2 - 150);
+        perdantFont.getData().setScale(1.5f);
+        seedFont.draw(batch, seed + gameManager.getGameScreen().getMap().getSeed(), 150, 150);
+        seedFont.getData().setScale(1.5f);
 
-        batch.draw(gagnantPlayer.getCharacter().GetImage(), 1600/2 - 100/2, 900/2 - 100/2, 100, 100);
+        batch.draw(gagnantPlayer.getCharacter().GetImage(), 1600/2 - 300, 900/2 - 200/2, 200, 200);
+        batch.draw(perdantPlayer.getCharacter().GetImage(), 1600/2 + 300, 900/2 - 200/2, 200, 200);
 
         batch.end();
 
     }
 
     public void setPodium(String gg, String looser, PlayerController winnerPlayer, PlayerController looserPlayer) {
-        gagnant = "Winner : " + gg;
-        perdant = "Looser : " + looser;
+        gagnant = "GAGNANT : " + gg;
+        perdant = "PERDANT : " + looser;
         gagnantPlayer = winnerPlayer;
         perdantPlayer = looserPlayer;
     }

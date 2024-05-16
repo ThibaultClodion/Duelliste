@@ -6,6 +6,7 @@ import Scenes.SeedScreen;
 import Scenes.SelectionScreen;
 import com.badlogic.gdx.Game;
 import Map.Map;
+import Class.Aleator;
 
 import java.util.Arrays;
 
@@ -129,13 +130,14 @@ public final class GameManager extends Game
         setScreen(seedScreen);
     }
 
-    public void setEndScreen() {
+    public void setEndScreen()
+    {
         endScreen = new EndScreen(this);
-        if(this.player1.getHp() <= 0) {
-            endScreen.setPodium("J2", "J1", player2, player1);
+        if(player1.getHp() <= 0) {
+            endScreen.setPodium("Joueur 2", "Joueur 1", player2, player1);
         }
         else {
-            endScreen.setPodium("J1", "J2", player1, player2);
+            endScreen.setPodium("Joueur 1", "Joueur 2", player1, player2);
         }
         setScreen(endScreen);
     }
