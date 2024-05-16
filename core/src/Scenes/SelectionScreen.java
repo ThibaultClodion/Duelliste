@@ -93,13 +93,13 @@ public class SelectionScreen implements Screen, InputProcessor
         CreateClassRectangles();
 
         //Rectangle and Validation
-        rectangleImage = new Texture(Gdx.files.internal("rectangleVF.JPG"));
+        rectangleImage = new Texture(Gdx.files.internal("SpellInformationBackground.png"));
         validationImage = new Texture(Gdx.files.internal("validation.JPG")); // 100x100
         musicImage = new Texture(Gdx.files.internal("musique.jpg"));
-        rectangle = new Rectangle(1600 /2 - 1200/2, 0, 1200, 600);
-        validation = new Rectangle(1450, 100, 100, 100);
-        music = new Rectangle(50, 100, 100, 100);
-        spellTextRectangle = new Rectangle(1600 / 2 - 1200 / 2 + 50, 200, 1200, 200 );
+        rectangle = new Rectangle(1600 /2 - 1200/2, 50, 1200, 600);
+        validation = new Rectangle(1450, 50, 100, 100);
+        music = new Rectangle(50, 50, 100, 100);
+        spellTextRectangle = new Rectangle(1600 / 2 - 1200 / 2 + 50, 250, 1200, 200 );
 
         // load the background sound in the menu
         menuSound = Gdx.audio.newMusic(Gdx.files.internal("backgroundMusique.mp3"));
@@ -114,9 +114,7 @@ public class SelectionScreen implements Screen, InputProcessor
         spellTextFont = new BitmapFont();
         classText = "Choisissez une classe";
         classTextFont = new BitmapFont();
-        classTextRectangle = new Rectangle(1600 / 2 - 1200 / 2 + 50, 600, 1200, 200 );
-
-
+        classTextRectangle = new Rectangle(1600 / 2 - 550, 540, 1200, 200 );
     }
 
     private void CreateClassRectangles()
@@ -134,7 +132,7 @@ public class SelectionScreen implements Screen, InputProcessor
         // Les carrés seront espacés de 10 pixels et compris dans un rectangle de 160 de hauteur et 1100 de long
         for(int i = 0; i < spellsRectangles.length; i++)
         {
-            Rectangle newSpellRectangle = new Rectangle(200 + 20 + 100 * i + 18 * i,200+50,100,100);
+            Rectangle newSpellRectangle = new Rectangle(250 + 125 * i,325,100,100);
             spellsRectangles[i] = newSpellRectangle;
         }
     }
@@ -240,20 +238,18 @@ public class SelectionScreen implements Screen, InputProcessor
 
             for (int i = 0; i < classRectangles.length; i++) {
                 // Cheking if a classRectangle has been chosen
-                if (classRectangles[i].contains(pos.x, pos.y)/*pos.x <= classRectangles[i].x + classRectangles[i].width && pos.x >= classRectangles[i].x
-                        && 900 - pos.y <= classRectangles[i].y + classRectangles[i].height && 900 - pos.y >= classRectangles[i].y*/) {
-                    // En gros faire classText = "Pa : X            PM : X              PV : X" + System.currentTimeMillis(), séparer en 3 éventuellement
+                if (classRectangles[i].contains(pos.x, pos.y))
+                {
                     this.classNumber = i;
                     spellText = "Cliquez sur un sort";
-                    classText = "HP : " + characters[i].GetHp() + " | PA : " + characters[i].GetPa() + " | PM : " + characters[i].GetPm();
+                    classText = "HP :  " + characters[i].GetHp() + "          PA :  " + characters[i].GetPa() + "           PM :  " + characters[i].GetPm();
                 }
             }
             if(classNumber <= 4 && classNumber >= 0) {
                 for (int j = 0; j < characters[classNumber].getNbSpell(); j++) {
-                    if(spellsRectangles[j].contains(pos.x, pos.y)/*pos.x <= spellsRectangles[j].x + spellsRectangles[j].width && pos.x >= spellsRectangles[j].x
-                            && 900 - pos.y <=*/ /*spellsRectangles[j].y - spellsRectangles[j].height*/ /*460 && 900 - pos.y >=*/ /*spellsRectangles[j].y*/ /*360*/) {
+                    if(spellsRectangles[j].contains(pos.x, pos.y)) {
                         spellNumber = j;
-                        spellText = "PA = " + characters[classNumber].GetSpell(spellNumber).getPa() + " | Range = " + characters[classNumber].GetSpell(spellNumber).getRange() + " | Cooldown =" + characters[classNumber].GetSpell(spellNumber).getCooldown() + "\n" + characters[classNumber].GetSpell(spellNumber).getDescription();
+                        spellText = "PA = " + characters[classNumber].GetSpell(spellNumber).getPa() + "         Range = " + characters[classNumber].GetSpell(spellNumber).getRange() + "            Cooldown =" + characters[classNumber].GetSpell(spellNumber).getCooldown() + "\n\n" + characters[classNumber].GetSpell(spellNumber).getDescription();
                         Gdx.graphics.requestRendering();
                     }
                 }
