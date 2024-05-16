@@ -104,7 +104,7 @@ public class SelectionScreen implements Screen, InputProcessor
         // load the background sound in the menu
         menuSound = Gdx.audio.newMusic(Gdx.files.internal("backgroundMusique.mp3"));
         menuSound.setLooping(true);
-        menuSound.play();
+        //menuSound.play();
 
         // start the playback of the background music immediately
 
