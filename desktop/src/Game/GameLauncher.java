@@ -15,6 +15,7 @@ public class GameLauncher {
 		config.useVsync(true);
 		config.setForegroundFPS(60);
 		config.setWindowedMode(1600, 900);
+		config.setResizable(false);
 
 		//Initialize the Game
 		new Lwjgl3Application(new GameManager(), config);
