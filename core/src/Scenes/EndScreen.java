@@ -13,46 +13,28 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-public class EndScreen implements Screen, InputProcessor {
-    private SpriteBatch batch;
-    Texture background;
-    Texture playAgain;
-    Rectangle playAgainButton;
-    BitmapFont victoire;
-    String gagnant;
-    BitmapFont gagnantFont;
-    PlayerController gagnantPlayer;
-    String perdant;
-    BitmapFont perdantFont;
-    PlayerController perdantPlayer;
-    GameManager gameManager;
-    OrthographicCamera camera;
-    Vector3 pos;
-    BitmapFont seedFont;
-    String seed;
+public class EndScreen implements Screen, InputProcessor
+{
+    private final SpriteBatch batch = new SpriteBatch();
+    private final Texture background = new Texture(Gdx.files.internal("backgroundVF.JPG"));
+    private final Texture playAgain = new Texture(Gdx.files.internal("replay_button.png"));
+    private final Rectangle playAgainButton = new Rectangle(1600 - 250, (float) 900 / 6 - (float) 100 / 2, 100, 100);
+    private final BitmapFont victoire = new BitmapFont();
+    private String gagnant = "";
+    private final BitmapFont gagnantFont = new BitmapFont();
+    private String perdant = "";
+    private final BitmapFont perdantFont = new BitmapFont();
+    private PlayerController gagnantPlayer;
+    private PlayerController perdantPlayer;
+    private final GameManager gameManager;
+    private final OrthographicCamera camera = new OrthographicCamera();
+    private final Vector3 pos = new Vector3();
+    private final BitmapFont seedFont = new BitmapFont();
+
     public EndScreen(GameManager gm) {
         gameManager = gm;
-        background = new Texture(Gdx.files.internal("backgroundVF.JPG"));
-        playAgain = new Texture(Gdx.files.internal("replay_button.png"));
-        playAgainButton = new Rectangle(1600 - 250, 900 / 6 - 100 / 2, 100, 100);
-
-        victoire = new BitmapFont();
-        gagnantFont = new BitmapFont();
-        perdantFont = new BitmapFont();
-        gagnant = "";
-        perdant = "";
-
         Gdx.input.setInputProcessor(this);
-
-        camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 900);
-
-        pos = new Vector3();
-
-        batch = new SpriteBatch();
-
-        seedFont = new BitmapFont();
-        seed = "Utiliser cette seed pour rejouer sur la même carte : ";
     }
     @Override
     public void show() {
@@ -69,21 +51,31 @@ public class EndScreen implements Screen, InputProcessor {
         //Begin the batch
         batch.begin();
 
-        batch.draw(background, 0, 0);
-        batch.draw(playAgain, playAgainButton.x, playAgainButton.y);
-
-        gagnantFont.draw(batch, gagnant, 1600/2 - 400, 1600 / 2 - 150);
-        gagnantFont.getData().setScale(1.5f);
-        perdantFont.draw(batch, perdant, 1600/2 + 200, 1600 / 2 - 150);
-        perdantFont.getData().setScale(1.5f);
-        seedFont.draw(batch, seed + gameManager.getGameScreen().getMap().getSeed(), 150, 150);
-        seedFont.getData().setScale(1.5f);
-
-        batch.draw(gagnantPlayer.getCharacter().GetImage(), 1600/2 - 400, 900/2 - 200/2, 200, 200);
-        batch.draw(perdantPlayer.getCharacter().GetImage(), 1600/2 + 200, 900/2 - 200/2, 200, 200);
+        DisplayBackgroundAndButtons();
+        DisplayPodium();
 
         batch.end();
 
+    }
+
+    private void DisplayBackgroundAndButtons()
+    {
+        batch.draw(background, 0, 0);
+        batch.draw(playAgain, playAgainButton.x, playAgainButton.y);
+    }
+
+    private void DisplayPodium()
+    {
+        gagnantFont.draw(batch, gagnant, (float) 1600 /2 - 400, (float) 1600 / 2 - 150);
+        gagnantFont.getData().setScale(1.5f);
+        perdantFont.draw(batch, perdant, (float) 1600 /2 + 200, (float) 1600 / 2 - 150);
+        perdantFont.getData().setScale(1.5f);
+        String seed = "Utiliser cette seed pour rejouer sur la même carte : ";
+        seedFont.draw(batch, seed + gameManager.getGameScreen().getMap().getSeed(), 150, 150);
+        seedFont.getData().setScale(1.5f);
+
+        batch.draw(gagnantPlayer.getCharacter().GetImage(), (float) 1600 /2 - 400, (float) 900 /2 - (float) 200 /2, 200, 200);
+        batch.draw(perdantPlayer.getCharacter().GetImage(), (float) 1600 /2 + 200, (float) 900 /2 - (float) 200 /2, 200, 200);
     }
 
     public void setPodium(String gg, String looser, PlayerController winnerPlayer, PlayerController looserPlayer) {
