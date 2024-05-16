@@ -126,6 +126,7 @@ public class PlayerController
     {
         this.pa = this.pa + this.pm;
     }
+    public void AjoutMidPm() {this.hp = Math.min(this.hp + this.getHpInitiaux()/2, this.getHpInitiaux();}
     // region <Getters>
     public int[] getCurrentPosition()
     {
