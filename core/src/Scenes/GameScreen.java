@@ -50,6 +50,7 @@ public class GameScreen implements Screen, InputProcessor
     private final BitmapFont player2HP;
     private final BitmapFont playerPa;
     private final BitmapFont playerPm;
+    private final BitmapFont actualSpellDescription;
     private final List<SpellButton> spellButtonsPlayer1;
     private final List<SpellButton> spellButtonsPlayer2;
     private final Texture coolD;
@@ -104,6 +105,7 @@ public class GameScreen implements Screen, InputProcessor
         player2HP = new BitmapFont();
         playerPa = new BitmapFont();
         playerPm = new BitmapFont();
+        actualSpellDescription = new BitmapFont();
         timer = new ShapeRenderer();
         hpBarPlayer1 = new ShapeRenderer();
         hpBarPlayer2 = new ShapeRenderer();
@@ -274,6 +276,10 @@ public class GameScreen implements Screen, InputProcessor
         playerPm.getData().setScale(3);
         playerPm.draw(batch,"PM :" + gameManager.GetActualPlayer().getPm(),50,60);
 
+        //Draw actual spell description
+        actualSpellDescription.setColor(Color.WHITE);
+        actualSpellDescription.getData().setScale(2);
+        actualSpellDescription.draw(batch, gameManager.GetActualPlayer().actualSpell.getDescription(), 650, 130);
 
         // Dessiner tous les boutons de sorts
         batch.draw(moving_button, 250,95,50,50 );
