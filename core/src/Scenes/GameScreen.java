@@ -51,6 +51,7 @@ public class GameScreen implements Screen, InputProcessor
     private final BitmapFont playerPa;
     private final BitmapFont playerPm;
     private final BitmapFont actualSpellDescription;
+    private String actualSpellDescriptionText;
     private final List<SpellButton> spellButtonsPlayer1;
     private final List<SpellButton> spellButtonsPlayer2;
     private final Texture coolD;
@@ -106,6 +107,7 @@ public class GameScreen implements Screen, InputProcessor
         playerPa = new BitmapFont();
         playerPm = new BitmapFont();
         actualSpellDescription = new BitmapFont();
+        actualSpellDescriptionText = "Permet de se déplacer via les PM";
         timer = new ShapeRenderer();
         hpBarPlayer1 = new ShapeRenderer();
         hpBarPlayer2 = new ShapeRenderer();
@@ -202,6 +204,7 @@ public class GameScreen implements Screen, InputProcessor
         {
             clock=0;
             gameManager.EndRound();
+            actualSpellDescriptionText = "Permet de se déplacer via les PM";
             isMoving = true;
             GetRangePosition();
         }
@@ -224,6 +227,7 @@ public class GameScreen implements Screen, InputProcessor
                 clock=0;
                 gameManager.EndRound();
                 isMoving = true;
+                actualSpellDescriptionText = "Permet de se déplacer via les PM";
                 GetRangePosition();
             }
         }
@@ -279,7 +283,7 @@ public class GameScreen implements Screen, InputProcessor
         //Draw actual spell description
         actualSpellDescription.setColor(Color.WHITE);
         actualSpellDescription.getData().setScale(2);
-        actualSpellDescription.draw(batch, gameManager.GetActualPlayer().actualSpell.getDescription(), 650, 130);
+        actualSpellDescription.draw(batch, actualSpellDescriptionText, 650, 130);
 
         // Dessiner tous les boutons de sorts
         batch.draw(moving_button, 250,95,50,50 );
@@ -313,6 +317,7 @@ public class GameScreen implements Screen, InputProcessor
 
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && 220 < Gdx.input.getX() && Gdx.input.getX() < 270 && 750 < Gdx.input.getY() && Gdx.input.getY() < 800) {
             isMoving = true;
+            actualSpellDescriptionText = "Permet de se déplacer via les PM";
             GetRangePosition();
         }
 
@@ -364,6 +369,7 @@ public class GameScreen implements Screen, InputProcessor
                     System.out.println("Button clicked");
                     isMoving=false;
                     player1.actualSpell = button.getSpell();
+                    actualSpellDescriptionText = button.getSpell().getDescription();
                     GetRangePosition();
                 }
             }
@@ -376,6 +382,7 @@ public class GameScreen implements Screen, InputProcessor
                 {
                     isMoving = false;
                     player2.actualSpell = button.getSpell();
+                    actualSpellDescriptionText = button.getSpell().getDescription();
                     GetRangePosition();
                 }
             }
