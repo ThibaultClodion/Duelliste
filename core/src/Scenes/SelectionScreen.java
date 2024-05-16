@@ -23,103 +23,61 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class SelectionScreen implements Screen, InputProcessor
 {
-    Vector3 pos;
-    private boolean clicEffectue;
-    private int nbClicEffectue;
+    private final Vector3 pos = new Vector3();
     //Game Manager
-    private GameManager gameManager;
-    private Character[] characters;
+    private final GameManager gameManager;
+    private final Character[] characters = new Character[] {new Aleator(), new ElGoblino(), new Lamenpeine(), new Creationiste(), new Rageux()};
 
     //Batch
-    private SpriteBatch batch;
+    private final SpriteBatch batch  = new SpriteBatch();
 
-    OrthographicCamera camera;
-    public int classNumber;
-    public int spellNumber;
-    public int playerNumber;
-    public Texture backgroundImage;
-    public Texture spellSquareImage;
-    public Texture rectangleImage; // for PV, PA, PM, and spells
+    private final OrthographicCamera camera =  new OrthographicCamera();
+    private int classNumber = 5;
+    private int playerNumber = 1;
+    private final Texture backgroundImage = new Texture(Gdx.files.internal("backgroundVF.JPG"));
+    private final Texture spellSquareImage = new Texture(Gdx.files.internal("spellSquare.JPG"));
+    private final Texture rectangleImage = new Texture(Gdx.files.internal("SpellInformationBackground.png"));
 
-    public Texture validationImage;
-    private Texture musicImage;
-    public Music menuSound;
+    private final Texture validationImage = new Texture(Gdx.files.internal("validation.JPG"));
+    private final Texture musicImage = new Texture(Gdx.files.internal("musique.jpg"));
+    private final Music menuSound;
 
-    //Spells
-    public Rectangle[] spellsRectangles = new Rectangle[10];
+    private final Rectangle[] spellsRectangles = new Rectangle[10];
+    private final Rectangle rectangle = new Rectangle((float) 1600 /2 - (float) 1200 /2, 50, 1200, 600);
+    private final Rectangle[] classRectangles = new Rectangle[5];
 
-    public Rectangle rectangle;
+    private final BitmapFont spellTextFont = new BitmapFont();
+    private final BitmapFont classTextFont = new BitmapFont();
+    private final Rectangle validation = new Rectangle(1450, 50, 100, 100);
+    private final Rectangle music = new Rectangle(50, 50, 100, 100);
+    private String spellText = "Cliquez sur un sort";
+    private final Rectangle spellTextRectangle = new Rectangle((float) 1600 / 2 - (float) 1200 / 2 + 50, 250, 1200, 200 );
+    private String classText = "Choisissez une classe";
+    private final Rectangle classTextRectangle = new Rectangle((float) 1600 / 2 - 550, 540, 1200, 200 );
 
-    //Class Rectangle
-    public Rectangle[] classRectangles = new Rectangle[5];
-
-    public BitmapFont spellTextFont;
-    public Rectangle validation;
-    private Rectangle music;
-    public String spellText;
-    public Rectangle spellTextRectangle;
-    private String classText;
-    private BitmapFont classTextFont;
-    private Rectangle classTextRectangle;
 
     public SelectionScreen(GameManager GM)
     {
         this.gameManager = GM;
-        this.characters = new Character[] {new Aleator(), new ElGoblino(), new Lamenpeine(), new Creationiste(), new Rageux()};
-
-        pos = new Vector3();
-        clicEffectue = false;
-        nbClicEffectue = 0;
         Gdx.input.setInputProcessor(this);
 
 
-        //Initialize the batch
-        batch = new SpriteBatch();
-
-        this.classNumber = 5;
-        this.playerNumber = 1;
-        this.spellNumber = 10;
-
-        //Initialize the camera
-        camera = new OrthographicCamera();
+        //Initialize the camera and batch
         camera.setToOrtho(false, 1600, 900);
-
-        //Load the Images
-        backgroundImage = new Texture(Gdx.files.internal("backgroundVF.JPG"));
-        spellSquareImage = new Texture(Gdx.files.internal("spellSquare.JPG"));
+        batch.setProjectionMatrix(camera.combined);
 
         //Create the spells and class Rectangle
         CreateSpellsRectangle();
         CreateClassRectangles();
 
-        //Rectangle and Validation
-        rectangleImage = new Texture(Gdx.files.internal("SpellInformationBackground.png"));
-        validationImage = new Texture(Gdx.files.internal("validation.JPG")); // 100x100
-        musicImage = new Texture(Gdx.files.internal("musique.jpg"));
-        rectangle = new Rectangle(1600 /2 - 1200/2, 50, 1200, 600);
-        validation = new Rectangle(1450, 50, 100, 100);
-        music = new Rectangle(50, 50, 100, 100);
-        spellTextRectangle = new Rectangle(1600 / 2 - 1200 / 2 + 50, 250, 1200, 200 );
-
-        // load the background sound in the menu
+        //Menu Sound Management
         menuSound = Gdx.audio.newMusic(Gdx.files.internal("backgroundMusique.mp3"));
         menuSound.setLooping(true);
         //menuSound.play();
-
-        // start the playback of the background music immediately
-
-        // Create texts
-
-        spellText = "Cliquez sur un sort";
-        spellTextFont = new BitmapFont();
-        classText = "Choisissez une classe";
-        classTextFont = new BitmapFont();
-        classTextRectangle = new Rectangle(1600 / 2 - 550, 540, 1200, 200 );
     }
 
     private void CreateClassRectangles()
     {
-        // classSquare seront de 200x200 dans un rectangle de 1280x240 espacés de 40 pixels
         for(int i = 0; i < classRectangles.length; i++)
         {
             Rectangle newClassRectangle = new Rectangle(100 + 200 * i + 100 * i,650,200,200);
@@ -129,7 +87,6 @@ public class SelectionScreen implements Screen, InputProcessor
 
     private void CreateSpellsRectangle()
     {
-        // Les carrés seront espacés de 10 pixels et compris dans un rectangle de 160 de hauteur et 1100 de long
         for(int i = 0; i < spellsRectangles.length; i++)
         {
             Rectangle newSpellRectangle = new Rectangle(250 + 125 * i,325,100,100);
@@ -148,38 +105,43 @@ public class SelectionScreen implements Screen, InputProcessor
     {
         ScreenUtils.clear(0, 0, 0.2f, 1);
         camera.update();
-        batch.setProjectionMatrix(camera.combined);
 
         //Begin the batch
         batch.begin();
+        DisplayBackgroundAndButtons();
+        DisplaySpellsAndClass();
+        batch.end();
 
-        //Draw the backgrounds
+    }
+
+    private void DisplayBackgroundAndButtons()
+    {
         batch.draw(backgroundImage, 0, 0);
         batch.draw(rectangleImage, rectangle.x, rectangle.y);
         batch.draw(validationImage, validation.x, validation.y);
         batch.draw(musicImage, music.x, music.y, music.width, music.height);
+    }
+
+    private void DisplaySpellsAndClass()
+    {
+        spellTextFont.getData().setScale(2f);
+        classTextFont.getData().setScale(2f);
+        classTextFont.draw(batch, classText, classTextRectangle.x, classTextRectangle.y);
 
         //Draw the class rectangle
         for(int i = 0; i < classRectangles.length; i++)
         {
             batch.draw(characters[i].GetRectangleImage(), classRectangles[i].x, classRectangles[i].y);
-            //batch.draw(characters[i].getImage(), classRectangles[i].x, classRectangles[i].y);
         }
 
-        spellTextFont.getData().setScale(2f);
-        classTextFont.getData().setScale(2f);
-        classTextFont.draw(batch, classText, classTextRectangle.x, classTextRectangle.y);
-
-        // Display spellSquare & spell texts
-        if(classNumber <= 4 && classNumber >= 0) {
+        //Draw the spells
+        if(classNumber <= 4 && classNumber >= 0)
+        {
             spellTextFont.draw(batch, spellText, spellTextRectangle.x, spellTextRectangle.y);
             for (int j = 0; j < this.characters[classNumber].getNbSpell(); j++) {
                 batch.draw(new Texture(this.characters[classNumber].GetSpell(j).image.toString()), spellsRectangles[j].x, spellsRectangles[j].y, 100, 100);
             }
         }
-
-        batch.end();
-
     }
 
     @Override
@@ -221,23 +183,29 @@ public class SelectionScreen implements Screen, InputProcessor
         return false;
     }
 
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+    public boolean touchDown(int screenX, int screenY, int pointer, int button)
+    {
         pos.set(screenX, screenY, 0);
         camera.unproject(pos);
-        // Check if we have to unproject the camera ( a simple game? ) Yes, for having good coords i think
 
-        if(button == Input.Buttons.LEFT) {
-            if(music.contains(pos.x, pos.y)) {
-                if(menuSound.isPlaying()) {
+        if(button == Input.Buttons.LEFT)
+        {
+            //Check if music button is toogle
+            if(music.contains(pos.x, pos.y))
+            {
+                if(menuSound.isPlaying())
+                {
                     menuSound.pause();
                 }
-                else {
+                else
+                {
                     menuSound.play();
                 }
             }
 
-            for (int i = 0; i < classRectangles.length; i++) {
-                // Cheking if a classRectangle has been chosen
+            // Cheking if a classRectangle has been chosen
+            for (int i = 0; i < classRectangles.length; i++)
+            {
                 if (classRectangles[i].contains(pos.x, pos.y))
                 {
                     this.classNumber = i;
@@ -245,24 +213,32 @@ public class SelectionScreen implements Screen, InputProcessor
                     classText = "Point de vie :  " + characters[i].GetHp() + "          Point d'action :  " + characters[i].GetPa() + "           Point de déplacement :  " + characters[i].GetPm();
                 }
             }
-            if(classNumber <= 4 && classNumber >= 0) {
-                for (int j = 0; j < characters[classNumber].getNbSpell(); j++) {
-                    if(spellsRectangles[j].contains(pos.x, pos.y)) {
-                        spellNumber = j;
-                        spellText = "Point d'action = " + characters[classNumber].GetSpell(spellNumber).getPa() + "         Portée = " + characters[classNumber].GetSpell(spellNumber).getRange() + "            Temps de rechargement =" + characters[classNumber].GetSpell(spellNumber).getCooldown() + "\n\n" + characters[classNumber].GetSpell(spellNumber).getDescription();
+
+            //Verify if a class has been choosen
+            if(classNumber <= 4 && classNumber >= 0)
+            {
+                //Check if a spell buttons is toogle
+                for (int j = 0; j < characters[classNumber].getNbSpell(); j++)
+                {
+                    if(spellsRectangles[j].contains(pos.x, pos.y))
+                    {
+                        spellText = "Point d'action = " + characters[classNumber].GetSpell(j).getPa() + "         Portée = " + characters[classNumber].GetSpell(j).getRange() + "            Temps de rechargement =" + characters[classNumber].GetSpell(j).getCooldown() + "\n\n" + characters[classNumber].GetSpell(j).getDescription();
                         Gdx.graphics.requestRendering();
                     }
                 }
-                // Now looking if validation button is clicked
-                if(validation.contains(pos.x, pos.y)/*pos.x <= validation.x + validation.width && pos.x >= validation.x && 900 - pos.y <= validation.y + validation.height && 900 - pos.y >= validation.y*/) {
-                    // Check whose player is validating his choice
-                    if (this.playerNumber == 1) {
+
+                // Checking if validation button is clicked
+                if(validation.contains(pos.x, pos.y))
+                {
+                    if (this.playerNumber == 1)
+                    {
                         gameManager.setPlayer1(new PlayerController(characters[classNumber], new int[] {0, 0}));
                         playerNumber = playerNumber + 1;
                         classNumber = 5;
                         classText = "Choisissez une classe";
                     }
-                    else {
+                    else
+                    {
                         gameManager.setPlayer2(new PlayerController(characters[classNumber], new int[] {0, 0}));
                         classNumber = 5;
                         // Eventually reset everything here by creating a function reset and call it
@@ -305,9 +281,9 @@ public class SelectionScreen implements Screen, InputProcessor
         spellTextFont.dispose();
 
         //Dispose all class images
-        for(int i = 0; i < characters.length; i++)
+        for (Character character : characters)
         {
-            characters[i].GetRectangleImage().dispose();
+            character.GetRectangleImage().dispose();
         }
 
         rectangleImage.dispose();
