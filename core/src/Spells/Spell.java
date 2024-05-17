@@ -25,6 +25,30 @@ public class Spell
         currentCooldown = 0;
     }
 
+    public String GetDescription(int lineCharLimit)
+    {
+        String finalDescription = "";
+        int nbChar = 0;
+        String[] wordInDescriptions = description.split(" ");
+
+        for (String word: wordInDescriptions)
+        {
+            nbChar += word.length();
+            finalDescription += word;
+            finalDescription += " ";
+
+            if(nbChar >= lineCharLimit)
+            {
+                nbChar = 0;
+                finalDescription += "\n";
+            }
+        }
+
+        return finalDescription;
+    }
+
+
+
     public void UpdateCooldown()
     {
         if(currentCooldown > 0)
@@ -55,8 +79,6 @@ public class Spell
     }
 
     public int getCooldown() {return cooldown;}
-
-    public String getDescription() {return description;}
 
     public void Launch(int[] mapPos, PlayerController otherPlayer, PlayerController myPlayer)
     {

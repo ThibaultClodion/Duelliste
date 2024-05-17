@@ -222,7 +222,7 @@ public class SelectionScreen implements Screen, InputProcessor
                 {
                     if(spellsRectangles[j].contains(pos.x, pos.y))
                     {
-                        spellText = "Point d'action = " + characters[classNumber].GetSpell(j).getPa() + "         Portée = " + characters[classNumber].GetSpell(j).getRange() + "            Temps de rechargement =" + characters[classNumber].GetSpell(j).getCooldown() + "\n\n" + characters[classNumber].GetSpell(j).getDescription();
+                        spellText = "Point d'action = " + characters[classNumber].GetSpell(j).getPa() + "         Portée = " + characters[classNumber].GetSpell(j).getRange() + "            Temps de rechargement =" + characters[classNumber].GetSpell(j).getCooldown() + "\n\n" + characters[classNumber].GetSpell(j).GetDescription(60);
                         Gdx.graphics.requestRendering();
                     }
                 }

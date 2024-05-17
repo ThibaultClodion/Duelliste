@@ -357,7 +357,7 @@ public class GameScreen implements Screen, InputProcessor
                 System.out.println("Button clicked");
                 isMoving=false;
                 gameManager.GetActualPlayer().actualSpell = button.getSpell();
-                actualSpellDescriptionText = button.getSpell().getDescription();
+                actualSpellDescriptionText = "PA = " + button.getSpell().getPa() + "            Temps de rechargement =" + button.getSpell().getCooldown() + "\n" + button.getSpell().GetDescription(50);
                 GetRangePosition();
             }
         }
